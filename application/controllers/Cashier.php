@@ -31,8 +31,8 @@ class Cashier extends MY_Controller
 
         //product
         $this->cashier->table   = 'product';
-        $data['product']        = $this->cashier->where('product.is_available', 1)->get();
-
+        $data['product']        = $this->cashier->where('product.is_available', 1)->limit(8)->get();
+        $data['total_product']  = $this->cashier->where('product.is_available', 1)->count();
         foreach ($data['product'] as $row) {
             $this->session->set_userdata('stock' . $row->id, $row->stock);
         }
@@ -283,11 +283,19 @@ class Cashier extends MY_Controller
         }
     }
 
-    public function filter($jenisItem)
+    public function filter($jenisItem = '')
     {
-        $this->cashier->table = 'product';
-        $data['product']      = $this->cashier->where('product.is_available', 1)
-            ->where('product.id_category', $jenisItem)->get();
+        if ($jenisItem != '') {
+            $this->cashier->table = 'product';
+            $data['product']      = $this->cashier->where('product.is_available', 1)
+                ->where('product.id_category', $jenisItem)->limit(8)->get();
+        } else {
+            $this->cashier->table = 'product';
+            $data['product']      = $this->cashier->where('product.is_available', 1)
+                ->limit(8)
+                ->get();
+        }
+
 
         if (count($data['product']) > 0) {
             echo json_encode(
@@ -304,6 +312,91 @@ class Cashier extends MY_Controller
                 ]
             );
         }
+    }
+
+    public function search($keyword, $page = null)
+    {
+        $this->cashier->table   = 'product';
+        $data['product']        = $this->cashier->where('product.is_available', 1)->like('product.title', urldecode($keyword))->get();
+
+        echo json_encode(
+            [
+                'statusCode'        => 200,
+                'html'              => $this->load->view('pages/cashier/item', $data, true)
+            ]
+        );
+    }
+
+    public function loadMoreData()
+    {
+        $this->cashier->table = 'product';
+        $data['total_product']  = $this->cashier->where('product.is_available', 1)->count();
+
+        //print_r($data['total_product']);
+        if (!empty($this->input->get("page"))) {
+            $start = $this->input->get("page") * 2;
+            $data['product']        = $this->cashier->where('product.is_available', 1)->limit_data($start, $this->cashier->perPage)->get();
+            foreach ($data['product'] as $row) {
+                $this->session->set_userdata('stock' . $row->id, $row->stock);
+            }
+            echo json_encode(
+                [
+                    'statusCode'    => 200,
+                    'html'          => $this->load->view('pages/cashier/load_more_item', $data, true)
+                ]
+            );
+        } else {
+            $data['product']        = $this->cashier->where('product.is_available', 1)
+                ->limit_data($this->cashier->perPage, 0)->get();
+
+            echo json_encode(
+                [
+                    'statusCode'    => 200,
+                    'html'          => $this->load->view('pages/cashier/load_more_item', $data, true)
+                ]
+            );
+        }
+    }
+
+    public function tes_aja()
+    {
+        $this->cashier->table = 'product';
+        $data['product']        = $this->cashier->where('product.is_available', 1)
+            ->limit_data(16, $this->cashier->perPage)
+            ->get();
+
+        print_r($data['product']);
+    }
+
+    public function struk($invoice)
+    {
+        $this->cashier->table = 'transaction';
+        $data['invoice_detail'] = $this->cashier->select([
+            'transaction.created_at', 'user.name', 'transaction.total'
+        ])
+            ->where('invoice', $invoice)->join('user')->first();
+
+        $this->cashier->table = 'transaction_detail';
+        $data['transaction'] = $this->cashier->select([
+            'transaction.total', 'transaction.invoice',
+            'transaction_detail.qty', 'transaction_detail.subtotal AS subtotal',
+            'product.title AS title_product',
+            'product.price'
+        ])
+            ->where('invoice', $invoice)
+            ->joinTransaction('transaction')
+            ->join('product')
+            ->get();
+
+        $this->cashier->table = 'transaction';
+        $data['discount'] = $this->cashier->select([
+            'transaction.discount_total', 'transaction.subtotal'
+        ])
+            ->where('invoice', $invoice)
+            ->first();
+
+        $data['invoice']    = $invoice;
+        $this->load->view('pages/cashier/invoice/struk', $data);
     }
 }
 

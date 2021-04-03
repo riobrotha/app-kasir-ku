@@ -25,8 +25,12 @@
             height: '630px'
         });
 
-        $('#number_invoice').text(generateInvoice());
 
+
+
+
+        $('#number_invoice').text(generateInvoice());
+        $('#struk').attr('src', base_url + 'cashier/struk/' + $('#number_invoice').text());
 
         //show modal add to cart
         $(document).on('click', '#btnAddToCart', function() {
@@ -246,7 +250,7 @@
 
             e.preventDefault();
             let data = $(this).serialize();
-
+            let number_invoice = $('#invoice').val();
             $.ajax({
                 method: "POST",
                 url: base_url + 'cashier/pay',
@@ -256,9 +260,10 @@
                 },
                 success: function(data) {
                     var data = JSON.parse(data);
-
+                    
                     if (data.statusCode == 200) {
                         $('#modalPay').modal('hide');
+                        //$('#struk').attr('src', '<?= base_url("cashier/struk/") ?>' + number_invoice);
                         $('#cash_payment_val').text($('#cash_payment').val());
                         $('#money_change_val').text($('#money_change').val());
                         $('.btnAddToCart').attr('disabled', true);
@@ -266,11 +271,23 @@
                         $("#btnReset").show();
                         $('#itemCode').attr('readonly', true);
                         $('#formPay')[0].reset();
+                        //loadFrames();
+                        cetakStruk();
+                        //$('#btnPrint').trigger('click');
+                        //document.getElementById("struk").contentWindow.print();
 
                     }
+
+                    //cetakStruk();
+
                 }
             });
+
+            //cetakStruk();
         });
+
+
+
 
 
         //show detail activity transaction
@@ -301,7 +318,13 @@
 
         //filter item cashier section
         const btnFilterTreatment = document.querySelector('.btnFilterTreatment');
+        const btnFilterProduct = document.querySelector('.btnFilterProduct');
+        const btnBackToDefault = document.querySelector('.btnBackToDefault');
+        const inputSearchItems = document.getElementById('searchItems');
         const space_items = document.querySelector('.space_items');
+        const items = document.querySelector('.items');
+
+
         btnFilterTreatment.addEventListener('click', function() {
             let id = this.dataset.id;
 
@@ -309,15 +332,22 @@
                 method: "POST",
                 url: base_url + 'cashier/filter/' + id,
                 beforeSend: function() {
-                    
+
                 },
                 success: function(response) {
                     let data = JSON.parse(response);
 
                     if (data.statusCode == 200) {
-                        space_items.innerHTML = data.html;
-                        btnFilterTreatment.classList.remove('btn-purple-outline')
+                        items.innerHTML = data.html;
+
+
+                        btnFilterTreatment.classList.remove('btn-purple-outline');
                         btnFilterTreatment.classList.add('btn-purple');
+
+                        btnFilterProduct.classList.remove('btn-purple');
+                        btnFilterProduct.classList.add('btn-purple-outline');
+
+
                         $('.items').slimScroll({
                             height: '630px'
                         });
@@ -328,12 +358,182 @@
             });
         });
 
+        btnFilterProduct.addEventListener('click', function() {
+            let id = this.dataset.id;
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'cashier/filter/' + id,
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    let data = JSON.parse(response);
+
+                    if (data.statusCode == 200) {
+                        items.innerHTML = data.html;
+
+
+
+                        btnFilterProduct.classList.remove('btn-purple-outline');
+                        btnFilterProduct.classList.add('btn-purple');
+
+                        btnFilterTreatment.classList.remove('btn-purple');
+                        btnFilterTreatment.classList.add('btn-purple-outline');
+
+                        $('.items').slimScroll({
+                            height: '630px'
+                        });
+                    } else {
+                        alert('fail');
+                    }
+                }
+            });
+        });
+
+        btnBackToDefault.addEventListener('click', function() {
+            $.ajax({
+                method: "POST",
+                url: base_url + 'cashier/filter',
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    let data = JSON.parse(response);
+
+                    if (data.statusCode == 200) {
+                        items.innerHTML = data.html;
+
+                        btnFilterProduct.classList.remove('btn-purple');
+                        btnFilterProduct.classList.add('btn-purple-outline');
+
+                        btnFilterTreatment.classList.remove('btn-purple');
+                        btnFilterTreatment.classList.add('btn-purple-outline');
+
+                        $('.items').slimScroll({
+                            height: '630px'
+                        });
+                    }
+                }
+            });
+        });
+
+        inputSearchItems.addEventListener('keyup', function() {
+            let searchVal = this.value;
+            let searchValTemp = searchVal.split(' ').join('%20');
+
+            if (searchValTemp != '') {
+
+
+                $.ajax({
+                    method: "POST",
+                    url: base_url + 'cashier/search/' + searchValTemp,
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+                        let data = JSON.parse(response);
+
+                        if (data.statusCode == 200) {
+                            items.innerHTML = data.html;
+
+                            $('.items').slimScroll({
+                                height: '630px'
+                            });
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    method: "POST",
+                    url: base_url + 'cashier/filter',
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+                        let data = JSON.parse(response);
+
+                        if (data.statusCode == 200) {
+                            items.innerHTML = data.html;
+
+                            $('.items').slimScroll({
+                                height: '630px'
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+
+        //load more data
+
+        let perPage = 8 / 2;
+        let total_pages = Number('<?php isset($total_product) ? print $total_product : "" ?>');
+        $('.items').scroll(function() {
+
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+
+
+                if (perPage < total_pages - 1) {
+                    loadMoreData(perPage);
+                    perPage = perPage * 2;
+                }
+
+
+
+            }
+        });
+
 
 
     });
 
 
+
     //function helper
+    // function loadStruk()
+    // {
+    //     $('#struk').attr('src', '<?= base_url("cashier/struk/12321312") ?>');
+    // }
+
+    function cetakStruk() {
+        //document.getElementById('struk').contentDocument.location.reload(true);
+        //$('#btnPrint').trigger('click');
+
+        $('.frame_space').html('<iframe src="http://localhost/kasir_online/cashier/struk/' + $('#number_invoice').text() + '"' +
+             'id="struk" name="struk" frameborder="0" style="display: none;"></iframe>');
+        window.frames['struk'].print();
+    }
+
+    function loadFrames()
+    {
+        document.getElementById('struk').contentDocument.location.reload(true);
+    }
+    //load more data
+    function loadMoreData(page) {
+        $.ajax({
+            url: base_url + 'cashier/loadMoreData?page=' + page,
+            type: "GET",
+            beforeSend: function() {
+
+            },
+
+            success: function(response) {
+                let data = JSON.parse(response);
+
+                if (data.statusCode == 200) {
+                    $('.items').append(data.html);
+
+                    $('.items').slimScroll({
+                        height: '630px'
+                    });
+                }
+            }
+        });
+    }
+
+
     //load data cart
     function loadDataTableCart(url) {
         $.ajax({
@@ -418,6 +618,7 @@
                     $("#cash_payment_val").text("");
                     $("#money_change_val").text("");
                     $('#itemCode').removeAttr('readonly');
+                    $('#struk').attr('src', base_url + 'cashier/struk/' + $('#number_invoice').text());
 
                 }
             }

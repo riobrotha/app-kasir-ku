@@ -31,7 +31,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-rounded btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-sm btn-rounded btn-purple">Pay</button>
+                <button type="submit" class="btn btn-sm btn-rounded btn-purple btn-pay">Pay</button>
             </div>
             </form>
         </div>

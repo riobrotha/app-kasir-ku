@@ -1,5 +1,6 @@
  <!-- jquery latest version -->
- <script src="<?= base_url(); ?>assets/js/vendor/jquery-2.2.4.min.js"></script>
+ <!-- <script src="<?= base_url(); ?>assets/js/vendor/jquery-2.2.4.min.js"></script> -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
  <!-- bootstrap 4 js -->
  <script src="<?= base_url(); ?>assets/js/popper.min.js"></script>
  <script src="<?= base_url(); ?>assets/js/bootstrap.min.js"></script>
@@ -14,7 +15,7 @@
  <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
  <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
  <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
-<!-- touchspin js -->
+ <!-- touchspin js -->
  <script src="<?= base_url(); ?>assets/js/touchSpin/jquery.bootstrap-touchspin.js"></script>
 
  <!-- start chart js -->
@@ -41,6 +42,6 @@
  <!-- others plugins -->
  <script src="<?= base_url(); ?>assets/js/plugins.js"></script>
  <script src="<?= base_url(); ?>assets/js/scripts.js"></script>
-<!-- jquery hotkeys -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.hotkeys/0.2.0/jquery.hotkeys.min.js" integrity="sha512-njd096AjZyGuWOttOsHolCOFjq9Xg9txZTl6Pd7FOpwf1nyBDsOXpS1cd184l/EWy5ekDJZldDMQPs9bLCSAtQ==" crossorigin="anonymous"></script>
+ <!-- jquery hotkeys -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.hotkeys/0.2.0/jquery.hotkeys.min.js" integrity="sha512-njd096AjZyGuWOttOsHolCOFjq9Xg9txZTl6Pd7FOpwf1nyBDsOXpS1cd184l/EWy5ekDJZldDMQPs9bLCSAtQ==" crossorigin="anonymous"></script>
  <?php $this->load->view('layouts/cashier/myappcashier'); ?>

@@ -180,6 +180,11 @@ class MY_Model extends CI_Model
         return $this->db->count_all_results($this->table);
     }
 
+    public function num_rows()
+    {
+        return $this->db->get($this->table)->num_rows();
+    }
+
 
     public function create($data)
     {
@@ -236,6 +241,13 @@ class MY_Model extends CI_Model
     public function limit($page)
     {
         $this->db->limit($page);
+
+        return $this;
+    }
+
+    public function limit_data ($start, $page) 
+    {
+        $this->db->limit($page, $start);
 
         return $this;
     }

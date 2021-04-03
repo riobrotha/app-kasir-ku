@@ -11,7 +11,7 @@
                         <div class="float-left mb-4">
                             <button class="btn btn-rounded btn-xs btn-purple-outline btnFilterTreatment" data-id="102001">Treatment</button>
                             <button class="btn btn-rounded btn-xs btn-purple-outline btnFilterProduct ml-3" data-id="102002">Product</button>
-                            <button class="btn btn-rounded btn-xs btn-purple-outline btnFilterProduct ml-3">Back to Default</button>
+                            <button class="btn btn-rounded btn-xs btn-purple-outline btnBackToDefault ml-3">Back to Default</button>
                         </div>
                         <div class="float-right">
                             <input class="form-control search-items" id="searchItems" placeholder="Search...">
@@ -21,6 +21,7 @@
                             <div class="row items">
 
                                 <?php foreach ($product as $row) : ?>
+
                                     <div class="col-xl-3 col-md-3">
                                         <div class="card custom mb-3">
                                             <div class="card-body">
@@ -134,6 +135,11 @@
                             </tbody>
 
                         </table>
+                        <div class="frame_space">
+
+                            
+                        </div>
+                        <button type="button" class="btn btn-rounded btn-purple" id="btnPrint" onclick="frames['struk'].print()" style="display: none;">Print</button>
                         <?php if (count($cart) > 0) : ?>
                             <div class="text-center">
                                 <button class="btn btn-rounded btn-purple mt-3" id="btnPay" style="width: 100%;" data-toggle="modal" data-target="#modalPay">Charge</button>

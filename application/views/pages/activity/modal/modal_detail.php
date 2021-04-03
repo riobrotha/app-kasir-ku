@@ -17,7 +17,7 @@
                     <tr>
                         <td>Time</td>
                         <td>:</td>
-                        <td><i class="fa fa-clock-o"></i>&nbsp;<?= date_format(new DateTime($invoice_detail->created_at), 'H:i'); ?>&nbsp;WIB</td>
+                        <td><i class="fa fa-clock-o"></i>&nbsp;<?= date_format(new DateTime($invoice_detail->created_at), 'H:i:s'); ?>&nbsp;WIB</td>
                     </tr>
                 </table>
             </div>

@@ -31,7 +31,9 @@ class Activity extends MY_Controller
 
     public function detail($invoice)
     {
-        $data['invoice_detail'] = $this->activity->where('invoice', $invoice)->join('user')->first();
+        $data['invoice_detail'] = $this->activity->select([
+            'transaction.created_at', 'user.name', 'transaction.total'
+        ])->where('invoice', $invoice)->join('user')->first();
 
         $this->activity->table = 'transaction_detail';
         $data['transaction'] = $this->activity->select([
@@ -61,20 +63,25 @@ class Activity extends MY_Controller
 
     public function tes()
     {
-        $data =
-            array(
-                'data1' => array(
+        // $data =
+        //     array(
+        //         'data1' => array(
 
-                    'nama_pegawai'      => 'Rio Pambudhi',
-                    'umur'      => '26',
-                    'gender'    => 'Laki-laki'
+        //             'nama_pegawai'      => 'Rio Pambudhi',
+        //             'umur'      => '26',
+        //             'gender'    => 'Laki-laki'
 
-                )
-            );
+        //         )
+        //     );
 
-        $this->session->set_userdata($data);
+        // $this->session->set_userdata($data);
 
-        print_r($this->session->userdata('data1'));
+        // print_r($this->session->userdata('data1'));
+
+        $data['invoice_detail'] = $this->activity->select([
+            'transaction.created_at', 'user.name'
+        ])->where('invoice', '20214341144')->join('user')->first();
+        print_r($data['invoice_detail']);
     }
 }
 
