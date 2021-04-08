@@ -198,12 +198,14 @@ class Cashier extends MY_Controller
     public function pay()
     {
         $invoice = $this->input->post('invoice', true);
+        $id_customer = $this->input->post('id_customer', true);
         // $subtotal = $this->session->userdata('price_temp');
         $subtotal = $this->input->post('subtotal', true);
         $discount_total = $this->input->post('discount_total', true);
         $total = $this->input->post('total', true);
         $money_change = $this->input->post('money_change', true);
         $cash_payment = $this->input->post('cash_payment', true);
+        
 
 
         //$subtotal = array();
@@ -214,6 +216,7 @@ class Cashier extends MY_Controller
         $data = array(
             'invoice'       => $invoice,
             'id_user'       => $this->session->userdata('id'),
+            'id_customer'   => $id_customer == "" ? null : $id_customer, 
             'subtotal'      => $subtotal,
             'discount_total' => $discount_total,
             'total'         => $total,

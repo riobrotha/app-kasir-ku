@@ -56,11 +56,28 @@
             <!-- Advertising area start -->
             <div class="col-lg-4 col-md-6 mt-5">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-1">
+                                <img src="<?= base_url("assets/images/icon/user.svg"); ?>" id="newCustomer" style="width: 35px;" data-toggle="modal" data-target="#modalCustomer">
+                            </div>
+                            <div class="col-10">
+                                <div class="mt-1">
+                                    <h6 class="customer-name-space" style="font-size: 13.5px;">New Customer</h6>
+                                </div>
+                                <input type="hidden" class="customer-id-space" value="">
+                            </div>
+
+
+                        </div>
+
+                    </div>
                     <div class="card-body">
 
                         <div class="d-flex">
                         </div>
                         <h4 class="header-title">Detail Transactions (<span id="number_invoice"></span>)</h4>
+
                         <div class="text-right mb-3">
                             <button type="button" class="btn btn-sm btn-rounded btn-primary" id="btnReset"><i class="fa fa-plus mr-2"></i>New Transaction</button>
                         </div>
@@ -137,7 +154,7 @@
                         </table>
                         <div class="frame_space">
 
-                            
+
                         </div>
                         <button type="button" class="btn btn-rounded btn-purple" id="btnPrint" onclick="frames['struk'].print()" style="display: none;">Print</button>
                         <?php if (count($cart) > 0) : ?>

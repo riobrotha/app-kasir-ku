@@ -238,9 +238,11 @@
             let invoice = $('#number_invoice').text();
             let disc = $('#tot_disc').val();
             let subtot = $('#subtotal_cart').val();
+            let id_customer = $('.customer-id-space').val();
             $('#invoice').val(invoice);
             $('#discount_total').val(disc);
             $('#subtotal').val(subtot);
+            $('#id_customer').val(id_customer);
 
         });
 
@@ -260,7 +262,7 @@
                 },
                 success: function(data) {
                     var data = JSON.parse(data);
-                    
+
                     if (data.statusCode == 200) {
                         $('#modalPay').modal('hide');
                         //$('#struk').attr('src', '<?= base_url("cashier/struk/") ?>' + number_invoice);
@@ -271,19 +273,17 @@
                         $("#btnReset").show();
                         $('#itemCode').attr('readonly', true);
                         $('#formPay')[0].reset();
-                        //loadFrames();
                         cetakStruk();
-                        //$('#btnPrint').trigger('click');
-                        //document.getElementById("struk").contentWindow.print();
+
 
                     }
 
-                    //cetakStruk();
+
 
                 }
             });
 
-            //cetakStruk();
+
         });
 
 
@@ -467,7 +467,6 @@
 
 
         //load more data
-
         let perPage = 8 / 2;
         let total_pages = Number('<?php isset($total_product) ? print $total_product : "" ?>');
         $('.items').scroll(function() {
@@ -485,29 +484,187 @@
             }
         });
 
+        //cms
+        //data pelanggan
+
+        //condition if modal customer show
+        $('#modalCustomer').on('shown.bs.modal', function() {
+            loadDataCustomer();
 
 
+        });
+
+        $('.collapse').on('shown.bs.collapse', function() {
+            $('#btnAddCustomer').text('Cancel');
+        });
+
+        $('.collapse').on('hidden.bs.collapse', function() {
+            $('#btnAddCustomer').html('<i class="fa fa-plus mr-2"></i>New Customer');
+
+        });
+
+        //add data customer
+        $(document).on('submit', '#formAddCustomer', function(e) {
+            e.preventDefault();
+            let data = $(this).serialize();
+
+            $.ajax({
+                url: base_url + 'customer/insert',
+                method: "POST",
+                data: data,
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    let data = JSON.parse(response);
+                    if (data.statusCode == 200) {
+                        loadDataCustomer();
+                        $('#formAddCustomer')[0].reset();
+                    } else if (data.statusCode == 201) {
+                        // do something
+                    } else {
+                        if (data.error == true) {
+                            if (data.name_error != '') {
+                                $('#name_error').html(data.name_error);
+
+                            } else {
+                                $('#name_error').html('');
+                            }
+
+                            if (data.phone_error != '') {
+                                $('#phone_error').html(data.phone_error);
+                            } else {
+                                $('#phone_error').html('');
+                            }
+                        }
+                    }
+
+                }
+            });
+        });
+
+        //show form edit
+        $(document).on('click', '#btnEditCustomer', function() {
+            let id = $(this).data('id');
+
+            if ($('.data-space' + id).is(':hidden')) {
+                $('.edit-space' + id).hide();
+                $('#btnSubmitEditCustomer' + id).hide();
+                $('.data-space' + id).show();
+                $('.edit-btn-space' + id + ' #btnEditCustomer').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+            } else {
+                $('.edit-space' + id).show();
+                $('#btnSubmitEditCustomer' + id).show();
+                $('.data-space' + id).hide();
+                $('.edit-btn-space' + id + ' #btnEditCustomer').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+
+            }
+
+
+
+        });
+
+
+        
+        //update data customer
+        $(document).on('click', '.btnSubmitEditCustomer', function() {
+            let id = $(this).data('id');
+            let name = $('#nameEditCustomer' + id).val();
+            let phone = $('#phoneEditCustomer' + id).val();
+            let email = $('#emailEditCustomer' + id).val();
+
+            $.ajax({
+                url: base_url + 'customer/update/' + id + '/' + name + '/' + phone + '/' + email,
+                method: "POST",
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    let data = JSON.parse(response);
+
+                    if (data.statusCode == 200) {
+                        //alert('berhasil');
+                        $('.data-space' + id + ' .customer-name').text(name);
+                        $('.data-space' + id + ' .customer-phone').text(phone);
+                        $('.data-space' + id + ' .customer-email').text(email);
+                        $('.edit-space' + id).hide();
+                        $('#btnSubmitEditCustomer' + id).hide();
+                        $('.data-space' + id).show();
+                        $('.edit-btn-space' + id + ' #btnEditCustomer').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+                    }
+                }
+            });
+        });
+
+        jQuery(document).on('click', '#rowCustomer', function() {
+            let id = jQuery(this).data('id');
+            let name = jQuery(this).data('name');
+
+            $('.customer-name-space').text(name);
+            $('.customer-id-space').val(id);
+
+            $('#modalCustomer').modal('hide');
+
+            
+        });
     });
 
 
 
     //function helper
-    // function loadStruk()
-    // {
-    //     $('#struk').attr('src', '<?= base_url("cashier/struk/12321312") ?>');
-    // }
+    function updateDataCustomer(id) {
+        $(document).on('submit', '#formEditCustomer' + id, function(e) {
+            e.preventDefault();
+
+            alert('ok');
+        });
+    }
+
+    //load data customer
+    function loadDataCustomer() {
+        $.ajax({
+            url: base_url + 'customer',
+            method: "POST",
+            beforeSend: function() {
+
+            },
+            success: function(response) {
+                let data = JSON.parse(response);
+                $('.customers-data').html(data.html);
+                $('#dataTable3').DataTable({
+                    responsive: true,
+                    "order": [
+                        [3, "desc"]
+                    ], //or asc 
+                    "columnDefs": [{
+                        "targets": 3,
+                        "type": "date-eu"
+                    }],
+                });
+
+                $('.sorting_desc').hide();
+                $('.sorting_1').hide();
+                $('.sorting').hide();
+
+                if (data.countCustomer > 1) {
+                    $('.titleModalCustomer').text(data.countCustomer + ' Customers');
+                } else if (data.countCustomer == 1) {
+                    $('.titleModalCustomer').text(data.countCustomer + ' Customer');
+                } else {
+                    $('.titleModalCustomer').text('No Customers');
+                }
+
+            }
+        });
+    }
 
     function cetakStruk() {
-        //document.getElementById('struk').contentDocument.location.reload(true);
-        //$('#btnPrint').trigger('click');
-
         $('.frame_space').html('<iframe src="http://localhost/kasir_online/cashier/struk/' + $('#number_invoice').text() + '"' +
-             'id="struk" name="struk" frameborder="0" style="display: none;"></iframe>');
+            'id="struk" name="struk" frameborder="0" style="display: none;"></iframe>');
         window.frames['struk'].print();
     }
 
-    function loadFrames()
-    {
+    function loadFrames() {
         document.getElementById('struk').contentDocument.location.reload(true);
     }
     //load more data
@@ -619,6 +776,8 @@
                     $("#money_change_val").text("");
                     $('#itemCode').removeAttr('readonly');
                     $('#struk').attr('src', base_url + 'cashier/struk/' + $('#number_invoice').text());
+                    $('.customer-name-space').text('New Customer');
+                    $('.customer-id-space').val("");
 
                 }
             }

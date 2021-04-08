@@ -218,6 +218,23 @@
 
     .search-items::placeholder {
         color: #b1a7a7;
-        
+
+    }
+
+    .card-header {
+        background-color: #fff;
+    }
+
+
+
+    .ico-user-place {
+        margin: auto;
+    }
+
+    .page-item.active .page-link {
+        z-index: 1;
+        color: #fff;
+        background-color: #6a56a5;
+        border-color: #6a56a5;
     }
 </style>

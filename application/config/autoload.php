@@ -142,6 +142,7 @@ $autoload['model'] = array(
     'auth/Login_model'          => 'login',
     'Activity_model'            => 'activity',
     'Code_model'                => 'code',
-    'Cashier_model'             => 'cashier'
+    'Cashier_model'             => 'cashier',
+    'Customer_model'            => 'customer'
 
 );

@@ -11,6 +11,7 @@
                     <input type="hidden" name="invoice" id="invoice" value="">
                     <input type="hidden" name="discount_total" id="discount_total" value="">
                     <input type="hidden" name="subtotal" id="subtotal" value="">
+                    <input type="text" name="id_customer" id="id_customer" value="">
                     <input type="hidden" name="total" id="total" value="<?= $totalCart; ?>">
 
                     <div class="form-group">
