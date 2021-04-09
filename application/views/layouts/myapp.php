@@ -1114,6 +1114,16 @@
 
         //end report section
 
+        //export report section
+        $(document).on('click', '.btnExportPerDays', function() {
+            let month = $('#month option:selected').val();
+            let year  = $('#datepicker').val();
+
+            window.location.href = base_url + 'admin/report/exportSalesPerDays/' + month + '/' + year;
+        });
+
+        //end export report section
+
 
     });
 

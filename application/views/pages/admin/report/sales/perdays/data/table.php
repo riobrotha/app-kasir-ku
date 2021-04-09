@@ -1,5 +1,9 @@
 <?php $this->load->view('layouts/_alert'); ?>
 <div class="data-tables datatable-dark mt-4">
+    <select class="custome-select border-0 pr-3 mb-5">
+        <option selected>Excel</option>
+    </select>
+    <button class="btn btn-rounded btn-xs btn-purple btnExportPerDays">Export</button>
     <table id="dataTableReportSalesPerdays" class="text-center table table-hover">
         <thead class="text-capitalize">
             <tr>

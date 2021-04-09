@@ -3,6 +3,11 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+
 class Report extends MY_Controller
 {
     public function __construct()
@@ -260,20 +265,20 @@ class Report extends MY_Controller
         $this->report->table    = 'product';
         $data['content']        = $this->report->select([
             'product.title', 'product_in.stock_in AS stock_in', 'product_in.created_at', 'product.stock AS stock',
-             'SUM(transaction_detail.qty) AS stock_out'
+            'SUM(transaction_detail.qty) AS stock_out'
         ])
-        ->join2('product_in')
-        ->join2('transaction_detail')
-        ->joinBetweenTransaction()
-        ->where('MONTH(product_in.created_at)', $month)
-        ->where('YEAR(product_in.created_at)', $year)
-        ->groupBy('product.title')
-        ->get();
+            ->join2('product_in')
+            ->join2('transaction_detail')
+            ->joinBetweenTransaction()
+            ->where('MONTH(product_in.created_at)', $month)
+            ->where('YEAR(product_in.created_at)', $year)
+            ->groupBy('product.title')
+            ->get();
 
 
-        
+
         //condition if query is available and not null
-        if(count($data['content']) > 0) {
+        if (count($data['content']) > 0) {
             echo json_encode([
                 'statusCode'        => 200,
                 'content'           => $this->load->view('pages/admin/report/tracking_order/data/table', $data, true)
@@ -293,54 +298,183 @@ class Report extends MY_Controller
      * 
      */
 
-     public function salesPerDays()
-     {
-         $data['title']              = 'Sales Report Perdays';
-         $data['page_title']         = 'Sales Report Perdays';
-         $data['nav_title']          = 'report';
-         $data['detail_title']       = 'report_sales_perdays';
-         $data['page']               = 'pages/admin/report/sales/perdays/index';
+    public function salesPerDays()
+    {
+        $data['title']              = 'Sales Report Perdays';
+        $data['page_title']         = 'Sales Report Perdays';
+        $data['nav_title']          = 'report';
+        $data['detail_title']       = 'report_sales_perdays';
+        $data['page']               = 'pages/admin/report/sales/perdays/index';
 
-         $this->view($data);
-     }
-     
+        $this->view($data);
+    }
 
-     /**
-      * 
-      * method to access report sales perdays
-      *
-      *
-      */
 
-     public function requestSalesPerDays()
-     {
-         //get value from input with method post
-         $month         = $this->input->post('month', true);
-         $year          = $this->input->post('year', true);
+    /**
+     * 
+     * method to access report sales perdays
+     *
+     *
+     */
 
-         //query to get report sales perdays
-         $this->report->table       = 'transaction';
-         $data['content']           = $this->report->select([
-             'transaction.invoice', 'SUM(transaction.total) AS total', 
-             'transaction.created_at'
-         ])
-         ->where('MONTH(transaction.created_at)', $month)
-         ->where('YEAR(transaction.created_at)', $year)
-         ->groupBy('DATE(transaction.created_at)')
-         ->get();
+    public function requestSalesPerDays()
+    {
+        //get value from input with method post
+        $month         = $this->input->post('month', true);
+        $year          = $this->input->post('year', true);
 
-         if(count($data['content']) > 0) {
-             echo json_encode([
-                 'statusCode'       => 200,
-                 'content'          => $this->load->view('pages/admin/report/sales/perdays/data/table', $data, true)
-             ]);
-         } else {
-             echo json_encode([
-                 'statusCode'       => 201,
-                 'content'          => 'Data Not Found'
-             ]);
-         }
-     }
+        //query to get report sales perdays
+        $this->report->table       = 'transaction';
+        $data['content']           = $this->report->select([
+            'transaction.invoice', 'SUM(transaction.total) AS total',
+            'transaction.created_at'
+        ])
+            ->where('MONTH(transaction.created_at)', $month)
+            ->where('YEAR(transaction.created_at)', $year)
+            ->groupBy('DATE(transaction.created_at)')
+            ->get();
+
+        if (count($data['content']) > 0) {
+            echo json_encode([
+                'statusCode'       => 200,
+                'content'          => $this->load->view('pages/admin/report/sales/perdays/data/table', $data, true)
+            ]);
+        } else {
+            echo json_encode([
+                'statusCode'       => 201,
+                'content'          => 'Data Not Found'
+            ]);
+        }
+    }
+
+    public function exportSalesPerDays($month, $year)
+    {
+
+        $this->report->table       = 'transaction';
+        $data                      = $this->report->select([
+            'transaction.invoice', 'SUM(transaction.total) AS total',
+            'transaction.created_at'
+        ])
+            ->where('MONTH(transaction.created_at)', $month)
+            ->where('YEAR(transaction.created_at)', $year)
+            ->groupBy('DATE(transaction.created_at)')
+            ->get();
+
+        //check month
+        foreach (getMonth() as $key => $val) {
+            if ($month == $key) {
+                $nameMonth = $val;
+            }
+        }
+
+        $spreadsheet = new Spreadsheet();
+
+        //title
+        $spreadsheet->getActiveSheet()->mergeCells('A2:C2');
+        $spreadsheet->getActiveSheet()->mergeCells('A3:C3');
+        $spreadsheet->getActiveSheet()->setCellValue('A2', 'REPORT SALES PERDAY');
+        $spreadsheet->getActiveSheet()->setCellValue('A3', $nameMonth . ' ' . $year);
+
+        //style title
+        $styleArrayTitle = [
+            'font'  => [
+                'size'  => 18,
+                'bold'  => true,
+            ],
+            'alignment' => [
+                'horizontal'    => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ]
+        ];
+
+        $spreadsheet->getActiveSheet()->getStyle('A2:A3')->applyFromArray($styleArrayTitle);
+
+        //header
+        $spreadsheet->setActiveSheetIndex(0)
+            ->setCellValue('A5', 'No')
+            ->setCellValue('B5', 'Date')
+            ->setCellValue('C5', 'Subtotal');
+
+        //set width column automatically
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+
+
+
+        //posisi kolom dan nomor
+        $kolom = 6;
+        $no = 1;
+
+
+
+
+        //get data
+        foreach ($data as $row) {
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A' . $kolom, $no)
+                ->setCellValue('B' . $kolom, date_format(new DateTime($row->created_at), 'd/m/Y'))
+                ->setCellValue('C' . $kolom, $row->total);
+
+            $spreadsheet->getActiveSheet()->getStyle('C' . $kolom)->getNumberFormat()
+                ->setFormatCode('#,##0');
+
+            $kolom++;
+            $no++;
+        }
+
+
+
+        //style for all borders
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000'],
+                ],
+            ],
+        ];
+        $sheet = $spreadsheet->getActiveSheet();
+        $batas = count($data) + 5;
+        $sheet->getStyle('A5:C' . $batas)->applyFromArray($styleArray);
+
+
+        //sum total
+        $SUMRANGE = 'C6:C' . $batas;
+        $sheet->setCellValue('C' . ($batas + 1), "=SUM($SUMRANGE)");
+        $sheet->setCellValue('B' . ($batas + 1), 'Total :');
+        $sheet->getStyle('C' . ($batas + 1))->getNumberFormat()->setFormatCode('#,##0');
+        $sheet->getStyle('A' . ($batas + 1) . ':' . 'C' . ($batas + 1))->applyFromArray($styleArray);
+
+        $styleArray2 = [
+            'font'  => [
+                'size'  => 14,
+                'bold'  => true,
+                'color' => ['argb'  => '000'],
+            ],
+            'fill' => [
+                'fillType'  => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'color' => ['argb'   => '44A2C0'],
+            ],
+        ];
+
+        $sheet->getStyle('A5:C5')->applyFromArray($styleArray2);
+
+
+        $writer = new Xlsx($spreadsheet);
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="SalesReportPerDays.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+    }
+
+    public function tes()
+    {
+        foreach (getMonth() as $key => $val) {
+            echo $val; 
+        }
+    }
 }
 
 /* End of file Report.php */
