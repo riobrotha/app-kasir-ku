@@ -140,6 +140,7 @@ $autoload['model'] = array(
     'admin/Dashboard_model'     => 'dashboard',
     'admin/Report_model'        => 'report',
     'auth/Login_model'          => 'login',
+    'doctor/Home_model'         => 'home',
     'Activity_model'            => 'activity',
     'Code_model'                => 'code',
     'Cashier_model'             => 'cashier',

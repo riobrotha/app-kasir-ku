@@ -70,7 +70,7 @@
                             </div>
                         </div> -->
 
-                        <button type="submit" class="btn btn-rounded btn-purple float-right mb-4 btn-submit-report-tracking-product">Submit</button>
+                        <button type="submit" class="btn btn-rounded btn-hers btn-sm float-right mb-4 btn-submit-report-tracking-product">Submit</button>
                     </form>
                     <div class="text-center loadIco" style="margin-top: 5rem!important;">
                         <img src="<?= base_url("assets/images/load/load.svg"); ?>" style="width: 100px;" alt="load-animate">

@@ -17,7 +17,11 @@ class Login extends MY_Controller
             if ($role == 'admin') {
                 redirect(base_url() . 'admin');
                 return;
-            } else {
+            } else if ($role == 'doctor') {
+                redirect(base_url() . 'doctor');
+            }else if ($role == 'front_officer') {
+                redirect(base_url() . 'front-office');
+            }else {
                 redirect(base_url('cashier'));
             }
         }

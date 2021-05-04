@@ -17,7 +17,11 @@
  <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
  <!-- touchspin js -->
  <script src="<?= base_url(); ?>assets/js/touchSpin/jquery.bootstrap-touchspin.js"></script>
+ <script src="<?= base_url(); ?>assets/css/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+ <script src="<?= base_url(); ?>assets/js/vanillatoasts.js"></script>
 
+  <!-- sweetalert js -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
  <!-- start chart js -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
  <!-- start highcharts js -->
@@ -44,4 +48,17 @@
  <script src="<?= base_url(); ?>assets/js/scripts.js"></script>
  <!-- jquery hotkeys -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.hotkeys/0.2.0/jquery.hotkeys.min.js" integrity="sha512-njd096AjZyGuWOttOsHolCOFjq9Xg9txZTl6Pd7FOpwf1nyBDsOXpS1cd184l/EWy5ekDJZldDMQPs9bLCSAtQ==" crossorigin="anonymous"></script>
- <?php $this->load->view('layouts/cashier/myappcashier'); ?>
+ <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+
+
+
+ <?php if ($this->session->userdata('role') == 'cashier') {
+        $this->load->view('layouts/cashier/myappcashier');
+    }
+
+    if($this->session->userdata('role') == 'front_officer') {
+        $this->load->view('layouts/front-office/myappfrontoffice');
+    }
+
+    ?>
+

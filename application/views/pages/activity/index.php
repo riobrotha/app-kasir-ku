@@ -28,7 +28,7 @@
                                     foreach ($transaction as $row) : ?>
                                         <tr>
                                             <td><?= $i; ?></td>
-                                            <td><strong><a href="#" class="text-purple" id="detailTransaction" data-invoice="<?= $row->invoice; ?>"><?= $row->invoice; ?></a></strong></td>
+                                            <td><strong><a href="#" class="text-hers" id="detailTransaction" data-invoice="<?= $row->invoice; ?>"><?= $row->invoice; ?></a></strong></td>
                                             <td>Rp&nbsp;<?= number_format($row->cash_payment, 0, ',', '.') ?>,-</td>
                                             <td>Rp&nbsp;<?= number_format($row->money_change, 0, ',', '.') ?>,-</td>
                                             <td>Rp&nbsp;<?= number_format($row->total, 0, ',', '.') ?>,-</td>

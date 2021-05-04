@@ -13,7 +13,9 @@ class MY_Controller extends CI_Controller
             $this->load->model($model . '_model', $model, true);
         } else if(file_exists(APPPATH . 'models/admin/' . $model . '_model.php')) {
             $this->load->model('admin/' . $model . '_model', $model, true);
-        } else {
+        } else if (file_exists(APPPATH . 'models/doctor/' . $model . '_model.php')) {
+            $this->load->model('doctor/' . $model . '_model', $model, true);
+        }else {
             $this->load->model('auth/' . $model . '_model', $model, true);
         }
     }
@@ -49,6 +51,17 @@ class MY_Controller extends CI_Controller
     public function view_auth($data)
     {
         $this->load->view('auth/app', $data);
+    }
+
+    /**
+     * Load logi view with default layouts
+     * 
+     * @param [type] $data
+     * @return void
+     */
+    public function view_doctor($data)
+    {
+        $this->load->view('layouts/doctor/app', $data);
     }
 }
 

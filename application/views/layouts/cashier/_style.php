@@ -21,14 +21,25 @@
 <link rel="stylesheet" href="<?= base_url(); ?>assets/css/default-css.css">
 <link rel="stylesheet" href="<?= base_url(); ?>assets/css/styles.css">
 <link rel="stylesheet" href="<?= base_url(); ?>assets/css/responsive.css">
+<link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" integrity="sha512-2eMmukTZtvwlfQoG8ztapwAH5fXaQBzaMqdljLopRSA0i6YKM8kBAOrSSykxu9NN9HrtD45lIqfONLII2AFL/Q==" crossorigin="anonymous" />
+<link rel="stylesheet" href="<?= base_url(); ?>assets/css/vanillatoasts.css">
 <!-- modernizr css -->
 <script src="<?= base_url(); ?>assets/js/vendor/modernizr-2.8.3.min.js"></script>
 
 <style>
+    :root {
+        --primary-color: #2D4A49;
+        --hover-primary-color: #223d3d;
+        --secondary-color: #BB9A5D;
+        --hover-secondary-color: #b38d47;
+        --title-color: #141313;
+        --text-color: #777777;
+    }
+
     .btn-purple {
         color: #fff;
         background-color: #6a56a5;
@@ -40,6 +51,42 @@
         border-color: #402d77;
     }
 
+    .btn-hers {
+        color: #fff;
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+
+    }
+
+    .btn-hers:hover {
+        background-color: var(--hover-secondary-color);
+        border-color: var(--hover-secondary-color);
+    }
+
+    .btn-hers-outline {
+        background-color: transparent;
+        border-color: var(--secondary-color);
+        color: var(--secondary-color) !important;
+    }
+
+    .btn-hers-outline:hover {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        color: #fff !important;
+    }
+
+    .btn-hers-primary {
+        color: #fff;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+
+    }
+
+    .btn-hers-primary:hover {
+        background-color: var(--hover-primary-color);
+        border-color: var(--hover-primary-color);
+    }
+
     .text-purple {
         color: #6a56a5;
     }
@@ -48,26 +95,30 @@
         color: #4b3a7b;
     }
 
+    .text-hers {
+        color: var(--primary-color);
+    }
+
     .input-group-prepend button {
         color: #fff;
-        background-color: #6a56a5;
-        border-color: #6a56a5;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
     }
 
     .input-group-prepend button:hover {
-        background-color: #402d77;
-        border-color: #402d77;
+        background-color: var(--hover-primary-color);
+        border-color: var(--hover-primary-color);
     }
 
     .input-group-append button {
         color: #fff;
-        background-color: #6a56a5;
-        border-color: #6a56a5;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
     }
 
     .input-group-append button:hover {
-        background-color: #402d77;
-        border-color: #402d77;
+        background-color: var(--hover-primary-color);
+        border-color: var(--hover-primary-color);
     }
 
 
@@ -190,7 +241,7 @@
     }
 
     .s-swtich input:checked+label {
-        background: #6a56a5;
+        background: var(--primary-color);
     }
 
     .btn-purple-outline {
@@ -208,12 +259,12 @@
     .search-items {
         border-radius: 33px;
         border: 0px;
-        background-color: #f3eeff;
+        background-color: #f5f5f5;
         height: 40px;
     }
 
     .search-items:focus {
-        background-color: #f3eeff;
+        background-color: #f5f5f5;
     }
 
     .search-items::placeholder {
@@ -234,7 +285,45 @@
     .page-item.active .page-link {
         z-index: 1;
         color: #fff;
-        background-color: #6a56a5;
-        border-color: #6a56a5;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .user-profile {
+        background: var(--secondary-color);
+    }
+
+    .horizontal-menu ul li:hover>a,
+    .horizontal-menu ul li.active>a {
+        color: var(--secondary-color);
+    }
+
+    .horizontal-menu ul li a {
+        color: var(--primary-color);
+    }
+
+    .slicknav_menu {
+        background: var(--primary-color);
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    .avatar-doctor {
+        position: relative;
+        bottom: 80px;
+    }
+
+    .avatar-doctor h4 {
+        font-size: 18px;
+        letter-spacing: 1.2px;
+    }
+
+    .avatar-doctor h6 {
+        font-weight: 300;
+        letter-spacing: 1.1px;
+    }
+
+    #vanillatoasts-container {
+        z-index: 9999;
     }
 </style>

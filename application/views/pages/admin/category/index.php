@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title">Category List</h4>
-                    <button class="btn btn-rounded btn-primary" id="btnTambahCategory" data-toggle="modal" data-target="#modalAddCategory"><i class="fa fa-plus mr-2"></i>Category</button>
+                    <button class="btn btn-rounded btn-sm btn-hers" id="btnTambahCategory" data-toggle="modal" data-target="#modalAddCategory"><i class="fa fa-plus mr-2"></i>Category</button>
 
                     <div class="tableCategory mt-2">
                         

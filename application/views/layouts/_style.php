@@ -22,10 +22,21 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" integrity="sha512-2eMmukTZtvwlfQoG8ztapwAH5fXaQBzaMqdljLopRSA0i6YKM8kBAOrSSykxu9NN9HrtD45lIqfONLII2AFL/Q==" crossorigin="anonymous" />
+<link rel="stylesheet" href="<?= base_url(); ?>assets/css/vanillatoasts.css">
+
 <!-- modernizr css -->
 <script src="<?= base_url(); ?>assets/js/vendor/modernizr-2.8.3.min.js"></script>
 
 <style>
+    :root {
+        --primary-color: #2D4A49;
+        --hover-primary-color: #223d3d;
+        --secondary-color: #BB9A5D;
+        --hover-secondary-color: #b38d47;
+        --title-color: #141313;
+        --text-color: #777777;
+    }
+
     .btn-purple {
         color: #fff;
         background-color: #6a56a5;
@@ -37,33 +48,100 @@
         border-color: #402d77;
     }
 
+    .btn-hers {
+        color: #fff;
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+
+    }
+
+    .btn-hers:hover {
+        background-color: var(--hover-secondary-color);
+        border-color: var(--hover-secondary-color);
+    }
+
+    .metismenu>li:hover>a,
+    .metismenu>li.active>a,
+    .metismenu>li.active>a i {
+        color: var(--primary-color) !important;
+        background: #fff !important;
+        font-weight: bold;
+    }
+
+    .metismenu li.active>a,
+    .metismenu li.active>a i {
+        color: var(--primary-color) !important;
+        font-weight: bold;
+    }
+
+
+    .metismenu li a,
+    .metismenu li a i {
+        color: var(--secondary-color);
+    }
+
+    .metismenu li a:hover {
+        background: #fff !important;
+        color: var(--primary-color);
+    }
+
+    .metismenu li a:hover i {
+        color: var(--primary-color) !important;
+    }
+
+    .bg-white-custom {
+        background: #fff !important;
+    }
+
+    .sidebar-header {
+        border-bottom: 1px solid #fff;
+    }
+
+    .collapse.in .active {
+        color: var(--primary-color) !important;
+    }
+
+    .user-profile {
+        color: var(--primary-color);
+        background: -webkit-linear-gradient(left, var(--secondary-color) 50%, var(--secondary-color) 100%);
+        background: linear-gradient(to right, var(--secondary-color) 50%, var(--secondary-color) 100%);
+    }
+
+    .user-name {
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .breadcrumbs li a {
+        color: var(--secondary-color);
+    }
 
 
     #formAddInventory {
         display: none;
     }
 
-    #dateAreaa{
+    #dateAreaa {
         display: none;
     }
 
-    #monthArea{
+    #monthArea {
         display: none;
     }
 
-    #yearArea{
+    #yearArea {
         display: none;
     }
 
-    #dateAreaaSalesProduct{
+    #dateAreaaSalesProduct {
         display: none;
     }
 
-    #monthAreaSalesProduct{
+    #monthAreaSalesProduct {
         display: none;
     }
 
-    #yearAreaSalesProduct{
+    #yearAreaSalesProduct {
         display: none;
     }
 
@@ -71,15 +149,15 @@
         display: none;
     } */
 
-    #yearAreaSalesPerdays{
+    #yearAreaSalesPerdays {
         display: none;
     }
 
-    .btn-submit-report-sales{
+    .btn-submit-report-sales {
         display: none;
     }
 
-    .btn-submit-report-sales-product{
+    .btn-submit-report-sales-product {
         display: none;
     }
 
@@ -96,5 +174,7 @@
         display: none;
     }
 
-    
+    #vanillatoasts-container {
+        z-index: 9999;
+    }
 </style>

@@ -4,7 +4,8 @@
             <div class="col-md-3">
                 <div class="logo">
                     <a href="index.html">
-                        <h2><span style="color: #000; font-weight: bold;">Kasir</span><span style="color: #6a56a5; font-weight: bold;">Ku</span></h2>
+                        <!-- <h2><span style="color: #000; font-weight: bold;">Kasir</span><span style="color: #6a56a5; font-weight: bold;">Ku</span></h2> -->
+                        <img src="<?= base_url("assets/images/logo/logo.png") ?>" alt="logo" class="ml-2 mt-2">
                     </a>
                 </div>
             </div>

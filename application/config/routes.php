@@ -59,3 +59,5 @@ $route['admin/libraries/items-sales'] = 'admin/libraries/items_sales';
 $route['admin/report/sales-product'] = 'admin/report/salesProduct';
 $route['admin/report/tracking-product'] = 'admin/report/tracking_product';
 $route['admin/report/sales-perdays'] = 'admin/report/salesPerDays';
+$route['doctor'] = 'doctor/home';
+$route['front-office'] = 'frontoffice';

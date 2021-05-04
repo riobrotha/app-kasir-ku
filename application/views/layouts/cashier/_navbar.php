@@ -6,11 +6,26 @@
                     <nav>
                         <ul id="nav_menu">
 
-                            <li class="<?= $nav_title == "cashier" ? "active" : ""  ?>">
-                                <a href="<?= base_url('cashier'); ?>"><i class="ti-layout-sidebar-left"></i>
-                                    <span>Transaction</span></a>
+                            <?php if ($this->session->userdata('role') == 'cashier' || $this->session->userdata('role') == 'admin') : ?>
+                                <li class="<?= $nav_title == "cashier" ? "active" : ""  ?>">
+                                    <a href="<?= base_url('cashier'); ?>"><i class="ti-layout-sidebar-left"></i>
+                                        <span>Transaction</span></a>
 
-                            </li>
+                                </li>
+
+                                <li class="<?= $nav_title == "transaction_activity" ? "active" : "" ?>">
+                                    <a href="<?= base_url('activity'); ?>"><i class="ti-map-alt"></i> <span>Transaction Activity</span></a>
+                                </li>
+
+                            <?php endif ?>
+
+
+                            <?php if ($this->session->userdata('role') == 'front_officer') : ?>
+                                <li class="<?= $nav_title == "front_officer" ? "active" : "" ?>">
+                                    <a href="<?= base_url('front-office'); ?>"><i class="ti-map-alt"></i><span>Patient Queue</span></a>
+                                </li>
+                            <?php endif ?>
+
 
                             <!-- <li class="mega-menu">
                                 <a href="javascript:void(0)"><i class="ti-palette"></i><span>UI Features</span></a>
@@ -34,24 +49,11 @@
                                     <li><a href="grid.html">grid system</a></li>
                                 </ul>
                             </li> -->
-
-
-                            <li class="<?= $nav_title == "transaction_activity" ? "active" : "" ?>">
-                                <a href="<?= base_url('activity'); ?>"><i class="ti-map-alt"></i> <span>Transaction Activity</span></a>
-                            </li>
                         </ul>
                     </nav>
                 </div>
             </div>
-            <!-- nav and search button -->
-            <div class="col-lg-3 clearfix">
-                <div class="search-box">
-                    <form action="#">
-                        <input type="text" name="search" placeholder="Search..." required>
-                        <i class="ti-search"></i>
-                    </form>
-                </div>
-            </div>
+
             <!-- mobile_menu -->
             <div class="col-12 d-block d-lg-none">
                 <div id="mobile_menu"></div>

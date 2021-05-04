@@ -1,6 +1,6 @@
 <script>
-    const base_url = 'http://localhost/kasir_online/';
-
+    const base_url = $('body').data('url');
+    
 
     $(document).ready(function() {
         //load component
@@ -79,6 +79,14 @@
                     if (data.statusCode == 200) {
                         $('#formAddCategory')[0].reset();
                         loadDataCategory('admin/category/loadTable');
+
+                        VanillaToasts.create({
+                            title: 'Success',
+                            text: 'Data Has Been Added!',
+                            type: 'success',
+                            positionClass: 'topCenter',
+                            timeout: 3000
+                        });
                     } else if (data.statusCode == 201) {
                         //do something
                     } else {
@@ -591,6 +599,14 @@
                         $('#formAddDiscount')[0].reset();
                         loadDataDiscount('admin/discount/loadTable');
                         $('#modalAddDiscount').modal('hide');
+
+                        VanillaToasts.create({
+                            title: 'Success',
+                            text: 'Data Has Been Added!',
+                            type: 'success',
+                            positionClass: 'topCenter',
+                            timeout: 3000
+                        });
                     } else if (data.statusCode == 201) {
 
                     } else {
@@ -805,6 +821,14 @@
                         $('#formAddProductIn')[0].reset();
                         loadDataProductIn('admin/libraries/loadTable');
                         //$('#modalAddProductIn').modal('hide');
+
+                        VanillaToasts.create({
+                            title: 'Success',
+                            text: 'Data Has Been Added!',
+                            type: 'success',
+                            positionClass: 'topCenter',
+                            timeout: 3000
+                        });
                     } else if (data.statusCode == 201) {
                         //do something
                     } else {
@@ -1067,7 +1091,7 @@
                 success: function(response) {
                     let data = JSON.parse(response);
 
-                    if(data.statusCode == 200) {
+                    if (data.statusCode == 200) {
                         $('.tableReportTrackingProduct').html(data.content);
                         $('#dataTableReportTrackingProduct').DataTable({
                             responsive: true
@@ -1098,7 +1122,7 @@
                 success: function(response) {
                     let data = JSON.parse(response);
 
-                    if(data.statusCode == 200) {
+                    if (data.statusCode == 200) {
                         $('.tableReportSalesPerdays').html(data.content);
                         $('#dataTableReportSalesPerdays').DataTable({
                             responsive: true
@@ -1117,19 +1141,390 @@
         //export report section
         $(document).on('click', '.btnExportPerDays', function() {
             let month = $('#month option:selected').val();
-            let year  = $('#datepicker').val();
+            let year = $('#datepicker').val();
+            let type = $('#selectType option:selected').val();
 
-            window.location.href = base_url + 'admin/report/exportSalesPerDays/' + month + '/' + year;
+            window.location.href = base_url + 'admin/report/exportSalesPerDays/' + month + '/' + year + '/' + type;
         });
 
+        $(document).on('click', '.btnExportSalesProduct', function() {
+            let tipeExport = $('#selectType option:selected').val();
+
+            if (tipeExport == "excel") {
+                let type = $("#selectFilterSalesProduct option:selected").val();
+                let startFrom = $('#tgl_start').val();
+                let endPeriod = $('#tgl_end').val();
+
+                let cStartFrom = startFrom.split("/").join("-");
+                let cEndPeriod = endPeriod.split("/").join("-");
+
+
+                let month = $('#month option:selected').val();
+                let year = $('#datepicker').val();
+
+                let year2 = $('#datepicker_year').val();
+
+                if (type == 'date') {
+                    window.location.href = base_url + 'admin/report/exportSalesProduct/' + type + '/' + cStartFrom + '/' + cEndPeriod;
+
+                } else if (type == 'month') {
+                    window.location.href = base_url + 'admin/report/exportSalesProduct/' + type + '/0/0/' + month + '/' + year
+                } else {
+                    window.location.href = base_url + 'admin/report/exportSalesProduct/' + type + '/0/0/0/' + year2
+                }
+            } else {
+                //pdf
+                let type = $('#selectFilterSalesProduct option:selected').val();
+
+                let startFrom = $('#tgl_start').val();
+                let endPeriod = $('#tgl_end').val();
+                let cStartFrom = startFrom.split("/").join("-");
+                let cEndPeriod = endPeriod.split("/").join("-");
+
+                let month = $('#month option:selected').val();
+                let year = $('#datepicker').val();
+
+                let year2 = $('#datepicker_year').val();
+
+                if (type == 'date') {
+                    window.location.href = base_url + 'admin/report/exportPdfReportSalesProduct/' + type + '/' + cStartFrom + '/' + cEndPeriod;
+                } else if (type == 'month') {
+                    window.location.href = base_url + 'admin/report/exportPdfReportSalesProduct/' + type + '/0/0/' + month + '/' + year;
+                } else {
+                    window.location.href = base_url + 'admin/report/exportPdfReportSalesProduct/' + type + '/0/0/0/' + year2
+                }
+
+            }
+
+
+        });
+
+        $(document).on('click', '.btnExportSalesInvoice', function() {
+            let tipeExport = $('#selectType option:selected').val();
+
+            if (tipeExport == "excel") {
+                let type = $('#selectFilter option:selected').val();
+                let startFrom = $('#tgl_start').val();
+                let endPeriod = $('#tgl_end').val();
+                let cStartFrom = startFrom.split("/").join("-");
+                let cEndPeriod = endPeriod.split("/").join("-");
+
+                let month = $('#month option:selected').val();
+                let year = $('#datepicker').val();
+
+                let year2 = $('#datepicker_year').val();
+
+                if (type == 'date') {
+                    window.location.href = base_url + 'admin/report/exportSales/' + type + '/' + cStartFrom + '/' + cEndPeriod;
+                } else if (type == 'month') {
+                    window.location.href = base_url + 'admin/report/exportSales/' + type + '/0/0/' + month + '/' + year;
+                } else {
+                    window.location.href = base_url + 'admin/report/exportSales/' + type + '/0/0/0/' + year2
+                }
+            } else {
+                //pdf
+                let type = $('#selectFilter option:selected').val();
+
+                let startFrom = $('#tgl_start').val();
+                let endPeriod = $('#tgl_end').val();
+                let cStartFrom = startFrom.split("/").join("-");
+                let cEndPeriod = endPeriod.split("/").join("-");
+
+                let month = $('#month option:selected').val();
+                let year = $('#datepicker').val();
+
+                let year2 = $('#datepicker_year').val();
+
+                if (type == 'date') {
+                    window.location.href = base_url + 'admin/report/exportPdfReportSales/' + type + '/' + cStartFrom + '/' + cEndPeriod;
+                } else if (type == 'month') {
+                    window.location.href = base_url + 'admin/report/exportPdfReportSales/' + type + '/0/0/' + month + '/' + year;
+                } else {
+                    window.location.href = base_url + 'admin/report/exportPdfReportSales/' + type + '/0/0/0/' + year2
+                }
+
+            }
+
+
+
+
+        });
+
+        $(document).on('click', '.btnExportTrackingProduct', function() {
+            let type = $('#selectType option:selected').val();
+            let month = $('#month option:selected').val();
+            let year = $('#datepicker').val();
+
+            window.location.href = base_url + 'admin/report/exportTrackingProduct/' + month + '/' + year + '/' + type;
+        });
         //end export report section
+
+        //doctor section
+        loadDataDoctor('admin/doctor/loadTable');
+
+        //kondisi ketika modal tambah data dokter muncul
+        $('#modalAddDoctor').on('shown.bs.modal', function() {
+            $('.date_birth').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true
+            });
+        });
+
+        //proses penambahan data dokter
+        $(document).on('submit', '#formAddDoctor', function(e) {
+            e.preventDefault();
+            let data = $(this).serialize();
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'admin/doctor/insert',
+                data: data,
+                beforeSend: function() {
+
+                },
+
+                success: function(data) {
+                    var data = JSON.parse(data);
+
+                    if (data.statusCode == 200) {
+                        $('#formAddDoctor')[0].reset();
+                        loadDataDoctor('admin/doctor/loadTable');
+
+                        VanillaToasts.create({
+                            title: 'Success',
+                            text: 'Data Has Been Added!',
+                            type: 'success',
+                            positionClass: 'topCenter',
+                            timeout: 3000
+                        });
+
+                        clearFormAddDoctor();
+                    } else if (data.statusCode == 201) {
+                        //do something
+                    } else {
+                        if (data.error == true) {
+                            if (data.name_error != '') {
+                                $('#name_error').html(data.name_error);
+                                $('#name_doctor').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#name_error').html('');
+                                $('#name_doctor').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.birth_date_error != '') {
+                                $('#birth_date_error').html(data.birth_date_error);
+                                $('#birth_date_doctor').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#birth_date_error').html('');
+                                $('#birth_date_doctor').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.identity_number_error != '') {
+                                $('#identity_number_error').html(data.identity_number_error);
+                                $('#identity_number_doctor').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#identity_number_error').html('');
+                                $('#identity_number_doctor').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.idi_number_error != '') {
+                                $('#idi_number_error').html(data.idi_number_error);
+                                $('#idi_number_doctor').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#idi_number_error').html('');
+                                $('#idi_number_doctor').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+
+                            if (data.sip_number_error != '') {
+                                $('#sip_number_error').html(data.sip_number_error);
+                                $('#sip_number_doctor').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#sip_number_error').html('');
+                                $('#sip_number_doctor').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.phone_error != '') {
+                                $('#phone_error').html(data.phone_error);
+                                $('#phone_doctor').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#phone_error').html('');
+                                $('#phone_doctor').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.email_error != '') {
+                                $('#email_error').html(data.email_error);
+                                $('#email_doctor').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#email_error').html('');
+                                $('#email_doctor').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.address_error != '') {
+                                $('#address_error').html(data.address_error);
+                                $('#address_doctor').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#address_error').html('');
+                                $('#address_doctor').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+
+                        }
+                    }
+                }
+            });
+        });
+
+
+        //show modal edit doctor
+        $(document).on('click', '#btnEditDoctor', function(e) {
+            let id = $(this).data('id');
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'admin/doctor/edit/' + id,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+
+                success: function(response) {
+                    $('#loading').hide();
+
+                    $('#modalEditDoctor').html(response);
+                    $('#modal-edit-doctor').modal('show');
+
+                    $('.date_birth_edit').datepicker({
+                        format: 'dd/mm/yyyy',
+                        autoclose: true
+                    });
+                }
+            });
+        });
+
+        //proses perubahan data doctor
+        $(document).on('submit', '#formEditDoctor', function(e) {
+            e.preventDefault();
+
+            let data = $(this).serialize();
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'admin/doctor/update',
+                data: data,
+
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+
+                    if(data.statusCode == 200) {
+                        $('#formEditDoctor')[0].reset();
+                        $('#modal-edit-doctor').modal('hide');
+                        loadDataDoctor('admin/doctor/loadTable');
+                        clearFormAddDoctor();
+                        $("#loading").hide();
+                    }
+                }
+            })
+        });
+
+        //delete doctor data
+        $(document).on('click', '#btnDeleteDoctor', function() {
+            let id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are You Sure',
+                text: "to delete this item?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#BB9A5D',
+
+
+                confirmButtonText: "Yes, I'm sure",
+                cancelButtonText: 'Cancel',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: "POST",
+                        url: base_url + 'admin/doctor/destroy/' + id,
+                        beforeSend: function() {
+                            $("#loading").show();
+                        },
+
+                        success: function(data) {
+                            $("#loading").hide();
+                            loadDataDoctor('admin/doctor/loadTable');
+                        }
+                    });
+                }
+            })
+        });
 
 
     });
 
 
 
+    function clearFormAddDoctor() {
+        $('#name_error').html('');
+        $('#name_doctor').removeClass('is-valid');
+        $('#name_doctor').removeClass('is-invalid');
+
+        $('#birth_date_error').html('');
+        $('#birth_date_doctor').removeClass('is-valid');
+        $('#birth_date_doctor').removeClass('is-invalid');
+
+        $('#identity_number_error').html('');
+        $('#identity_number_doctor').removeClass('is-valid');
+        $('#identity_number_doctor').removeClass('is-invalid');
+
+        $('#idi_number_error').html('');
+        $('#idi_number_doctor').removeClass('is-valid');
+        $('#idi_number_doctor').removeClass('is-invalid');
+
+        $('#sip_number_error').html('');
+        $('#sip_number_doctor').removeClass('is-valid');
+        $('#sip_number_doctor').removeClass('is-invalid');
+
+        $('#phone_error').html('');
+        $('#phone_doctor').removeClass('is-valid');
+        $('#phone_doctor').removeClass('is-invalid');
+
+        $('#email_error').html('');
+        $('#email_doctor').removeClass('is-valid');
+        $('#email_doctor').removeClass('is-invalid');
+
+        $('#address_error').html('');
+        $('#address_doctor').removeClass('is-valid');
+        $('#address_doctor').removeClass('is-invalid');
+    }
+
     //load data section
+    //load data doctor
+    function loadDataDoctor(url) {
+        $.ajax({
+            type: "POST",
+            url: base_url + url,
+            success: function(response) {
+                $('.tableDoctor').html(response);
+                if ($('#dataTableDoctor').length) {
+                    $('#dataTableDoctor').DataTable({
+                        responsive: true
+                    });
+                }
+
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        })
+    }
+
     //load data kategori
     function loadDataCategory(url) {
         $.ajax({

@@ -9,9 +9,24 @@
     <!-- _style.php -->
     <?php $this->load->view('layouts/_style'); ?>
     <!-- _style.php -->
+
+    <style>
+        #loading {
+            position: fixed;
+            background: #2D4A49;
+            left: 50vw;
+            padding: 10px 20px 0px 20px;
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
+            font-size: 16px;
+            z-index: 9999;
+            letter-spacing: 1.2px;
+            display: none;
+        }
+    </style>
 </head>
 
-<body>
+<body data-url="<?= base_url(); ?>">
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -20,6 +35,28 @@
         <div class="loader"></div>
     </div>
     <!-- preloader area end -->
+
+
+    <div id="loading">
+        <div class="d-flex">
+            <div class="loaderr loaderr--style7" title="6">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                    <rect x="0" y="0" width="4" height="20" fill="#BB9A5D">
+                        <animate attributeName="opacity" attributeType="XML" values="1; .2; 1" begin="0s" dur="0.6s" repeatCount="indefinite" />
+                    </rect>
+                    <rect x="7" y="0" width="4" height="20" fill="#BB9A5D">
+                        <animate attributeName="opacity" attributeType="XML" values="1; .2; 1" begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+                    </rect>
+                    <rect x="14" y="0" width="4" height="20" fill="#BB9A5D">
+                        <animate attributeName="opacity" attributeType="XML" values="1; .2; 1" begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+                    </rect>
+                </svg>
+            </div>
+            <span class="text-white">Loading...</span>
+        </div>
+
+    </div>
+
 
     <!-- page container area start -->
     <div class="page-container">

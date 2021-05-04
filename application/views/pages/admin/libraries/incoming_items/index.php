@@ -9,7 +9,7 @@
                     <div id="alertPlace">
 
                     </div>
-                    <button class="btn btn-rounded btn-primary" id="btnTambahProductIn" data-toggle="modal" data-target="#modalAddProductIn"><i class="fa fa-plus mr-2"></i>Incoming Items</button>
+                    <button class="btn btn-rounded btn-sm btn-hers" id="btnTambahProductIn" data-toggle="modal" data-target="#modalAddProductIn"><i class="fa fa-plus mr-2"></i>Incoming Items</button>
 
 
                    

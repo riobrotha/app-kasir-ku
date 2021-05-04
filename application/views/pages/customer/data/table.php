@@ -7,8 +7,7 @@
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Created At</th>
-                <th></th>
-                <th></th>
+                
 
             </tr>
         </thead>
@@ -41,12 +40,12 @@
                         </div>
                     </td>
                     <td><?= $row->created_at; ?></td>
-                    <td><button class="btn btn-xs btn-purple btn-rounded btnSubmitEditCustomer" id="btnSubmitEditCustomer<?= $row->id; ?>" data-id="<?= $row->id; ?>" style="display: none;"><i class="fa fa-check" style="font-size: 18px;"></i></button></td>
+                    <!-- <td><button class="btn btn-xs btn-purple btn-rounded btnSubmitEditCustomer" id="btnSubmitEditCustomer<?= $row->id; ?>" data-id="<?= $row->id; ?>" style="display: none;"><i class="fa fa-check" style="font-size: 18px;"></i></button></td>
                     <td>
                         <div class="edit-btn-space<?= $row->id; ?>">
                             <i class="fa fa-chevron-right" id="btnEditCustomer" style="color: #6a56a5; font-size: 18px; cursor: pointer;" data-id="<?= $row->id; ?>"></i>
                         </div>
-                    </td>
+                    </td> -->
 
                 </tr>
 

@@ -9,7 +9,7 @@
                     <div id="alertPlace">
 
                     </div>
-                    <button class="btn btn-rounded btn-primary" id="btnTambahInventory" data-toggle="modal" data-target="#modalAddInventory"><i class="fa fa-plus mr-2"></i>Inventory</button>
+                    <button class="btn btn-rounded btn-hers btn-sm" id="btnTambahInventory" data-toggle="modal" data-target="#modalAddInventory"><i class="fa fa-plus mr-2"></i>Inventory</button>
 
 
                     <form action="#" method="POST" id="formAddInventory">

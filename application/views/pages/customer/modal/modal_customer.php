@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body">
-                <button class="btn btn-xs btn-rounded btn-purple" id="btnAddCustomer" type="button" data-toggle="collapse" data-target="#inputArea" aria-expanded="false" aria-controls="inputArea"><i class="fa fa-plus mr-2"></i>New Customer</button>
+                <!-- <button class="btn btn-xs btn-rounded btn-purple" id="btnAddCustomer" type="button" data-toggle="collapse" data-target="#inputArea" aria-expanded="false" aria-controls="inputArea"><i class="fa fa-plus mr-2"></i>New Customer</button>
                 <div class="collapse mt-2" id="inputArea">
                     <div class="card card-body">
                         <form action="#" method="POST" id="formAddCustomer">
@@ -37,7 +37,7 @@
 
                         </form>
                     </div>
-                </div>
+                </div> -->
                 <div class="customers-data">
                     <div class="text-center">
                         <img src="<?= base_url("assets/images/load/load.svg") ?>" style="width: 100px;">

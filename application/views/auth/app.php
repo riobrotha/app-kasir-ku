@@ -10,9 +10,32 @@
     <!-- style.php -->
     <?php $this->load->view('layouts/_style'); ?>
     <!-- end _style.php -->
+
+    <style>
+        .login-form-head {
+            background: #2D4A49 !important;
+            
+        }
+
+        .login-form-head h4 {
+            color: #BB9A5D !important;
+        }
+
+        .submit-btn-area button:hover {
+            background: #BB9A5D;
+        }
+
+        .form-gp.focused label {
+            color: #BB9A5D;
+        }
+
+        .form-gp i {
+            color: #2D4A49;
+        }
+    </style>
 </head>
 
-<body>
+<body data-url="<?= base_url(); ?>">
    
     <!-- preloader area start -->
     <div id="preloader">

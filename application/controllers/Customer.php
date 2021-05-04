@@ -46,12 +46,6 @@ class Customer extends MY_Controller
         }
     }
 
-    public function tes()
-    {
-        $data['customer']       = $this->customer->orderBy('created_at', 'DESC')->get();
-
-        print_r($data['customer']);
-    }
 
     public function insert()
     {

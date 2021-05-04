@@ -9,9 +9,9 @@
                     <div class="card-body">
                         <h4 class="header-title">Treatment & Product Items</h4>
                         <div class="float-left mb-4">
-                            <button class="btn btn-rounded btn-xs btn-purple-outline btnFilterTreatment" data-id="102001">Treatment</button>
-                            <button class="btn btn-rounded btn-xs btn-purple-outline btnFilterProduct ml-3" data-id="102002">Product</button>
-                            <button class="btn btn-rounded btn-xs btn-purple-outline btnBackToDefault ml-3">Back to Default</button>
+                            <button class="btn btn-rounded btn-xs btn-hers-outline btnFilterTreatment" data-id="102001">Treatment</button>
+                            <button class="btn btn-rounded btn-xs btn-hers-outline btnFilterProduct ml-3" data-id="102002">Product</button>
+                            <button class="btn btn-rounded btn-xs btn-hers-outline btnBackToDefault ml-3">Back to Default</button>
                         </div>
                         <div class="float-right">
                             <input class="form-control search-items" id="searchItems" placeholder="Search...">
@@ -31,7 +31,7 @@
                                                     <p id="sisaStock<?= $row->id; ?>"><span>Stock : <?= $this->session->userdata('stock' . $row->id); ?></span></p>
                                                     <p class="card-text">Rp&nbsp;<?= number_format($row->price, 0, ',', '.') ?>,-</p>
                                                     <div class="button<?= $row->id; ?>">
-                                                        <button class="btn btn-rounded btn-xs btn-purple btnAddToCart" id="btnAddToCart" style="margin-top: -15px;" data-id="<?= $row->id; ?>" data-price="<?= $row->price; ?>" data-title="<?= $row->title; ?>" data-stock="<?= $this->session->userdata('stock' . $row->id); ?>"><i class="fa fa-cart-plus fa-lg mr-2"></i>Add to Cart</button>
+                                                        <button class="btn btn-rounded btn-xs btn-hers btnAddToCart" id="btnAddToCart" style="margin-top: -15px;" data-id="<?= $row->id; ?>" data-price="<?= $row->price; ?>" data-title="<?= $row->title; ?>" data-stock="<?= $this->session->userdata('stock' . $row->id); ?>"><i class="fa fa-cart-plus fa-lg mr-2"></i>Add to Cart</button>
                                                     </div>
                                                 </div>
 
@@ -90,7 +90,7 @@
 
                         </div>
                         <div id="result-cart">
-                            <h1 class="text-purple mb-4" style="text-align: right;">Rp&nbsp;<?= number_format($totalCart, 0, ',', '.') ?>,-</h1>
+                            <h1 class="text-hers mb-4" style="text-align: right;">Rp&nbsp;<?= number_format($totalCart, 0, ',', '.') ?>,-</h1>
 
                             <?php if (count($cart) > 0) : ?>
                                 <div id="table-cart">
@@ -163,7 +163,7 @@
                             </div>
                         <?php else : ?>
                             <div class="text-center">
-                                <button class="btn btn-rounded btn-purple mt-3" id="btnPay" style="width: 100%;" data-toggle="modal" data-target="#modalPay" disabled>Charge</button>
+                                <button class="btn btn-rounded btn-hers mt-3" id="btnPay" style="width: 100%;" data-toggle="modal" data-target="#modalPay" disabled>Charge</button>
                             </div>
                         <?php endif ?>
 

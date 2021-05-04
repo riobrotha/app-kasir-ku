@@ -23,3 +23,9 @@ $this->load->view('pages/admin/category/modal/modal_add_category');
 <div id="modalEditProductIn">
 
 </div>
+
+<?php $this->load->view('pages/admin/doctor/modal/modal_add_doctor'); ?>
+
+<div id="modalEditDoctor">
+
+</div>

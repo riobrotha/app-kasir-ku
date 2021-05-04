@@ -53,7 +53,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-rounded btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-sm btn-rounded btn-purple" id="btnModalAddToCart">Add This Item</button>
+                <button type="button" class="btn btn-sm btn-rounded btn-hers" id="btnModalAddToCart">Add This Item</button>
             </div>
 
         </div>

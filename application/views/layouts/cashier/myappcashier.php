@@ -1,5 +1,5 @@
 <script>
-    const base_url = 'http://localhost/kasir_online/';
+    const base_url = $('body').data('url');
     $(function() {
         $('#table-cart').slimScroll({
             height: '300px',
@@ -341,11 +341,11 @@
                         items.innerHTML = data.html;
 
 
-                        btnFilterTreatment.classList.remove('btn-purple-outline');
-                        btnFilterTreatment.classList.add('btn-purple');
+                        btnFilterTreatment.classList.remove('btn-hers-outline');
+                        btnFilterTreatment.classList.add('btn-hers');
 
-                        btnFilterProduct.classList.remove('btn-purple');
-                        btnFilterProduct.classList.add('btn-purple-outline');
+                        btnFilterProduct.classList.remove('btn-hers');
+                        btnFilterProduct.classList.add('btn-hers-outline');
 
 
                         $('.items').slimScroll({
@@ -375,11 +375,11 @@
 
 
 
-                        btnFilterProduct.classList.remove('btn-purple-outline');
-                        btnFilterProduct.classList.add('btn-purple');
+                        btnFilterProduct.classList.remove('btn-hers-outline');
+                        btnFilterProduct.classList.add('btn-hers');
 
-                        btnFilterTreatment.classList.remove('btn-purple');
-                        btnFilterTreatment.classList.add('btn-purple-outline');
+                        btnFilterTreatment.classList.remove('btn-hers');
+                        btnFilterTreatment.classList.add('btn-hers-outline');
 
                         $('.items').slimScroll({
                             height: '630px'
@@ -404,11 +404,11 @@
                     if (data.statusCode == 200) {
                         items.innerHTML = data.html;
 
-                        btnFilterProduct.classList.remove('btn-purple');
-                        btnFilterProduct.classList.add('btn-purple-outline');
+                        btnFilterProduct.classList.remove('btn-hers');
+                        btnFilterProduct.classList.add('btn-hers-outline');
 
-                        btnFilterTreatment.classList.remove('btn-purple');
-                        btnFilterTreatment.classList.add('btn-purple-outline');
+                        btnFilterTreatment.classList.remove('btn-hers');
+                        btnFilterTreatment.classList.add('btn-hers-outline');
 
                         $('.items').slimScroll({
                             height: '630px'
@@ -752,7 +752,7 @@
         let month = d.getMonth() + 1;
         let date = d.getDate();
 
-        let invoice = year.toString() + month.toString() + date.toString() + random.toString();
+        let invoice = 'TR' + year.toString() + month.toString() + date.toString() + random.toString();
 
         return invoice;
     }

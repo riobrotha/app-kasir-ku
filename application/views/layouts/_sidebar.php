@@ -1,8 +1,9 @@
-<div class="sidebar-menu">
-    <div class="sidebar-header">
-        <div class="logo">
-            <!-- <a href="index.html"><img src="assets/images/icon/logo.png" alt="logo"></a> -->
-            <h2 class="text-white">Kasir<span style="color: #6a56a5; font-weight: bold;">Ku</span></h2>
+<div class="sidebar-menu bg-white-custom">
+    <div class="sidebar-header bg-white-custom">
+        <div class="logo bg-white-custom">
+            <a href="index.html"><img src="<?= base_url() ?>assets/images/logo/logo.png" alt="logo"></a>
+            <!-- <h2 class="" style="color: var(--primary-color);">Kasir<span style="color: var(--secondary-color); font-weight: bold;">Ku</span></h2> -->
+            <h6 class="mt-3">Admin Panel</h6>
         </div>
     </div>
     <div class="main-menu">
@@ -13,7 +14,7 @@
                     <li class="<?= $nav_title == "data_master" ? "active" : "" ?>">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-database"></i><span>Data Master</span></a>
                         <ul class="collapse">
-                            <li class="<?= $detail_title == "category" ? "active" : "" ?>"><a href="<?= base_url("admin/category"); ?>"><i class="ti-tag mr-2"></i>Category</a></li>
+                            <li class="<?= $detail_title == "category" ? "active dust" : "" ?>"><a href="<?= base_url("admin/category"); ?>"><i class="ti-tag mr-2"></i>Category</a></li>
 
 
                         </ul>
@@ -22,18 +23,19 @@
                     <li class="<?= $nav_title == "library" ? "active" : "" ?>">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-package"></i><span>Library</span></a>
                         <ul class="collapse">
-                            <li class="<?= $detail_title == "inventory" ? "active" : "" ?>"><a href="<?= base_url("admin/inventory"); ?>"><i class="ti-dropbox-alt mr-2"></i>Inventory</a></li>
-                            <li class="<?= $detail_title == "incoming_items" ? "active" : "" ?>"><a href="<?= base_url("admin/libraries/incoming-items"); ?>"><i class="ti-tag mr-2"></i>Incoming Items</a></li>
-                            <li class="<?= $detail_title == "items_sales" ? "active" : "" ?>"><a href="<?= base_url("admin/libraries/items-sales"); ?>"><i class="fa fa-cubes mr-2"></i>Items Sales</a></li>
+                            <li class="<?= $detail_title == "inventory" ? "active dust" : "" ?>"><a href="<?= base_url("admin/inventory"); ?>"><i class="ti-dropbox-alt mr-2"></i>Inventory</a></li>
+                            <li class="<?= $detail_title == "incoming_items" ? "active dust" : "" ?>"><a href="<?= base_url("admin/libraries/incoming-items"); ?>"><i class="ti-tag mr-2"></i>Incoming Items</a></li>
+                            <li class="<?= $detail_title == "items_sales" ? "active dust" : "" ?>"><a href="<?= base_url("admin/libraries/items-sales"); ?>"><i class="fa fa-cubes mr-2"></i>Items Sales</a></li>
 
                         </ul>
                     </li>
+                    <li class="<?= $nav_title == "doctor" ? "active" : "" ?>"><a href="<?= base_url("admin/doctor"); ?>"><i class="fa fa-stethoscope"></i><span>Doctor</span></a></li>
                     <li class="<?= $nav_title == "kasir" ? "active" : "" ?>"><a href="<?= base_url("cashier"); ?>" target="_blank"><i class="fa fa-barcode"></i><span>Cashier</span></a></li>
                     <li class="<?= $nav_title == "discount" ? "active" : "" ?>"><a href="<?= base_url("admin/discount"); ?>"><i class="fa fa-tags"></i><span>Add Discount</span></a></li>
                     <li class="<?= $nav_title == "report" ? "active" : "" ?>">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-file-o"></i><span>Report</span></a>
                         <ul class="collapse">
-                            <li class="<?= $detail_title == "report_sales" || $detail_title == "report_sales_product" || $detail_title == "report_sales_perdays" ? "active" : "" ?>">
+                            <li class="<?= $detail_title == "report_sales" || $detail_title == "report_sales_product" || $detail_title == "report_sales_perdays" ? "active dust" : "" ?>">
                                 <a href="#"><i class="fa fa-file-text-o mr-2"></i>Sales Report</a>
                                 <ul class="collapse">
                                     <li class="<?= $detail_title == "report_sales" ? "active" : "" ?>"><a href="<?= base_url("admin/report/sales"); ?>"><i class="fa fa-file-text-o mr-2"></i>Based Invoice</a></li>
@@ -42,7 +44,7 @@
                                 </ul>
                             </li>
 
-                            <li class="<?= $detail_title == "report_tracking_product" ? "active" : "" ?>"><a href="<?= base_url("admin/report/tracking-product"); ?>"><i class="fa fa-file-text-o mr-2"></i>Tracking Product Report</a></li>
+                            <li class="<?= $detail_title == "report_tracking_product" ? "active dust" : "" ?>"><a href="<?= base_url("admin/report/tracking-product"); ?>"><i class="fa fa-file-text-o mr-2"></i>Tracking Product Report</a></li>
 
 
                         </ul>

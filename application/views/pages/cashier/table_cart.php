@@ -1,4 +1,4 @@
-<h1 class="text-purple mb-4" style="text-align: right;">Rp&nbsp;<?= number_format($totalCart, 0, ',', '.') ?>,-</h1>
+<h1 class="text-hers mb-4" style="text-align: right;">Rp&nbsp;<?= number_format($totalCart, 0, ',', '.') ?>,-</h1>
 
 <?php if (count($cart) > 0) : ?>
     <div id="table-cart">

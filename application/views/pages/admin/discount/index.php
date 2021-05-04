@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title">Discount List</h4>
-                    <button class="btn btn-rounded btn-primary" id="btnTambahDiscount" data-toggle="modal" data-target="#modalAddDiscount"><i class="fa fa-plus mr-2"></i>Discount</button>
+                    <button class="btn btn-rounded btn-hers btn-sm" id="btnTambahDiscount" data-toggle="modal" data-target="#modalAddDiscount"><i class="fa fa-plus mr-2"></i>Discount</button>
 
                     <div class="tableDiscount mt-2">
                         

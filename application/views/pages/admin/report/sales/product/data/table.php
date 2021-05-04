@@ -1,5 +1,10 @@
 <?php $this->load->view('layouts/_alert'); ?>
 <div class="data-tables datatable-dark mt-4">
+    <select class="custome-select border-0 pr-3 mb-5" id="selectType">
+        <option value="excel" selected>Excel</option>
+        <option value="pdf">Pdf</option>
+    </select>
+    <button class="btn btn-rounded btn-xs btn-hers btnExportSalesProduct">Export</button>
     <table id="dataTableReportSalesProduct" class="text-center table table-hover">
         <thead class="text-capitalize">
             <tr>
@@ -34,12 +39,12 @@
                 <th></th>
                 <th></th>
                 <th>Rp&nbsp;<?= number_format(
-                                                            array_sum(array_column($content, 'subtotal')),
-                                                            0,
-                                                            ',',
-                                                            '.'
-                                                        );  ?>,-</th>
-                
+                                array_sum(array_column($content, 'subtotal')),
+                                0,
+                                ',',
+                                '.'
+                            );  ?>,-</th>
+
             </tr>
             <tr>
                 <th>Discount Total:</th>
@@ -47,12 +52,12 @@
                 <th></th>
                 <th></th>
                 <th>-&nbsp;Rp&nbsp;<?= number_format(
-                                                            $get_total_discount,
-                                                            0,
-                                                            ',',
-                                                            '.'
-                                                        );  ?>,-</th>
-                
+                                        $get_total_discount,
+                                        0,
+                                        ',',
+                                        '.'
+                                    );  ?>,-</th>
+
             </tr>
             <tr>
                 <th>Total:</th>
@@ -69,7 +74,7 @@
                                                             ',',
                                                             '.'
                                                         );  ?>,-</th>
-               
+
             </tr>
         </tfoot>
     </table>

@@ -12,7 +12,7 @@ class Cashier extends MY_Controller
         parent::__construct();
         $role = $this->session->userdata('role');
 
-        if ($role == 'admin' || $role == 'cashier') {
+        if ($role == 'cashier') {
             return;
         } else {
             $this->session->set_flashdata('warning', "You Don't Have Access");

@@ -3,8 +3,8 @@
         <div class="login-box ptb--100">
             <form id="sign_in" method="POST">
                 <div class="login-form-head">
-                    <h4>KasirKu</h4>
-                    <p>Hello there, Sign in and start managing your business</p>
+                    <img src="<?= base_url("assets/images/logo/logo-3.png") ?>" alt="logo" width="150">
+                    <p class="mt-3">Hello there, Sign in and start managing your business</p>
                 </div>
                 <div class="container">
                     <?php $this->load->view('layouts/_alert'); ?>
@@ -30,9 +30,9 @@
                                 <label class="custom-control-label" for="customControlAutosizing">Remember Me</label>
                             </div>
                         </div> -->
-                        <div class="col-12 text-right">
+                        <!-- <div class="col-12 text-right">
                             <a href="#" id="tes">Forgot Password?</a>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="submit-btn-area">
                         <button id="form_submit" type="submit">Sign In <i class="ti-arrow-right"></i></button>

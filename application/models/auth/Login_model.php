@@ -47,6 +47,7 @@ class Login_model extends MY_Model {
 
             $sess_data = [
                 'id'           => $query->id,
+                'id_doctor'    => $query->id_doctor,
                 'name'         => $query->name,
                 'username'     => $query->username,
                 'role'         => $query->role,
