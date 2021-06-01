@@ -3,9 +3,40 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Medicalrecord extends MY_Model {
+class Medicalrecord_model extends MY_Model {
 
     public $table = 'medical_records';
+
+    public function getValidationRules()
+    {
+        $validationRules = [
+            [
+                'field' => 'anamnesa',
+                'label' => 'Anamnesa',
+                'rules' => 'required|trim',
+            ],
+            [
+                'field' => 'pemeriksaan',
+                'label' => 'Pemeriksaan',
+                'rules' => 'required|trim',
+            ],
+            [
+                'field' => 'diagnosa',
+                'label' => 'Diganosa',
+                'rules' => 'required|trim',
+            ],
+            [
+                'field' => 'therapy[]',
+                'label' => 'Therapy',
+                'rules' => 'required|trim',
+            ],
+            
+
+        ];
+
+
+        return $validationRules;
+    }
 
 }
 

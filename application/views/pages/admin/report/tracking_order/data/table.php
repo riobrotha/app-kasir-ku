@@ -4,7 +4,7 @@
         <option value="excel" selected>Excel</option>
         <option value="pdf">Pdf</option>
     </select>
-    <button class="btn btn-rounded btn-xs btn-purple btnExportTrackingProduct">Export</button>
+    <button class="btn btn-rounded btn-xs btn-hers btnExportTrackingProduct">Export</button>
     <table id="dataTableReportTrackingProduct" class="text-center table table-hover">
         <thead class="text-capitalize">
             <tr>

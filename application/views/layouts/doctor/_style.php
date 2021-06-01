@@ -322,4 +322,15 @@
     #vanillatoasts-container {
         z-index: 9999;
     }
+
+    .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+        float: left;
+        padding-right: 3px;
+        padding-left: 3px;
+        margin-right: 1px;
+        margin-left: 3px;
+        font-weight: 700;
+        border: 0px;
+        color: #000;
+    }
 </style>

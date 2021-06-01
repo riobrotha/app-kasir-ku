@@ -61,3 +61,4 @@ $route['admin/report/tracking-product'] = 'admin/report/tracking_product';
 $route['admin/report/sales-perdays'] = 'admin/report/salesPerDays';
 $route['doctor'] = 'doctor/home';
 $route['front-office'] = 'frontoffice';
+$route['doctor/medical-records-history'] = 'doctor/medicalrecord';

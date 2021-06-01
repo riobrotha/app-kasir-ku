@@ -11,7 +11,7 @@
                     <input type="hidden" name="invoice" id="invoice" value="">
                     <input type="hidden" name="discount_total" id="discount_total" value="">
                     <input type="hidden" name="subtotal" id="subtotal" value="">
-                    <input type="text" name="id_customer" id="id_customer" value="">
+                    <input type="hidden" name="id_customer" id="id_customer" value="">
                     <input type="hidden" name="total" id="total" value="<?= $totalCart; ?>">
 
                     <div class="form-group">
@@ -32,7 +32,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-rounded btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-sm btn-rounded btn-purple btn-pay">Pay</button>
+                <button type="submit" class="btn btn-sm btn-rounded btn-hers btn-pay">Pay</button>
             </div>
             </form>
         </div>

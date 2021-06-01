@@ -133,6 +133,8 @@ class Frontoffice extends MY_Controller
         $job                = $this->input->post('job', true);
         $address            = $this->input->post('address', true);
 
+        $birth_date_2       = str_replace('/', '-', $birth_date);
+
         if (!$this->frontoffice->validate()) {
             $arr = array(
                 'error'                     => true,
@@ -151,7 +153,7 @@ class Frontoffice extends MY_Controller
             $data = array(
                 'id'                        => $id,
                 'name'                      => $name,
-                'birth_date'                => $birth_date,
+                'birth_date'                => date('Y-m-d',strtotime($birth_date_2)),
                 'identity_number'           => $identity_number,
                 'phone'                     => $phone,
                 'email'                     => $email,

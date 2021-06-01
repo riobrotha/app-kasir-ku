@@ -54,22 +54,65 @@ class Cashier extends MY_Controller
         $data['cart']           = $this->cart->contents();
         $data['totalCart']      = $this->cart->total();
 
+        $data['sub_total']       = array();
+        $data['disc_total']      = array();
+        foreach($data['cart'] as $row) {
+            array_push($data['sub_total'], ($row['option']['price_temp']) * $row ['qty']);
+            array_push($data['disc_total'], ($row['option']['discount_temp']) * $row ['qty']);
+        }
+
         $this->load->view('pages/cashier/table_cart', $data);
     }
 
-    public function insert($id, $qty, $price, $title, $stock, $disc = '', $price_temp = '', $discount_sebelum = '')
+    public function insert($id, $id_category, $qty, $price, $title, $stock, $disc = '', $price_temp = '', $discount_sebelum = '')
     {
 
 
         $stock_userdata = $this->session->userdata('stock' . $id);
-        if ($stock_userdata <= 0) {
-            echo json_encode(
-                array(
-                    'statusCode'    => 202,
-                    'msg'   => 'Out of Stock'
-                )
+        if ($id_category == '102002') {
+            if ($stock_userdata <= 0) {
+                echo json_encode(
+                    array(
+                        'statusCode'    => 202,
+                        'msg'   => 'Out of Stock'
+                    )
 
-            );
+                );
+            } else {
+                $data = array(
+                    'id'    => $id,
+                    'qty'   => $qty,
+                    'price' => $price,
+                    'name'  => ucwords(urldecode($title)),
+                    'option' => array(
+                        'stock'         => $stock_userdata,
+                        'price_temp'    => $price_temp,
+                        'discount_temp' => $disc
+
+                    )
+                );
+
+                $add = $this->cart->insert($data);
+                if ($add) {
+                    $stock = (int) $stock;
+                    $quantity = (int) $qty;
+                    $sisaStock = $stock - $quantity;
+                    $this->session->set_userdata('stock' . $id, $sisaStock);
+
+                    $this->session->set_userdata('discount_total', $disc * $qty);
+                    $this->session->set_userdata('price_temp', $price_temp);
+
+                    echo json_encode(array(
+                        'statusCode'    => 200,
+                        'stock'         => $stock,
+                        'sisaStock'     => $this->session->userdata('stock' . $id)
+                    ));
+                } else {
+                    echo json_encode(array(
+                        'statusCode' => 201,
+                    ));
+                }
+            }
         } else {
             $data = array(
                 'id'    => $id,
@@ -86,10 +129,10 @@ class Cashier extends MY_Controller
 
             $add = $this->cart->insert($data);
             if ($add) {
-                $stock = (int) $stock;
-                $quantity = (int) $qty;
-                $sisaStock = $stock - $quantity;
-                $this->session->set_userdata('stock' . $id, $sisaStock);
+                // $stock = (int) $stock;
+                // $quantity = (int) $qty;
+                // $sisaStock = $stock - $quantity;
+                // $this->session->set_userdata('stock' . $id, $sisaStock);
 
                 $this->session->set_userdata('discount_total', $disc * $qty);
                 $this->session->set_userdata('price_temp', $price_temp);
@@ -205,7 +248,7 @@ class Cashier extends MY_Controller
         $total = $this->input->post('total', true);
         $money_change = $this->input->post('money_change', true);
         $cash_payment = $this->input->post('cash_payment', true);
-        
+
 
 
         //$subtotal = array();
@@ -216,7 +259,7 @@ class Cashier extends MY_Controller
         $data = array(
             'invoice'       => $invoice,
             'id_user'       => $this->session->userdata('id'),
-            'id_customer'   => $id_customer == "" ? null : $id_customer, 
+            'id_customer'   => $id_customer == "" ? null : $id_customer,
             'subtotal'      => $subtotal,
             'discount_total' => $discount_total,
             'total'         => $total,

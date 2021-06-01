@@ -76,7 +76,7 @@
                     popup: 'animate__animated animate__fadeOutUp'
                 }
             }).then(function(result) {
-                if(result.isConfirmed) {
+                if (result.isConfirmed) {
                     $.ajax({
                         method: "POST",
                         url: base_url + 'frontoffice/remove_queue/' + id,
@@ -139,34 +139,36 @@
                                 popup: 'animate__animated animate__fadeOutUp'
                             }
                         }).then((result) => {
-                            $.ajax({
-                                method: "POST",
-                                url: base_url + 'frontoffice/add_queue/' + data.id_customer,
-                                beforeSend: function() {
-                                    $('#loading').show();
-                                },
-                                success: function(response) {
-                                    let data2 = JSON.parse(response);
+                            if (result.isConfirm) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: base_url + 'frontoffice/add_queue/' + data.id_customer,
+                                    beforeSend: function() {
+                                        $('#loading').show();
+                                    },
+                                    success: function(response) {
+                                        let data2 = JSON.parse(response);
 
-                                    if (data2.statusCode == 200) {
-                                        loadDataQueue();
+                                        if (data2.statusCode == 200) {
+                                            loadDataQueue();
 
-                                        VanillaToasts.create({
-                                            title: 'Success',
-                                            text: 'Customer Has Been Added Into Queue!',
-                                            type: 'success',
-                                            positionClass: 'topCenter',
-                                            timeout: 3000
-                                        });
-                                    } else if (data2.statusCode == 202) {
+                                            VanillaToasts.create({
+                                                title: 'Success',
+                                                text: 'Customer Has Been Added Into Queue!',
+                                                type: 'success',
+                                                positionClass: 'topCenter',
+                                                timeout: 3000
+                                            });
+                                        } else if (data2.statusCode == 202) {
 
-                                    } else {
+                                        } else {
 
+                                        }
+
+                                        $('#loading').hide();
                                     }
-
-                                    $('#loading').hide();
-                                }
-                            });
+                                });
+                            }
                         });
 
 

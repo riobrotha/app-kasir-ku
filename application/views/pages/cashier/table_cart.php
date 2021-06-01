@@ -9,12 +9,12 @@
             <tbody>
 
                 <?php $i = 1;
-                $subtotal = 0;
-                $disc = 0;
+                //$subtotal = 0;
+                //$disc = 0;
                 foreach ($cart as $row) : ?>
-                    <?php $subtotal = ($subtotal + $row['option']['price_temp']) * $row['qty']; ?>
+                    <?php $subtotal = array_sum($sub_total); ?>
+                    <?php $disc = array_sum($disc_total);  ?>
                     
-                    <?php $disc = ($disc + $row['option']['discount_temp']) * $row['qty']; ?>
                     <tr>
 
                         <td><?= $row['name']; ?>&nbsp;(<?= $row['qty']; ?>x)(<?= number_format($row['option']['price_temp'], 0, ',', '.') ?>)</td>

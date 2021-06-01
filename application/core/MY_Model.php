@@ -64,6 +64,12 @@ class MY_Model extends CI_Model
         return $this;
     }
 
+    public function orWhere($column, $condition)
+    {
+        $this->db->or_where($column, $condition);
+        return $this;
+    }
+
     public function whereIn($column, $condition)
     {
         $this->db->where_in($column, $condition);

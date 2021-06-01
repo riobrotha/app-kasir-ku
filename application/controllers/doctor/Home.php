@@ -1,9 +1,10 @@
 <?php
 
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends MY_Controller {
+class Home extends MY_Controller
+{
 
     public function __construct()
     {
@@ -30,6 +31,8 @@ class Home extends MY_Controller {
         $data['dataDoctor']     = $this->home->where('id', $id)->first();
 
 
+        $this->home->table      = 'product';
+        $data['dataTherapy']    = $this->home->where('id_category', '102001')->get();
         $data['page']           = 'pages/doctor/index';
 
         $this->view_doctor($data);
@@ -39,19 +42,99 @@ class Home extends MY_Controller {
     {
         $this->home->table = 'queue';
         $data['queue'] = $this->home->select([
-            'queue.id',
+            'queue.id', 'queue.id_customer', 'queue.status',
             'customer.name', 'customer.phone', 'queue.created_at'
         ])
             ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'waiting')
+            ->orWhere('queue.status', 'on_consult')
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->join('customer')
             ->get();
+
+
 
         //print_r($data['queue']);
         $this->load->view('pages/doctor/data/table_queue', $data);
     }
 
-    
+    public function updateDataQueue()
+    {
+        $this->home->table = 'queue';
+        $data['queue'] = $this->home->select([
+            'queue.id', 'queue.id_customer', 'queue.status',
+            'customer.name', 'customer.phone', 'queue.created_at'
+        ])
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'waiting')
+            ->orWhere('queue.status', 'on_consult')
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->join('customer')
+            ->get();
 
+        $i = 0;
+        foreach ($data['queue'] as $row) {
+            if ($i == 0) {
+                if ($this->home->where('queue.id', $row->id)->update(
+                    [
+                        'status'    => 'on_consult'
+                    ]
+                )) {
+
+                    echo json_encode(array(
+                        'statusCode'    => 200
+                    ));
+                } else {
+                    echo json_encode(array(
+                        'statusCode'    => 201
+                    ));
+                }
+            }
+
+            $i++;
+        }
+    }
+
+    public function loadDataQueueProgress()
+    {
+        $this->home->table = 'queue';
+        $data['queue'] = $this->home->select([
+            'queue.id', 'queue.id_customer', 'queue.status',
+            'customer.name', 'customer.phone', 'queue.created_at'
+        ])
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'on_progress')
+            ->join('customer')
+            ->get();
+
+
+
+        //print_r($data['queue']);
+        $this->load->view('pages/doctor/data/table_queue_progress', $data);
+    }
+
+    public function updateToPaid($id_queue)
+    {
+        $this->home->table = 'queue';
+        if($this->input->is_ajax_request()) {
+            $data = [
+                'status'    => 'paid'
+            ];
+
+            if($this->home->where('id', $id_queue)->update($data)) {
+                $this->output->set_output(json_encode([
+                    'statusCode'    => 200,
+                    'msg'           => 'Patients has been added to payment!'
+                ]));
+            } else {
+                $this->output->set_output(json_encode([
+                    'statusCode'    => 201
+                ]));
+            }
+        } else {    
+            echo '<h3>FORBIDDEN</h3>';
+        }
+    }
 }
 
 /* End of file Home.php */

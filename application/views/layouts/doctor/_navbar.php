@@ -12,6 +12,12 @@
 
                             </li>
 
+                            <li class="<?= $nav_title == "medical_records_history" ? "active" : ""  ?>">
+                                <a href="<?= base_url('doctor/medical-records-history'); ?>"><i class="ti-view-list-alt"></i>
+                                    <span>Medical Records History</span></a>
+
+                            </li>
+
 
                             <!-- <li class="<?= $nav_title == "transaction_activity" ? "active" : "" ?>">
                                 <a href="<?= base_url('activity'); ?>"><i class="ti-map-alt"></i> <span>Transaction Activity</span></a>

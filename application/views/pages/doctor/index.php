@@ -3,21 +3,39 @@
         <div class="row">
 
 
-            <!-- Statistics area start -->
-            <div class="col-lg-8 col-md-6 mt-5">
+
+            <div class="col-lg-6 col-md-6 mt-5">
                 <div class="card mt-4">
                     <div class="card-body">
-                        <h4 class="header-title">List of Patients Today&nbsp;(<?= date('d M Y'); ?>)</h4>
+                        <h4 class="header-title mb-3">List of Patients Today&nbsp;(<?= date('d M Y'); ?>)</h4>
 
+                        <p class="mb-2">Filter By Status :</p>
+                        <select class="form-control form-control-sm w-25" id="filterStatusQueue">
+                            <option value="waiting" class="text-danger">Waiting</option>
+                            <option value="on_consult" class="text-dark">On Consult</option>
+                            <option value="on_progress" class="text-warning">On Progress</option>
+                            <option value="on_progress" class="text-info">Paid</option>
+                            <option value="on_progress" class="text-success">Done</option>
+                        </select>
                         <div class="tableQueue">
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Statistics area end -->
-            <!-- Advertising area start -->
-            <div class="col-lg-4 col-md-6 mt-5">
+            <div class="col-lg-6 col-md-6 mt-5">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h4 class="header-title mb-3">On Progress Patients&nbsp;(<?= date('d M Y'); ?>)</h4>
+
+                        <div class="tableQueueProgress">
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-lg-4 col-md-6 mt-5">
                 <div class="card mt-4">
 
                     <div class="card-body">
@@ -25,7 +43,7 @@
                             <div class="text-center">
 
                                 <img src="<?= base_url() ?>/assets/images/author/avatar_doctor.jfif" width="120" class="mx-auto" style="border-radius: 50%; padding-top: 10px; padding-bottom: 10px;" alt="" srcset="">
-                               
+
 
                                 <h4><?= $dataDoctor->name; ?></h4>
                                 <h6 class="mt-2"><?= $dataDoctor->email; ?></h6>
@@ -50,14 +68,13 @@
                                 </table>
                             </div>
 
-                            
+
                         </div>
 
 
                     </div>
                 </div>
-            </div>
-            <!-- Advertising area end -->
+            </div> -->
 
 
 

@@ -1,4 +1,4 @@
-<div class="modal fade bd-example-modal-lg" id="modalAddMedicalRecord">
+<div class="modal fade bd-example-modal-lg" id="modalAddMedicalRecord" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,17 +7,9 @@
             </div>
             <div class="modal-body">
                 <form action="#" method="POST" id="formAddMedicalRecord">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="medical_record_number">Medical Record Number</label>
-                                <input type="text" class="form-control" name="medical_record_number" id="medical_record_number" aria-describedby="medicalRecord" placeholder="Medical Record Number" value="" readonly>
 
-                            </div>
-                        </div>
-                    </div>
-
-
+                    <input type="hidden" name="id_customer" id="id_customer_rm" value="">
+                    <input type="hidden" name="id_queue" id="id_queue" value="">
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
@@ -50,11 +42,27 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <div class="form-group">
-                                <label for="teraphy"></label>
-                                <select name="teraphy" id="teraphy" class="form-control">
+                            <div class="selectTherapy">
+                                <div class="form-group">
+                                    <label for="therapy">Therapy</label>
+                                    <select name="therapy[]" id="therapy" class="form-control select2" multiple="multiple">
+                                        <option></option>
+                                        <?php foreach ($dataTherapy as $row) : ?>
+                                            <option value="<?= $row->id; ?>"><?= $row->title; ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                    <span id="therapy_error"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                </select>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="note">Note's Therapy (Optional)</label>
+                                <textarea class="form-control" name="note" id="note" rows="3" placeholder="Note"></textarea>
+                                
                             </div>
                         </div>
                     </div>

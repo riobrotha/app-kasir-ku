@@ -36,6 +36,7 @@
         $(document).on('click', '#btnAddToCart', function() {
 
             let id = $(this).data('id');
+            let id_category = $(this).data('category');
             let qty = 1;
             let price = $(this).data('price');
             let title = $(this).data('title');
@@ -49,6 +50,7 @@
             $('#price_modal').val(price);
             $('#title_modal').val(conv_title);
             $('#stock_modal').val(stock);
+            $('#category_modal').val(id_category);
 
             //temp price
             $('#price_temp').val(price);
@@ -62,6 +64,7 @@
         //add to cart
         $(document).on('click', '#btnModalAddToCart', function() {
             let id = $('#id_modal').val();
+            let id_category = $('#category_modal').val();
             let price = Number($('#price_modal').val());
             let price_temp = Number($('#price_temp').val());
             let title = $('#title_modal').val();
@@ -112,7 +115,7 @@
 
             $.ajax({
                 method: "POST",
-                url: base_url + 'cashier/insert/' + id + '/' + qty + '/' + price + '/' + title + '/' + stock + '/' + discount + '/' + price_sebelum,
+                url: base_url + 'cashier/insert/' + id + '/' + id_category + '/' + qty + '/' + price + '/' + title + '/' + stock + '/' + discount + '/' + price_sebelum,
                 success: function(data) {
                     var data = JSON.parse(data);
 
@@ -167,7 +170,7 @@
 
 
         //add to cart with itemCode
-        $(document).on('keyup', '#itemCode', function() {
+        $(document).on('change', '#itemCode', function() {
             let itemCode = $(this).val();
             let qty = 1;
             if (itemCode.length == 10) {
@@ -565,7 +568,7 @@
         });
 
 
-        
+
         //update data customer
         $(document).on('click', '.btnSubmitEditCustomer', function() {
             let id = $(this).data('id');
@@ -599,13 +602,37 @@
         jQuery(document).on('click', '#rowCustomer', function() {
             let id = jQuery(this).data('id');
             let name = jQuery(this).data('name');
+            let id_queue = jQuery(this).data('queue');
 
-            $('.customer-name-space').text(name);
-            $('.customer-id-space').val(id);
 
-            $('#modalCustomer').modal('hide');
+            jQuery.ajax({
+                url: base_url + 'customer/add_treatment/' + id_queue,
+                method: "POST",
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function(response) {
+                    let data = JSON.parse(response);
 
-            
+                    if (data.statusCode == 200) {
+                        $('.customer-name-space').text(name);
+                        $('.customer-id-space').val(id);
+
+
+                        loadDataTableCart('cashier/loadDataTableCart');
+                        loadTotVal('cashier/loadTotVal');
+                        let cekStock = data.sisaStock;
+                        $('.button' + id + ' button').data('stock', cekStock);
+                        $('.button' + id + ' button').attr('data-stock', cekStock);
+                        $('#sisaStock' + id + ' span').text('Stock : ' + cekStock);
+                        $('#btnPay').removeAttr('disabled');
+                        $('#itemCode').focus();
+                        clearFormAddToCart();
+                        $('#loading').hide();
+                        $('#modalCustomer').modal('hide');
+                    }
+                }
+            });
         });
     });
 
@@ -634,7 +661,7 @@
                 $('#dataTable3').DataTable({
                     responsive: true,
                     "order": [
-                        [3, "desc"]
+                        [3, "asc"]
                     ], //or asc 
                     "columnDefs": [{
                         "targets": 3,
@@ -659,7 +686,7 @@
     }
 
     function cetakStruk() {
-        $('.frame_space').html('<iframe src="http://localhost/kasir_online/cashier/struk/' + $('#number_invoice').text() + '"' +
+        $('.frame_space').html('<iframe src="' + base_url + '/cashier/struk/' + $('#number_invoice').text() + '"' +
             'id="struk" name="struk" frameborder="0" style="display: none;"></iframe>');
         window.frames['struk'].print();
     }

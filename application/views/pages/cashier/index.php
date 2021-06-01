@@ -31,7 +31,7 @@
                                                     <p id="sisaStock<?= $row->id; ?>"><span>Stock : <?= $this->session->userdata('stock' . $row->id); ?></span></p>
                                                     <p class="card-text">Rp&nbsp;<?= number_format($row->price, 0, ',', '.') ?>,-</p>
                                                     <div class="button<?= $row->id; ?>">
-                                                        <button class="btn btn-rounded btn-xs btn-hers btnAddToCart" id="btnAddToCart" style="margin-top: -15px;" data-id="<?= $row->id; ?>" data-price="<?= $row->price; ?>" data-title="<?= $row->title; ?>" data-stock="<?= $this->session->userdata('stock' . $row->id); ?>"><i class="fa fa-cart-plus fa-lg mr-2"></i>Add to Cart</button>
+                                                        <button class="btn btn-rounded btn-xs btn-hers btnAddToCart" id="btnAddToCart" style="margin-top: -15px;" data-category="<?= $row->id_category; ?>" data-id="<?= $row->id; ?>" data-price="<?= $row->price; ?>" data-title="<?= $row->title; ?>" data-stock="<?= $this->session->userdata('stock' . $row->id); ?>"><i class="fa fa-cart-plus fa-lg mr-2"></i>Add to Cart</button>
                                                     </div>
                                                 </div>
 
@@ -58,11 +58,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-1">
-                                <img src="<?= base_url("assets/images/icon/user.svg"); ?>" id="newCustomer" style="width: 35px;" data-toggle="modal" data-target="#modalCustomer">
+                            <div class="col-2">
+                                <!-- <img src="<?= base_url("assets/images/icon/user.svg"); ?>" id="newCustomer" class="img-fluid" data-toggle="modal" data-target="#modalCustomer"> -->
+                                <button class="btn btn-hers-primary btn-xs btn-rounded" id="newCustomer" data-toggle="modal" data-target="#modalCustomer"><i class="ti-user"></i></button>
                             </div>
                             <div class="col-10">
-                                <div class="mt-1">
+                                <div class="mt-2">
                                     <h6 class="customer-name-space" style="font-size: 13.5px;">New Customer</h6>
                                 </div>
                                 <input type="hidden" class="customer-id-space" value="">
@@ -79,7 +80,7 @@
                         <h4 class="header-title">Detail Transactions (<span id="number_invoice"></span>)</h4>
 
                         <div class="text-right mb-3">
-                            <button type="button" class="btn btn-sm btn-rounded btn-primary" id="btnReset"><i class="fa fa-plus mr-2"></i>New Transaction</button>
+                            <button type="button" class="btn btn-sm btn-rounded btn-hers" id="btnReset"><i class="fa fa-plus mr-2"></i>New Transaction</button>
                         </div>
 
 

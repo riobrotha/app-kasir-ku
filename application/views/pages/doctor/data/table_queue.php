@@ -6,8 +6,8 @@
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Created At</th>
-                <th></th>
-                <th></th>
+                <th>Action</th>
+                <th>Status</th>
 
             </tr>
         </thead>
@@ -36,21 +36,19 @@
                     <td><?= $row->created_at; ?></td>
                     <td>
                     <?php if ($i == 1) : ?>
-                    <button class="btn btn-xs btn-rounded btn-hers" data-toggle="modal" data-target="#modalAddMedicalRecord"><i class="fa fa-plus mr-1"></i>Medical Record</button>
-                    <?php  endif ?>
+                    <button class="btn btn-xs btn-rounded btn-hers btnAddMedicalRecord" data-toggle="modal" data-target="#modalAddMedicalRecord" data-id-queue="<?= $row->id; ?>" data-id="<?= $row->id_customer ?>"><i class="fa fa-plus mr-1"></i>Medical Record</button>
+                    <?php $i++;  endif ?>
                     </td>
-                    <td> 
-                        <?php
-                        if ($i == 1) :
-                        ?>
-                        <select name="status_queue" id="status_queue" class="form-control form-control-sm">
-                            <option value="waiting" class="text-danger"><span class="text-danger">Waiting</span></option>
-                            <option value="progress"><span class="text-warning">Progress</span></option>
-                            <option value="paid"><span class="text-info">Paid</span></option>
-                            <option value="done"><span class="text-success">Done</span></option>
+                    <td>
+                        <select name="status_queue" id="status_queue" class="form-control form-control-sm" disabled>
+                            <option value="waiting" class="text-danger" <?= $row->status == "waiting" ? "selected" : "" ?>><span class="text-danger">Waiting</span></option>
+                            <option value="on_consult" class="text-grey" <?= $row->status == "on_consult" ? "selected" : "" ?>><span class="text-warning">On Consult</span></option>
+                            <option value="on_progress" class="text-warning" <?= $row->status == "on_progress" ? "selected" : "" ?>><span class="text-warning">On Progress</span></option>
+                            <option value="paid" class="text-info" <?= $row->status == "paid" ? "selected" : "" ?>><span class="text-info">Paid</span></option>
+                            <option value="done" class="text-success" <?= $row->status == "done" ? "selected" : "" ?>><span class="text-success">Done</span></option>
                             
                         </select>
-                        <?php $i++; endif ?>
+                        
                     </td>
 
 

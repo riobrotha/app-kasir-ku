@@ -12,7 +12,7 @@
                 <input type="hidden" id="price_temp" value="">
                 <input type="hidden" id="price_modal" value="">
                 <input type="hidden" id="disc_sebelum" value="">
-
+                <input type="hidden" id="category_modal" value="">
                 <div class="form-group">
                     <label for="qty_modal">Quantity</label>
                     <input type="text" class="form-control" id="qty_modal" name="qty_modal" value="1" aria-describedby="emailHelp">

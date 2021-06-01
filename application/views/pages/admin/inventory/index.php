@@ -81,7 +81,7 @@
 
                         <input type="hidden" name="image_product" id="image_product">
 
-                        <button type="submit" class="btn btn-rounded btn-purple mt-4 pr-4 pl-4 mb-4 float-right">Submit</button>
+                        <button type="submit" class="btn btn-rounded btn-hers mt-4 pr-4 pl-4 mb-4 float-right">Submit</button>
                         <button type="button" id="btnCancelTambahInventory" class="btn btn-rounded btn-light mt-4 pr-4 pl-4 mb-4 mr-3 float-right">Cancel</button>
                     </form>
                     <div class="tableInventory mt-2">
