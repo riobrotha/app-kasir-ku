@@ -95,8 +95,13 @@ class Home extends MY_Controller
         }
     }
 
-    public function loadDataQueueProgress()
+    public function loadDataQueueProgress($page = null, $perPage = null)
     {
+        if($perPage != null) {
+            $this->home->perPage = $perPage;
+        }
+
+        
         $this->home->table = 'queue';
         $data['queue'] = $this->home->select([
             'queue.id', 'queue.id_customer', 'queue.status',
@@ -105,23 +110,72 @@ class Home extends MY_Controller
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->where('queue.status', 'on_progress')
             ->join('customer')
+            ->paginate($page)
             ->get();
 
+        $data['total_rows'] = $this->home->select([
+            'queue.id', 'queue.id_customer', 'queue.status',
+            'customer.name', 'customer.phone', 'queue.created_at'
+        ])
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'on_progress')
+            ->join('customer')
+            ->count();
+        
+        $data['pagination'] = $this->home->makePagination(base_url() . 'doctor/home/loadDataQueueProgress/', 4, $data['total_rows']);
 
 
-        //print_r($data['queue']);
-        $this->load->view('pages/doctor/data/table_queue_progress', $data);
+        echo json_encode([
+            'html'      => $this->load->view('pages/doctor/data/table_queue_progress', $data, true),
+            'pagination' => $data['pagination']
+        ]);
+    }
+
+    public function searchDataQueueProgress($keyword, $page = null)
+    {
+        $this->home->table = 'queue';
+        $data['queue']          = $this->home->select([
+            'queue.id', 'queue.id_customer', 'queue.status',
+            'customer.name', 'customer.phone', 'queue.created_at'
+        ])
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'on_progress')
+            ->join('customer')
+            ->like('customer.name', urldecode($keyword))
+            ->paginate($page)
+            ->get();
+
+        $data['total_rows']     = $this->home->select([
+            'queue.id', 'queue.id_customer', 'queue.status',
+            'customer.name', 'customer.phone', 'queue.created_at'
+        ])
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'on_progress')
+            ->join('customer')
+            ->like('customer.name', urldecode($keyword))
+            ->count();
+
+        $data['pagination'] = $this->home->makePagination(
+            base_url() . 'doctor/home/searchDataQueueProgress/' . urldecode($keyword) . '/',
+            5,
+            $data['total_rows']
+        );
+
+        echo json_encode([
+            'html'      => $this->load->view('pages/doctor/data/table_queue_progress', $data, true),
+            'pagination' => $data['pagination']
+        ]);
     }
 
     public function updateToPaid($id_queue)
     {
         $this->home->table = 'queue';
-        if($this->input->is_ajax_request()) {
+        if ($this->input->is_ajax_request()) {
             $data = [
                 'status'    => 'paid'
             ];
 
-            if($this->home->where('id', $id_queue)->update($data)) {
+            if ($this->home->where('id', $id_queue)->update($data)) {
                 $this->output->set_output(json_encode([
                     'statusCode'    => 200,
                     'msg'           => 'Patients has been added to payment!'
@@ -131,7 +185,7 @@ class Home extends MY_Controller
                     'statusCode'    => 201
                 ]));
             }
-        } else {    
+        } else {
             echo '<h3>FORBIDDEN</h3>';
         }
     }

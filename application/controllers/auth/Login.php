@@ -9,6 +9,9 @@ class Login extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+
+
+
         $is_login   = $this->session->userdata('is_login');
         $role = $this->session->userdata('role');
 
@@ -19,9 +22,9 @@ class Login extends MY_Controller
                 return;
             } else if ($role == 'doctor') {
                 redirect(base_url() . 'doctor');
-            }else if ($role == 'front_officer') {
+            } else if ($role == 'front_officer') {
                 redirect(base_url() . 'front-office');
-            }else {
+            } else {
                 redirect(base_url('cashier'));
             }
         }
@@ -50,14 +53,24 @@ class Login extends MY_Controller
         //jika login berhasil maka akan direct ke halaman admin(jika admin) atau ke halaman depan(jika user)
         if ($this->login->run($input)) {
             $this->session->set_flashdata('success', 'Login Has Been Successful');
+
+
+            // if ($input->remember_me == "on") {
+            //     // set cookie ketika berhasil login
+            //     set_cookie('login', (string) $input->username, 120);
+            // }
+
             if ($this->session->userdata('role') == 'admin') {
-                redirect(base_url(). 'admin');
+                redirect(base_url() . 'admin');
             } else {
                 redirect(base_url('cashier'));
             }
+
+
+            //echo isset($input->remember_me) ? $input->remember_me : "off";
         } else { //jika proses login gagal maka direct ke halaman login lagi
             $this->session->set_flashdata('error', 'Username and Password is not correct');
-            redirect(base_url(). 'auth/login');
+            redirect(base_url() . 'auth/login');
         }
     }
 }

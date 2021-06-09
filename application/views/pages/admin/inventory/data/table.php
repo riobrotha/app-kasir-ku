@@ -3,7 +3,7 @@
         <thead class="text-capitalize">
             <tr>
                 <th>#</th>
-                <th>Title</th>
+                <th style="width: 5%;">Title</th>
                 <th>Category</th>
                 <th>Stock</th>
                 <th>Price</th>

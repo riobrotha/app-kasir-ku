@@ -20,6 +20,9 @@ class Logout extends CI_Controller
         //hancurkan session
         $this->session->sess_destroy();
 
+        //hancurkan cookie
+        delete_cookie('login');
+
         //direct ke halama utama
         redirect(base_url() . 'auth/login');
     }

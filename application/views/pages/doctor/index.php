@@ -27,11 +27,48 @@
                 <div class="card mt-4">
                     <div class="card-body">
                         <h4 class="header-title mb-3">On Progress Patients&nbsp;(<?= date('d M Y'); ?>)</h4>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="float-left">
+                                    <div class="d-flex">
+                                        <span class="my-auto mr-2">Show</span>
+                                        <select name="" id="perPageDataQueueProgress" class="form-control form-control-sm" style="border-radius: 10rem;">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
 
-                        <div class="tableQueueProgress">
-                            
+                                </div>
+                                <div class="float-right">
+                                    <input class="form-control search-items" id="searchQueueProgress" placeholder="Search...">
+                                </div>
+                            </div>
                         </div>
-                        
+
+                        <div class="tableQueueProgress queue_progress_items">
+
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="row mt-4 mb-3">
+                                    <div class="col-lg-12">
+                                        <div id="pagination">
+                                            <nav aria-label="...">
+                                                
+                                            </nav>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>

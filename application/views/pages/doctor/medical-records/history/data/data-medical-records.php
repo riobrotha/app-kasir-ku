@@ -29,7 +29,7 @@ if ($birthDate < $today) {
                 <td><?= $patient->name; ?></td>
                 <td>No RM</td>
                 <td>:</td>
-                <td><?= isset($noRm->rm_number) ? $noRm->rm_number : "-"; ?></td>
+                <td><?= isset($noRm->id) ? $noRm->id : "-"; ?></td>
             </tr>
             <tr>
                 <td>Address</td>

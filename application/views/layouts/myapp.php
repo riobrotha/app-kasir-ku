@@ -464,7 +464,7 @@
                 text: "to delete this item?",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#6a56a5',
+                confirmButtonColor: '#BB9A5D',
 
 
                 confirmButtonText: "Yes, I'm sure",
@@ -1552,7 +1552,7 @@
                 $('.tableInventory').html(response);
 
                 $('#dataTableInventory').DataTable({
-                    responsive: true
+                    responsive: false
                 });
 
 
@@ -1588,7 +1588,7 @@
                 $('.tableProductIn').html(response);
                 if ($('#dataTableProductIn').length) {
                     $('#dataTableProductIn').DataTable({
-                        responsive: true
+                        responsive: false
                     });
                 }
 

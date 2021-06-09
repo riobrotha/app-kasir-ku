@@ -22,11 +22,11 @@
 
                                 <?php foreach ($product as $row) : ?>
 
-                                    <div class="col-xl-3 col-md-3">
+                                    <div class="col-xl-3 col-md-3 hitung-item">
                                         <div class="card custom mb-3">
                                             <div class="card-body">
                                                 <div class="text-center">
-                                                    <img src="<?= !isset($row->image) || $row->image == "" ? base_url("images/product/default-product.png") : base_url("images/product/$row->image"); ?>" style="width: 200px;" alt="">
+                                                    <img src="<?= !isset($row->image) || $row->image == "" ? base_url("images/product/default-product.png") : base_url("images/product/$row->image"); ?>" style="width: 200px; border-radius: 15px;" alt="">
                                                     <h5 class="card-title mt-3" style="font-size: 16px;"><?= $row->title; ?></h5>
                                                     <p id="sisaStock<?= $row->id; ?>"><span>Stock : <?= $this->session->userdata('stock' . $row->id); ?></span></p>
                                                     <p class="card-text">Rp&nbsp;<?= number_format($row->price, 0, ',', '.') ?>,-</p>
@@ -39,7 +39,11 @@
                                         </div>
                                     </div>
                                 <?php endforeach ?>
-
+                                <div class="mx-auto">
+                                    <button class="btn btn-xs btn-rounded btn-hers-primary w-100 mt-3 pl-5 pr-5" id="btnLoadMoreData" style="font-size: 16px;" data-page="2">
+                                         <span style="font-weight: 700;">Load Data</span><img src="<?= base_url("assets/images/load/three-dots.svg") ?>" alt="" style="width: 40px; display:none;">
+                                    </button>
+                                </div>
 
 
 
@@ -67,6 +71,8 @@
                                     <h6 class="customer-name-space" style="font-size: 13.5px;">New Customer</h6>
                                 </div>
                                 <input type="hidden" class="customer-id-space" value="">
+                                <input type="hidden" class="status_pay" value="0">
+                                <input type="hidden" id="id_queue_val" value="">
                             </div>
 
 
@@ -129,8 +135,8 @@
                                 </div>
                             <?php else : ?>
                                 <div class="text-center">
-                                    <i class="ti-alert" style="font-size: 100px;"></i>
-                                    <p class="mt-2" style="margin-bottom: 200px;">Tambahkan Item Terlebih Dahulu!</p>
+                                    <i class="ti-shopping-cart" style="font-size: 100px; color: var(--secondary-color)"></i>
+                                    <p class="mt-2" style="margin-bottom: 200px; color: var(--primary-color)">Tambahkan Item Terlebih Dahulu!</p>
                                 </div>
                             <?php endif ?>
 

@@ -1,5 +1,5 @@
 <?php foreach ($product as $row) : ?>
-    <div class="col-xl-3 col-6">
+    <div class="col-xl-3 col-md-3 hitung-item">
         <div class="card custom mb-3">
             <div class="card-body">
                 <div class="text-center">
@@ -16,3 +16,9 @@
         </div>
     </div>
 <?php endforeach ?>
+
+<div class="mx-auto button-load-data-space">
+    <button class="btn btn-xs btn-rounded btn-hers-primary w-100 mt-3 pl-5 pr-5" id="btnLoadMoreData" style="font-size: 16px; border-radius: 15px;" data-page="2">
+        <span style="font-weight: 700;">Load Data</span><img src="<?= base_url("assets/images/load/three-dots.svg") ?>" alt="" style="width: 40px; display:none;">
+    </button>
+</div>

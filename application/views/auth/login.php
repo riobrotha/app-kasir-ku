@@ -26,7 +26,7 @@
                     <div class="row mb-4 rmber-area">
                         <!-- <div class="col-6">
                             <div class="custom-control custom-checkbox mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing" name="remember_me">
                                 <label class="custom-control-label" for="customControlAutosizing">Remember Me</label>
                             </div>
                         </div> -->

@@ -34,7 +34,7 @@ class Customer extends MY_Controller
             'queue.id AS id_queue', 'queue.created_at'
         ])
             ->join('customer')
-            ->where('status', 'paid')
+            ->where('status', 'on_progress')
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->get();
 
@@ -127,9 +127,10 @@ class Customer extends MY_Controller
     {
         $this->customer->table = 'medical_records';
         $therapies = $this->customer->select([
-            'medical_records.id_therapies', 'queue.id'
+            'medical_records_detail.id_therapies', 'queue.id'
         ])
             ->where('medical_records.id_queue', $id_queue)
+            ->join2('medical_records_detail')
             ->join('queue')
             ->first();
 

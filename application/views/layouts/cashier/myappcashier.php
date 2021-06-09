@@ -1,6 +1,8 @@
 <script>
     const base_url = $('body').data('url');
     $(function() {
+
+
         $('#table-cart').slimScroll({
             height: '300px',
             axis: 'both'
@@ -204,6 +206,7 @@
     });
 
     $(function() {
+        let kali = 0;
         //cash payment and set money_change
         $(document).on('keyup', '#cash_payment', function() {
             let bilangan = $(this).val();
@@ -256,9 +259,10 @@
             e.preventDefault();
             let data = $(this).serialize();
             let number_invoice = $('#invoice').val();
+            let id_queue = $('#id_queue_val').val();
             $.ajax({
                 method: "POST",
-                url: base_url + 'cashier/pay',
+                url: id_queue == '' ? base_url + 'cashier/pay' : base_url + 'cashier/pay/' + id_queue,
                 data: data,
                 beforeSend: function() {
 
@@ -277,6 +281,7 @@
                         $('#itemCode').attr('readonly', true);
                         $('#formPay')[0].reset();
                         cetakStruk();
+                        $('.status_pay').val(1);
 
 
                     }
@@ -320,6 +325,8 @@
 
 
         //filter item cashier section
+        const treatment = '102001';
+        const product = '102002';
         const btnFilterTreatment = document.querySelector('.btnFilterTreatment');
         const btnFilterProduct = document.querySelector('.btnFilterProduct');
         const btnBackToDefault = document.querySelector('.btnBackToDefault');
@@ -354,6 +361,16 @@
                         $('.items').slimScroll({
                             height: '630px'
                         });
+
+                        kali = 0;
+                        $('#btnLoadMoreData').attr('data-category', treatment);
+                        let countItem = $('.hitung-item').length;
+
+                        if (countItem < 8) {
+                            $('#btnLoadMoreData').remove();
+                        }
+
+
                     } else {
                         alert('fail');
                     }
@@ -387,6 +404,16 @@
                         $('.items').slimScroll({
                             height: '630px'
                         });
+
+                        kali = 0;
+
+                        $('#btnLoadMoreData').attr('data-category', product);
+
+                        let countItem = $('.hitung-item').length;
+
+                        if (countItem < 8) {
+                            $('#btnLoadMoreData').remove();
+                        }
                     } else {
                         alert('fail');
                     }
@@ -416,6 +443,8 @@
                         $('.items').slimScroll({
                             height: '630px'
                         });
+
+                        kali = 0;
                     }
                 }
             });
@@ -443,6 +472,21 @@
                             $('.items').slimScroll({
                                 height: '630px'
                             });
+
+                            kali = 0;
+
+
+                            let countItem = $('.hitung-item').length;
+
+                            if (countItem < 8) {
+                                $('#btnLoadMoreData').remove();
+                            }
+
+                            btnFilterProduct.classList.remove('btn-hers');
+                            btnFilterProduct.classList.add('btn-hers-outline');
+
+                            btnFilterTreatment.classList.remove('btn-hers');
+                            btnFilterTreatment.classList.add('btn-hers-outline');
                         }
                     }
                 });
@@ -462,6 +506,14 @@
                             $('.items').slimScroll({
                                 height: '630px'
                             });
+
+                            kali = 0;
+
+                            btnFilterProduct.classList.remove('btn-hers');
+                            btnFilterProduct.classList.add('btn-hers-outline');
+
+                            btnFilterTreatment.classList.remove('btn-hers');
+                            btnFilterTreatment.classList.add('btn-hers-outline');
                         }
                     }
                 });
@@ -472,20 +524,64 @@
         //load more data
         let perPage = 8 / 2;
         let total_pages = Number('<?php isset($total_product) ? print $total_product : "" ?>');
-        $('.items').scroll(function() {
 
-            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+        $(document).on('click', '#btnLoadMoreData', function() {
+
+            let page = Number($('#btnLoadMoreData').data('page'));
+            let jenis_kategori = $('#btnLoadMoreData').data('category');
+            let search_val = $('#searchItems').val();
+            let searchValTemp = search_val.split(' ').join('%20');
+            let status_pay = Number($('.status_pay').val());
+            //console.log(search_val);
+            if (page < total_pages - 1) {
+
+                kali = kali + 2;
+                page = page * kali;
+
+                if (jenis_kategori == undefined) {
+                    if (search_val != '') {
+                        loadMoreData(page, status_pay, '', searchValTemp);
+                    } else {
+                        loadMoreData(page, status_pay);
 
 
-                if (perPage < total_pages - 1) {
-                    loadMoreData(perPage);
-                    perPage = perPage * 2;
+                    }
+                } else {
+                    loadMoreData(page, status_pay, jenis_kategori);
+
                 }
 
 
 
+
             }
+
+            $(this).remove();
+            console.log(kali);
+
+
+
+
+
         });
+
+        // $('.items').scroll(function() {
+
+        //     if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+
+
+        //         if (perPage < total_pages - 1) {
+        //             loadMoreData(perPage);
+        //             perPage = perPage * 2;
+        //         }
+
+        //         console.log($(this).scrollTop() + $(this).innerHeight());
+        //         console.log($(this)[0].scrollHeight);
+
+
+
+        //     }
+        // });
 
         //cms
         //data pelanggan
@@ -630,6 +726,7 @@
                         clearFormAddToCart();
                         $('#loading').hide();
                         $('#modalCustomer').modal('hide');
+                        $('#id_queue_val').val(id_queue);
                     }
                 }
             });
@@ -695,9 +792,18 @@
         document.getElementById('struk').contentDocument.location.reload(true);
     }
     //load more data
-    function loadMoreData(page) {
+    function loadMoreData(page, status_pay, category = '', search = '') {
+        let link_url = base_url + 'cashier/loadMoreData?page=' + page;
+
+        if (category != '') {
+            link_url = base_url + 'cashier/loadMoreData?page=' + page + '&category=' + category;
+        }
+
+        if (search != '') {
+            link_url = base_url + 'cashier/loadMoreData?page=' + page + '&search=' + search;
+        }
         $.ajax({
-            url: base_url + 'cashier/loadMoreData?page=' + page,
+            url: link_url,
             type: "GET",
             beforeSend: function() {
 
@@ -712,6 +818,17 @@
                     $('.items').slimScroll({
                         height: '630px'
                     });
+
+                    let countItem = $('.hitung-item').length;
+
+
+                    if (countItem >= data.total_product) {
+                        $('#btnLoadMoreData').hide();
+                    }
+
+                    if (status_pay == 1) {
+                        $('.btnAddToCart').attr('disabled', true);
+                    }
                 }
             }
         });
@@ -805,6 +922,7 @@
                     $('#struk').attr('src', base_url + 'cashier/struk/' + $('#number_invoice').text());
                     $('.customer-name-space').text('New Customer');
                     $('.customer-id-space').val("");
+                    $('.status_pay').val(0);
 
                 }
             }

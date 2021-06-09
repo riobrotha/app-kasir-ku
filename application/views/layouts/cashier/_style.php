@@ -99,6 +99,10 @@
         color: var(--primary-color);
     }
 
+    .text-hers-secondary {
+        color: var(--hover-secondary-color);
+    }
+
     .input-group-prepend button {
         color: #fff;
         background-color: var(--primary-color);

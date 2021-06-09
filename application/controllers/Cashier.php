@@ -56,9 +56,9 @@ class Cashier extends MY_Controller
 
         $data['sub_total']       = array();
         $data['disc_total']      = array();
-        foreach($data['cart'] as $row) {
-            array_push($data['sub_total'], ($row['option']['price_temp']) * $row ['qty']);
-            array_push($data['disc_total'], ($row['option']['discount_temp']) * $row ['qty']);
+        foreach ($data['cart'] as $row) {
+            array_push($data['sub_total'], ($row['option']['price_temp']) * $row['qty']);
+            array_push($data['disc_total'], ($row['option']['discount_temp']) * $row['qty']);
         }
 
         $this->load->view('pages/cashier/table_cart', $data);
@@ -238,7 +238,7 @@ class Cashier extends MY_Controller
         echo $this->cart->total();
     }
 
-    public function pay()
+    public function pay($id_queue = '')
     {
         $invoice = $this->input->post('invoice', true);
         $id_customer = $this->input->post('id_customer', true);
@@ -271,6 +271,14 @@ class Cashier extends MY_Controller
         if ($this->cashier->add($data) == true) {
             $this->pay_detail($invoice);
             $this->update_stock();
+
+
+            if($id_queue != '') {
+                $this->cashier->table = 'queue';
+                $this->cashier->where('id', $id_queue)->update([
+                    'status'        => 'paid'
+                ]);
+            }
             echo json_encode(
                 array(
                     'statusCode'    => 200,
@@ -335,11 +343,16 @@ class Cashier extends MY_Controller
             $this->cashier->table = 'product';
             $data['product']      = $this->cashier->where('product.is_available', 1)
                 ->where('product.id_category', $jenisItem)->limit(8)->get();
+
+            $totalProduct = $this->cashier->where('product.is_available', 1)
+                ->where('product.id_category', $jenisItem)->count();
         } else {
             $this->cashier->table = 'product';
             $data['product']      = $this->cashier->where('product.is_available', 1)
                 ->limit(8)
                 ->get();
+
+            $totalProduct = $this->cashier->where('product.is_available', 1)->count();
         }
 
 
@@ -347,7 +360,8 @@ class Cashier extends MY_Controller
             echo json_encode(
                 [
                     'statusCode'        => 200,
-                    'html'              => $this->load->view('pages/cashier/item', $data, true)
+                    'html'              => $this->load->view('pages/cashier/item', $data, true),
+                    'total'             => $totalProduct
                 ]
             );
         } else {
@@ -363,12 +377,15 @@ class Cashier extends MY_Controller
     public function search($keyword, $page = null)
     {
         $this->cashier->table   = 'product';
-        $data['product']        = $this->cashier->where('product.is_available', 1)->like('product.title', urldecode($keyword))->get();
+        $data['product']        = $this->cashier->where('product.is_available', 1)->like('product.title', urldecode($keyword))->limit(8)->get();
+        $totalProduct           = $this->cashier->where('product.is_available', 1)->like('product.title', urldecode($keyword))->count();
+
 
         echo json_encode(
             [
                 'statusCode'        => 200,
-                'html'              => $this->load->view('pages/cashier/item', $data, true)
+                'html'              => $this->load->view('pages/cashier/item', $data, true),
+                'total'             => $totalProduct
             ]
         );
     }
@@ -376,19 +393,44 @@ class Cashier extends MY_Controller
     public function loadMoreData()
     {
         $this->cashier->table = 'product';
-        $data['total_product']  = $this->cashier->where('product.is_available', 1)->count();
+
 
         //print_r($data['total_product']);
         if (!empty($this->input->get("page"))) {
             $start = $this->input->get("page") * 2;
-            $data['product']        = $this->cashier->where('product.is_available', 1)->limit_data($start, $this->cashier->perPage)->get();
-            foreach ($data['product'] as $row) {
-                $this->session->set_userdata('stock' . $row->id, $row->stock);
+
+            if ($this->input->get("category")) {
+                $data['product']        = $this->cashier->where('product.is_available', 1)
+                    ->where('product.id_category', $this->input->get("category"))
+                    ->limit_data($start, $this->cashier->perPage)
+                    ->get();
+
+                $data['total_product']  = $this->cashier->where('product.is_available', 1)->where('product.id_category', $this->input->get("category"))->count();
+                foreach ($data['product'] as $row) {
+                    $this->session->set_userdata('stock' . $row->id, $row->stock);
+                }
+            } else {
+
+                if ($this->input->get("search")) {
+                    $data['product']        = $this->cashier->where('product.is_available', 1)->like('product.title', urldecode($this->input->get("search")))->limit_data($start, $this->cashier->perPage)->get();
+                    $data['total_product']  = $this->cashier->where('product.is_available', 1)->like('product.title', urldecode($this->input->get("search")))->count();
+                    foreach ($data['product'] as $row) {
+                        $this->session->set_userdata('stock' . $row->id, $row->stock);
+                    }
+                } else {
+                    $data['product']        = $this->cashier->where('product.is_available', 1)->limit_data($start, $this->cashier->perPage)->get();
+                    $data['total_product']  = $this->cashier->where('product.is_available', 1)->count();
+                    foreach ($data['product'] as $row) {
+                        $this->session->set_userdata('stock' . $row->id, $row->stock);
+                    }
+                }
             }
+
             echo json_encode(
                 [
                     'statusCode'    => 200,
-                    'html'          => $this->load->view('pages/cashier/load_more_item', $data, true)
+                    'html'          => $this->load->view('pages/cashier/load_more_item', $data, true),
+                    'total_product' => $data['total_product']
                 ]
             );
         } else {
@@ -398,20 +440,11 @@ class Cashier extends MY_Controller
             echo json_encode(
                 [
                     'statusCode'    => 200,
-                    'html'          => $this->load->view('pages/cashier/load_more_item', $data, true)
+                    'html'          => $this->load->view('pages/cashier/load_more_item', $data, true),
+                    'total_product' => $data['total_product']
                 ]
             );
         }
-    }
-
-    public function tes_aja()
-    {
-        $this->cashier->table = 'product';
-        $data['product']        = $this->cashier->where('product.is_available', 1)
-            ->limit_data(16, $this->cashier->perPage)
-            ->get();
-
-        print_r($data['product']);
     }
 
     public function struk($invoice)
