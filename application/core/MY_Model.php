@@ -113,6 +113,12 @@ class MY_Model extends CI_Model
         return $this;
     }
 
+    public function join_items_detail_to_product()
+    {
+        $this->db->join('product', 'items_detail.id_product = product.id', 'left');
+        return $this;
+    }
+
     public function joinPegawai($table, $type = 'left')
     {
         $this->db->join($table, "$this->table.nip_$table = $table.nip", $type);
@@ -147,9 +153,15 @@ class MY_Model extends CI_Model
         return $this;
     }
 
-    public function joinBetweenTransaction($table = 'transaction', $table2 = 'transaction_detail', $type = 'left')
+    public function joinBetweenTransaction($table = 'transaction', $table2 = 'transaction_detail', $type = 'inner')
     {
         $this->db->join($table, "$table2.invoice_$table = $table.invoice", $type);
+        return $this;
+    }
+
+    public function joinBetweenProductInTransaction($table = 'product_in', $table2 = 'transaction_detail', $type = 'left')
+    {
+        $this->db->join($table, "$table2.id_product = $table.id_product", $type);
         return $this;
     }
 

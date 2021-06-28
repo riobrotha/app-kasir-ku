@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Medicalrecord_model extends MY_Model {
 
     public $table = 'medical_records';
+    public $perPage = 12;
 
     public function getValidationRules()
     {

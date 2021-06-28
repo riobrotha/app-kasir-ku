@@ -1,6 +1,6 @@
 <script>
     const base_url = $('body').data('url');
-    
+
 
     $(document).ready(function() {
         //load component
@@ -11,6 +11,7 @@
             placeholder: "Choose the option",
             allowClear: true
         });
+
 
 
 
@@ -71,7 +72,7 @@
                 url: base_url + 'admin/category/insert',
                 data: data,
                 beforeSend: function() {
-
+                    $('#loading').show();
                 },
 
                 success: function(data) {
@@ -97,12 +98,15 @@
                             }
                         }
                     }
+
+                    $('#loading').hide();
                 }
             });
         });
 
         //pemanggilan fungsi load data kategori ketika document ready
         loadDataCategory('admin/category/loadTable');
+
 
 
         //proses memunculkan modal edit kategori
@@ -113,12 +117,16 @@
                 method: "POST",
                 url: base_url + 'admin/category/edit/' + id,
                 beforeSend: function() {
-                    //do something
+                    $('#loading').show();
                 },
 
                 success: function(response) {
                     $('#modalEditCategory').html(response);
-                    $('#modal-edit-category').modal('show');
+                    $('#modal-edit-category').modal({
+                        show: true,
+                        backdrop: 'static'
+                    });
+                    $('#loading').hide();
                 }
             });
         });
@@ -166,7 +174,7 @@
                 text: "to delete this item?",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#6a56a5',
+                confirmButtonColor: '#BB9A5D',
 
 
                 confirmButtonText: "Yes, I'm sure",
@@ -183,17 +191,216 @@
                         method: "POST",
                         url: base_url + 'admin/category/destroy/' + id,
                         beforeSend: function() {
-
+                            $('#loading').show();
                         },
 
                         success: function(data) {
                             loadDataCategory('admin/category/loadTable');
+                            $('#loading').hide();
                         }
                     });
                 }
             })
 
 
+        });
+
+        //store section
+        //proses penambahan store
+        $(document).on('submit', '#formAddStore', function(e) {
+            e.preventDefault();
+            let data = $(this).serialize();
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'admin/store/insert',
+                data: data,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if (data.statusCode == 200) {
+                        $('#formAddStore')[0].reset();
+                        loadDataStore('admin/store/loadTable');
+
+
+                        VanillaToasts.create({
+                            title: 'Success',
+                            text: 'Data Has Been Added!',
+                            type: 'success',
+                            positionClass: 'topCenter',
+                            timeout: 3000
+                        });
+                    } else if (data.statusCode == 201) {
+                        alert('failed!');
+                    } else {
+                        if (data.error == true) {
+                            if (data.store_name_error != '') {
+                                $('#store_name_error').html(data.store_name_error);
+                                $('#store_name').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#store_name_error').html('');
+                                $('#store_name').removeClass('is-invalid').addClass('is-vvalid');
+                            }
+
+                            if (data.store_phone_error != '') {
+                                $('#store_phone_error').html(data.store_phone_error);
+                                $('#store_phone').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#store_phone_error').html('');
+                                $('#store_phone').removeClass('is-invalid').addClass('is-vvalid');
+                            }
+
+                            if (data.store_address_error != '') {
+                                $('#store_address_error').html(data.store_address_error);
+                                $('#store_address').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#store_address_error').html('');
+                                $('#store_address').removeClass('is-invalid').addClass('is-vvalid');
+                            }
+                        }
+                    }
+
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        //pemanggilan fungsi load data store ketika document ready
+        loadDataStore('admin/store/loadTable');
+
+        //proses memunculkan modal edit store
+        $(document).on('click', '#btnEditStore', function(e) {
+            let id = $(this).data('id');
+
+            jQuery.ajax({
+                method: "POST",
+                url: base_url + 'admin/store/edit/' + id,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function(response) {
+                    $('#modalEditStore').html(response);
+                    $('#modal-edit-store').modal({
+                        show: true,
+                        backdrop: 'static'
+                    });
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        //proses perubahan (edit data) store
+        $(document).on('submit', '#formEditStore', function(e) {
+            e.preventDefault();
+
+            let data = $(this).serialize();
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'admin/store/update',
+                data: data,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if (data.statusCode == 200) {
+                        $('#formEditStore')[0].reset();
+                        $('#modal-edit-store').modal('hide');
+                        loadDataStore('admin/store/loadTable');
+                    } else if (data.statusCode == 201) {
+                        alert('failed!');
+                    } else {
+                        if (data.error == true) {
+                            if (data.store_name_error != '') {
+                                $('#store_name_error').html(data.store_name_error);
+                                $('#store_name').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#store_name_error').html('');
+                                $('#store_name').removeClass('is-invalid').addClass('is-vvalid');
+                            }
+
+                            if (data.store_phone_error != '') {
+                                $('#store_phone_error').html(data.store_phone_error);
+                                $('#store_phone').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#store_phone_error').html('');
+                                $('#store_phone').removeClass('is-invalid').addClass('is-vvalid');
+                            }
+
+                            if (data.store_address_error != '') {
+                                $('#store_address_error').html(data.store_address_error);
+                                $('#store_address').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#store_address_error').html('');
+                                $('#store_address').removeClass('is-invalid').addClass('is-vvalid');
+                            }
+                        }
+                    }
+
+                    $('#loading').hide();
+
+                }
+            });
+        });
+
+        //proses hapus store
+        $(document).on('click', '#btnDeleteStore', function() {
+            let id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are You Sure',
+                text: "to delete this item?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#BB9A5D',
+
+
+                confirmButtonText: "Yes, I'm sure",
+                cancelButtonText: 'Cancel',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: "POST",
+                        url: base_url + 'admin/store/destroy/' + id,
+                        beforeSend: function() {
+                            $('#loading').show();
+                        },
+                        success: function(data) {
+                            loadDataStore('admin/store/loadTable');
+                            $('#loading').hide();
+                        }
+                    });
+                }
+            })
+        });
+
+        //change store in admin panel
+        $(document).on('change', '#storeSelect', function() {
+            let id_store = $('#storeSelect option:selected').val();
+            $.ajax({
+                url: base_url + 'admin/store/update_sess_store/' + id_store,
+                method: "POST",
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+
+                success: function(response) {
+                    let data = JSON.parse(response);
+                    if (data.statusCode == 200) {
+                        document.location.reload();
+                    }
+                }
+            });
         });
 
         //inventory section
@@ -214,6 +421,12 @@
 
         //when keyup event change to format rupiah
         $(document).on('keyup', '#price', function() {
+            let bilangan = $(this).val();
+            $(this).val(formatRupiah(bilangan));
+        });
+
+        //when keyup event change to format rupiah (purchase price field)
+        $(document).on('keyup', '#purchase_price', function() {
             let bilangan = $(this).val();
             $(this).val(formatRupiah(bilangan));
         });
@@ -278,13 +491,13 @@
                                 $('#category').removeClass('is-invalid').addClass('is-valid');
                             }
 
-                            if (data.stock_error != '') {
-                                $('#stock_error').html(data.stock_error);
-                                $('#stock').removeClass('is-valid').addClass('is-invalid');
-                            } else {
-                                $('#stock_error').html('');
-                                $('#stock').removeClass('is-invalid').addClass('is-valid');
-                            }
+                            // if (data.stock_error != '') {
+                            //     $('#stock_error').html(data.stock_error);
+                            //     $('#stock').removeClass('is-valid').addClass('is-invalid');
+                            // } else {
+                            //     $('#stock_error').html('');
+                            //     $('#stock').removeClass('is-invalid').addClass('is-valid');
+                            // }
 
                             if (data.price_error != '') {
                                 $('#price_error').html(data.price_error);
@@ -292,6 +505,14 @@
                             } else {
                                 $('#price_error').html('');
                                 $('#price').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.purchase_price_error != '') {
+                                $('#purchase_price_error').html(data.purchase_price_error);
+                                $('#purchase_price').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#purchase_price_error').html('');
+                                $('#purchase_price').removeClass('is-invalid').addClass('is-valid');
                             }
                         }
                     }
@@ -342,7 +563,10 @@
                 });
             }
             reader.readAsDataURL(this.files[0]);
-            $('#uploadimageModal').modal('show');
+            $('#uploadimageModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
 
 
         });
@@ -363,7 +587,10 @@
                 });
             }
             reader.readAsDataURL(this.files[0]);
-            $('#uploadEditImageModal').modal('show');
+            $('#uploadEditImageModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
 
 
         });
@@ -434,7 +661,10 @@
 
                 success: function(response) {
                     $('#modalEditInventory').html(response);
-                    $('#modal-edit-inventory').modal('show');
+                    $('#modal-edit-inventory').modal({
+                        show: true,
+                        backdrop: 'static'
+                    });
                     $('.select2').select2({
                         theme: 'bootstrap4',
                         width: '100%',
@@ -448,6 +678,11 @@
                     });
 
                     $(document).on('keyup', '#price_edit', function() {
+                        let bilangan = $(this).val();
+                        $(this).val(formatRupiah(bilangan));
+                    });
+
+                    $(document).on('keyup', '#purchase_price_edit', function() {
                         let bilangan = $(this).val();
                         $(this).val(formatRupiah(bilangan));
                     });
@@ -709,7 +944,10 @@
 
                 success: function(response) {
                     $('#modalEditDiscount').html(response);
-                    $('#modal-edit-discount').modal('show');
+                    $('#modal-edit-discount').modal({
+                        show: true,
+                        backdrop: 'static'
+                    });
                     $('#dateArea .input-daterange').datepicker({
                         format: 'dd/mm/yyyy',
                         autoclose: true,
@@ -868,7 +1106,10 @@
 
                 success: function(response) {
                     $('#modalEditProductIn').html(response);
-                    $('#modal-edit-product-in').modal('show');
+                    $('#modal-edit-product-in').modal({
+                        show: true,
+                        backdrop: 'static'
+                    });
 
                     $('.select2').select2({
                         theme: 'bootstrap4',
@@ -1012,7 +1253,7 @@
                         $('.tableReportSales').html(data.content);
                         if ($('#dataTableReportSales').length) {
                             $('#dataTableReportSales').DataTable({
-                                responsive: true
+                                responsive: false
                             });
                         }
 
@@ -1064,7 +1305,7 @@
                     if (data.statusCode == 200) {
                         $('.tableReportSalesProduct').html(data.content);
                         $('#dataTableReportSalesProduct').DataTable({
-                            responsive: true
+                            responsive: false
                         });
                         $('.loadIco').hide();
                     } else {
@@ -1094,7 +1335,7 @@
                     if (data.statusCode == 200) {
                         $('.tableReportTrackingProduct').html(data.content);
                         $('#dataTableReportTrackingProduct').DataTable({
-                            responsive: true
+                            responsive: false
                         });
 
                         $('.loadIco').hide();
@@ -1125,7 +1366,7 @@
                     if (data.statusCode == 200) {
                         $('.tableReportSalesPerdays').html(data.content);
                         $('#dataTableReportSalesPerdays').DataTable({
-                            responsive: true
+                            responsive: false
                         });
                         $('.loadIco').hide();
                     } else {
@@ -1259,6 +1500,220 @@
         });
         //end export report section
 
+        //therapist section
+        loadDataTherapist('admin/therapist/loadTable');
+
+        //kondisi ketika modal tambah data therapist muncul
+        $('#modalAddTherapist').on('shown.bs.modal', function() {
+            $('.date_birth_therapist').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true
+            });
+        });
+
+        $(document).on('submit', '#formAddTherapist', function(e) {
+            e.preventDefault();
+            let data = $(this).serialize();
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'admin/therapist/insert',
+                data: data,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+
+                success: function(data) {
+                    var data = JSON.parse(data);
+
+                    if (data.statusCode == 200) {
+                        $('#formAddTherapist')[0].reset();
+                        loadDataTherapist('admin/therapist/loadTable');
+
+                        VanillaToasts.create({
+                            title: 'Success',
+                            text: 'Data Has Been Added!',
+                            type: 'success',
+                            positionClass: 'topCenter',
+                            timeout: 3000
+                        });
+
+                        clearFormAddTherapist();
+                    } else if (data.statusCode == 201) {
+                        //do something
+                    } else {
+                        if (data.error == true) {
+                            if (data.name_therapist_error != '') {
+                                $('#name_therapist_error').html(data.name_error);
+                                $('#name_therapist').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#name_therapist_error').html('');
+                                $('#name_therapist').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.birth_date_therapist_error != '') {
+                                $('#birth_therapist_date_error').html(data.birth_date_error);
+                                $('#birth_therapist_date').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#birth_therapist_date_error').html('');
+                                $('#birth_therapist_date').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.identity_number_therapist_error != '') {
+                                $('#identity_number_therapist_error').html(data.identity_number_error);
+                                $('#identity_number_therapist').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#identity_number_therapist_error').html('');
+                                $('#identity_number_therapist').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.phone_therapist_error != '') {
+                                $('#phone_therapist_error').html(data.phone_error);
+                                $('#phone_therapist').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#phone_therapist_error').html('');
+                                $('#phone_therapist').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.email_therapist_error != '') {
+                                $('#email_therapist_error').html(data.email_error);
+                                $('#email_therapist').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#email_therapist_error').html('');
+                                $('#email_therapist').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.address_therapist_error != '') {
+                                $('#address_therapist_error').html(data.address_error);
+                                $('#address_therapist').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#address_therapist_error').html('');
+                                $('#address_therapist').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+
+                        }
+                    }
+
+
+                    $('#loading').hide();
+                }
+            });
+
+
+        });
+
+        //show modal edit therapist
+        $(document).on('click', '#btnEditTherapist', function() {
+            let id = $(this).data('id');
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'admin/therapist/edit/' + id,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+
+                success: function(response) {
+                    $('#loading').hide();
+
+                    $('#modalEditTherapist').html(response);
+                    $('#modal-edit-therapist').modal({
+                        show: true,
+                        backdrop: 'static'
+                    });
+
+                    $('.date_birth_therapist_edit').datepicker({
+                        format: 'dd/mm/yyyy',
+                        autoclose: true
+                    });
+                }
+            });
+        });
+
+        //proses perubahan data therapist
+        $(document).on('submit', '#formEditTherapist', function(e) {
+            e.preventDefault();
+
+            let data = $(this).serialize();
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'admin/therapist/update',
+                data: data,
+
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+
+                    if (data.statusCode == 200) {
+                        $('#formEditTherapist')[0].reset();
+                        $('#modal-edit-therapist').modal('hide');
+                        loadDataTherapist('admin/therapist/loadTable');
+                        clearFormAddTherapist();
+                    } else if (data.statusCode == 201) {
+                        //do something
+                    } else {
+                        if (data.error == true) {
+                            if (data.name_therapist_error != '') {
+                                $('#name_therapist_edit_error').html(data.name_therapist_error);
+                                $('#name_therapist_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#name_therapist_edit_error').html('');
+                                $('#name_therapist_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.birth_date_therapist_error != '') {
+                                $('#birth_date_therapist_edit_error').html(data.birth_date_therapist_error);
+                                $('#birth_date_therapist_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#birth_date_therapist_edit_error').html('');
+                                $('#birth_date_therapist_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.identity_number_therapist_error != '') {
+                                $('#identity_number_therapist_edit_error').html(data.identity_number_therapist_error);
+                                $('#identity_number_therapist_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#identity_number_therapist_edit_error').html('');
+                                $('#identity_number_therapist_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.phone_therapist_error != '') {
+                                $('#phone_therapist_edit_error').html(data.phone_therapist_error);
+                                $('#phone_therapist_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#phone_therapist_edit_error').html('');
+                                $('#phone_therapist_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.email_therapist_error != '') {
+                                $('#email_therapist_edit_error').html(data.email_therapist_error);
+                                $('#email_therapist_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#email_therapist_edit_error').html('');
+                                $('#email_therapist_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.address_therapist_error != '') {
+                                $('#address_therapist_edit_error').html(data.address_therapist_error);
+                                $('#address_therapist_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#address_therapist_edit_error').html('');
+                                $('#address_therapist_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+
+                        }
+                    }
+                    $("#loading").hide();
+                }
+            })
+        });
+        //end therapist section
+
         //doctor section
         loadDataDoctor('admin/doctor/loadTable');
 
@@ -1280,7 +1735,7 @@
                 url: base_url + 'admin/doctor/insert',
                 data: data,
                 beforeSend: function() {
-
+                    $('#loading').show();
                 },
 
                 success: function(data) {
@@ -1371,6 +1826,8 @@
 
                         }
                     }
+
+                    $('#loading').hide();
                 }
             });
         });
@@ -1391,7 +1848,10 @@
                     $('#loading').hide();
 
                     $('#modalEditDoctor').html(response);
-                    $('#modal-edit-doctor').modal('show');
+                    $('#modal-edit-doctor').modal({
+                        show: true,
+                        backdrop: 'static'
+                    });
 
                     $('.date_birth_edit').datepicker({
                         format: 'dd/mm/yyyy',
@@ -1418,13 +1878,84 @@
                 success: function(data) {
                     var data = JSON.parse(data);
 
-                    if(data.statusCode == 200) {
+                    if (data.statusCode == 200) {
                         $('#formEditDoctor')[0].reset();
                         $('#modal-edit-doctor').modal('hide');
                         loadDataDoctor('admin/doctor/loadTable');
                         clearFormAddDoctor();
-                        $("#loading").hide();
+                    } else if (data.statusCode == 201) {
+                        //do something
+                    } else {
+                        if (data.error == true) {
+                            if (data.name_error != '') {
+                                $('#name_edit_error').html(data.name_error);
+                                $('#name_doctor_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#name_edit_error').html('');
+                                $('#name_doctor_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.birth_date_error != '') {
+                                $('#birth_date_edit_error').html(data.birth_date_error);
+                                $('#birth_date_doctor_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#birth_date_edit_error').html('');
+                                $('#birth_date_doctor_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.identity_number_error != '') {
+                                $('#identity_number_edit_error').html(data.identity_number_error);
+                                $('#identity_number_doctor_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#identity_number_edit_error').html('');
+                                $('#identity_number_doctor_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.idi_number_error != '') {
+                                $('#idi_number_edit_error').html(data.idi_number_error);
+                                $('#idi_number_doctor_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#idi_number_edit_error').html('');
+                                $('#idi_number_doctor_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+
+                            if (data.sip_number_error != '') {
+                                $('#sip_number_edit_error').html(data.sip_number_error);
+                                $('#sip_number_doctor_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#sip_number_edit_error').html('');
+                                $('#sip_number_doctor_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.phone_error != '') {
+                                $('#phone_edit_error').html(data.phone_error);
+                                $('#phone_doctor_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#phone_edit_error').html('');
+                                $('#phone_doctor_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.email_error != '') {
+                                $('#email_edit_error').html(data.email_error);
+                                $('#email_doctor_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#email_edit_error').html('');
+                                $('#email_doctor_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+                            if (data.address_error != '') {
+                                $('#address_edit_error').html(data.address_error);
+                                $('#address_doctor_edit').removeClass('is-valid').addClass('is-invalid');
+                            } else {
+                                $('#address_edit_error').html('');
+                                $('#address_doctor_edit').removeClass('is-invalid').addClass('is-valid');
+                            }
+
+
+                        }
                     }
+                    $("#loading").hide();
                 }
             })
         });
@@ -1506,7 +2037,53 @@
         $('#address_doctor').removeClass('is-invalid');
     }
 
+    function clearFormAddTherapist() {
+        $('#name_therapist_error').html('');
+        $('#name_therapist').removeClass('is-valid');
+        $('#name_therapist').removeClass('is-invalid');
+
+        $('#birth_date_therapist_error').html('');
+        $('#birth_date_therapist').removeClass('is-valid');
+        $('#birth_date_therapist').removeClass('is-invalid');
+
+        $('#identity_number_therapist_error').html('');
+        $('#identity_number_therapist').removeClass('is-valid');
+        $('#identity_number_therapist').removeClass('is-invalid');
+
+
+
+        $('#phone_therapist_error').html('');
+        $('#phone_therapist').removeClass('is-valid');
+        $('#phone_therapist').removeClass('is-invalid');
+
+        $('#email_therapist_error').html('');
+        $('#email_therapist').removeClass('is-valid');
+        $('#email_therapist').removeClass('is-invalid');
+
+        $('#address_therapist_error').html('');
+        $('#address_therapist').removeClass('is-valid');
+        $('#address_therapist').removeClass('is-invalid');
+    }
+
     //load data section
+    //load data therapist
+    function loadDataTherapist(url) {
+        $.ajax({
+            type: "POST",
+            url: base_url + url,
+            success: function(response) {
+                $('.tableTherapist').html(response);
+                if ($('#dataTableTherapist').length) {
+                    $('#dataTableTherapist').DataTable({
+                        responsive: false
+                    });
+                }
+
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        });
+    }
+
     //load data doctor
     function loadDataDoctor(url) {
         $.ajax({
@@ -1516,7 +2093,7 @@
                 $('.tableDoctor').html(response);
                 if ($('#dataTableDoctor').length) {
                     $('#dataTableDoctor').DataTable({
-                        responsive: true
+                        responsive: false
                     });
                 }
 
@@ -1541,6 +2118,25 @@
                 $('[data-toggle="tooltip"]').tooltip();
             }
         });
+    }
+
+    //load data store
+    function loadDataStore(url) {
+        $.ajax({
+            type: "POST",
+            url: base_url + url,
+            success: function(response) {
+                $('.tableStore').html(response);
+
+                if ($('#dataTableStore').length) {
+                    $('#dataTableStore').DataTable({
+                        responsive: false
+                    });
+                }
+
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        })
     }
 
     //load data inventory
@@ -1605,7 +2201,7 @@
                 $('.tableProductOut').html(response);
                 if ($('#dataTableProductOut').length) {
                     $('#dataTableProductOut').DataTable({
-                        responsive: true
+                        responsive: false
                     });
                 }
 

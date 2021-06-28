@@ -29,7 +29,9 @@ class Libraries extends MY_Controller
 
         //list category
         $this->libraries->table = 'product';
-        $data['product']        = $this->libraries->get();
+        $data['product']        = $this->libraries->where('id_store', $this->session->userdata('id_store'))
+            ->where('id_category', '102002') //product
+            ->get();
         $data['title']          = 'Incoming Items';
         $data['page_title']     = 'Incoming Items - Incoming Items List - Admin KasirKu';
         $data['nav_title']      = 'library';
@@ -47,6 +49,7 @@ class Libraries extends MY_Controller
             'product_in.stock_in', 'product_in.note', 'product_in.created_at AS created_at_product_in',
             'product.title', 'product.stock'
         ])
+            ->where('product.id_store', $this->session->userdata('id_store'))
             ->join('product')
             ->orderBy('created_at_product_in', 'DESC')
             ->get();
@@ -73,11 +76,16 @@ class Libraries extends MY_Controller
 
             echo json_encode($array);
         } else {
+            $this->libraries->table = 'product';
+            $purchase_price_product = $this->libraries->select(['product.purchase_price'])->where('id', $id_product_in)->first();
+
+
             $digits     = 4;
             $data = array(
                 'id'            => date('YmdHis') . rand(pow(10, $digits - 1), pow(10, $digits) - 1),
                 'id_product'    => $id_product_in,
                 'stock_in'      => $stock_in,
+                'total_purchase'=> $purchase_price_product->purchase_price * $stock_in,
                 'note'          => $note != "" ? $note : "-"
             );
 
@@ -91,9 +99,11 @@ class Libraries extends MY_Controller
                     //update stock di inventori
                     $this->libraries->table = 'product';
                     $product = $this->libraries->where('id', $data['id_product'])->first();
-
                     $stock_product = $product->stock;
                     $stock_product_updated = $stock_in + $stock_product;
+                    
+                    
+
 
                     $this->libraries->where('id', $data['id_product'])->update(['stock' => $stock_product_updated]);
 
@@ -110,7 +120,8 @@ class Libraries extends MY_Controller
 
 
                 $data_update = [
-                    'stock_in' => $stock_in + $productIn->stock_in
+                    'stock_in' => $stock_in + $productIn->stock_in,
+                    'total_purchase'    => ($purchase_price_product->purchase_price * $stock_in) + $productIn->total_purchase
                 ];
 
 
@@ -180,14 +191,20 @@ class Libraries extends MY_Controller
 
             echo json_encode($array);
         } else {
+
+            $this->libraries->table = 'product';
+            $purchase_price_product = $this->libraries->select(['product.purchase_price'])->where('id', $id_product_in)->first();
+
             $digits     = 4;
             $data = array(
                 'id'            => date('YmdHis') . rand(pow(10, $digits - 1), pow(10, $digits) - 1),
                 'id_product'    => $id_product_in,
                 'stock_in'      => $stock_in,
+                'total_purchase'=> $purchase_price_product->purchase_price * $stock_in,
                 'note'          => $note != "" ? $note : "-"
             );
 
+            $this->libraries->table = 'product_in';
             if ($this->libraries->where('id', $id)->update($data)) {
                 $this->session->set_flashdata('success', 'Data has been updated!');
 
@@ -276,8 +293,10 @@ class Libraries extends MY_Controller
             ->join('product')
             ->joinTransaction('transaction')
             ->groupBy('product.title')
-            ->where('MONTH(transaction.created_at)', date('m'))
+            //->where('MONTH(transaction.created_at)', date('m'))
             ->where('YEAR(transaction.created_at)', date('Y'))
+            ->where('product.id_store', $this->session->userdata('id_store'))
+            ->where('product.id_category', '102002')
             ->get();
 
 

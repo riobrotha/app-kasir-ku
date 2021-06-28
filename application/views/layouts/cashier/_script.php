@@ -20,8 +20,8 @@
  <script src="<?= base_url(); ?>assets/css/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
  <script src="<?= base_url(); ?>assets/js/vanillatoasts.js"></script>
 
-  <!-- sweetalert js -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+ <!-- sweetalert js -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
  <!-- start chart js -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
  <!-- start highcharts js -->
@@ -52,13 +52,18 @@
 
 
 
- <?php if ($this->session->userdata('role') == 'cashier') {
+ <?php
+    
+    if($this->uri->uri_string == 'cashier' || $this->uri->uri_string == 'activity'){
         $this->load->view('layouts/cashier/myappcashier');
     }
+        
 
-    if($this->session->userdata('role') == 'front_officer') {
+    if($this->uri->uri_string == 'front-office') {
         $this->load->view('layouts/front-office/myappfrontoffice');
+
     }
+    
+    
 
     ?>
-

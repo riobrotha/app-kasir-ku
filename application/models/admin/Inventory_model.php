@@ -35,6 +35,12 @@ class Inventory_model extends MY_Model
                 'rules' => 'required|trim'
             ],
 
+            [
+                'field' => 'purchase_price',
+                'label' => 'Purchase Price',
+                'rules' => 'required|trim'
+            ],
+
         ];
 
         return $validationRules;

@@ -59,10 +59,22 @@
 
                     <div class="row">
                         <div class="col-12">
+                            <label for="">Product</label>
+                            <br>
+                            <a href="#" id="showProduct" data-toggle="modal" data-target="#modalProduct">Select product for this patient.</a>
+                            <div class="resultProduct mt-2" id="">
+                                <!-- <span class="badge badge-dark" style="font-size: 14px;"><i class="fa fa-times mr-2" style="font-size: 14px;"></i>tes</span> -->
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mt-3">
                             <div class="form-group">
                                 <label for="note">Note's Therapy (Optional)</label>
                                 <textarea class="form-control" name="note" id="note" rows="3" placeholder="Note"></textarea>
-                                
+
                             </div>
                         </div>
                     </div>

@@ -21,6 +21,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-rounded btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-rounded btn-primary">Update Data</button>
+        <button type="submit" class="btn btn-rounded btn-hers">Update Data</button>
     </div>
 </form> 

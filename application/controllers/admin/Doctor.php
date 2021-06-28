@@ -25,8 +25,8 @@ class Doctor extends MY_Controller
     {
         $data['content']        = $this->doctor->get();
         $data['title']          = 'Doctor';
-        $data['page_title']     = 'Doctor - Doctor List - Admin KasirKu';
-        $data['nav_title']      = 'doctor';
+        $data['page_title']     = 'Doctor - Doctor List - Admin';
+        $data['nav_title']      = 'data_staff';
         $data['detail_title']   = 'doctor';
         $data['page']           = 'pages/admin/doctor/index';
 
@@ -35,7 +35,7 @@ class Doctor extends MY_Controller
 
     public function loadTable()
     {
-        $data['content']        = $this->doctor->orderBy('created_at', 'DESC')->get();
+        $data['content']        = $this->doctor->orderBy('doctor.created_at', 'DESC')->get();
         $this->load->view('pages/admin/doctor/data/table', $data);
     }
 
@@ -89,6 +89,7 @@ class Doctor extends MY_Controller
                     'password'      => hashEncrypt('hersclinic.id'),
                     'role'          => 'doctor',
                     'is_active'     => 1,
+                    'id_store'      => $this->session->userdata('id_store')
                     
                 );
 

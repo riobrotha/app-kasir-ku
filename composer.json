@@ -13,7 +13,9 @@
 	"require": {
 		"php": ">=5.3.7",
 		"phpoffice/phpspreadsheet": "^1.17",
-		"pusher/pusher-php-server": "^6.1"
+		"pusher/pusher-php-server": "^6.1",
+		"xendit/xendit-php": "^2.10",
+		"xendit/xendit-php-clients": "^2.10"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

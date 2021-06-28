@@ -40,6 +40,8 @@
         --text-color: #777777;
     }
 
+
+
     .btn-purple {
         color: #fff;
         background-color: #6a56a5;
@@ -97,24 +99,30 @@
 
     .input-group-prepend button {
         color: #fff;
-        background-color: #6a56a5;
-        border-color: #6a56a5;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        height: 84.5%;
     }
 
     .input-group-prepend button:hover {
-        background-color: #402d77;
-        border-color: #402d77;
+        background-color: var(--hover-primary-color);
+        border-color: var(--hover-primary-color);
     }
 
     .input-group-append button {
         color: #fff;
-        background-color: #6a56a5;
-        border-color: #6a56a5;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        height: 84.5%;
     }
 
     .input-group-append button:hover {
-        background-color: #402d77;
-        border-color: #402d77;
+        background-color: var(--hover-primary-color);
+        border-color: var(--hover-primary-color);
+    }
+
+    .product-qty {
+        height: 90% !important;
     }
 
 
@@ -210,6 +218,15 @@
         cursor: pointer;
     }
 
+    .card-footer.custom {
+        background-color: #f7e9d0;
+        border-top-color: transparent;
+        border-end-end-radius: 3%;
+        border-start-end-radius: 3%;
+        padding-bottom: 0px;
+        
+    }
+
     .custom .card-body {
         -webkit-box-shadow: 0px 0px 13px 1px rgba(0, 0, 0, 0.15);
         box-shadow: 0px 0px 13px 1px rgba(0, 0, 0, 0.05);
@@ -217,6 +234,7 @@
 
         padding-top: 10px;
         padding-bottom: 10px;
+        transition: all 0.3s ease-in-out 0s;
     }
 
     .custom .card-body h6 {
@@ -446,5 +464,17 @@
         height: 10px;
         background: #ffc107;
         border-radius: 50%
+    }
+
+    .selected {
+        background-color: #f7e9d0;
+    }
+
+    .product:hover {
+        cursor: pointer;
+    }
+
+    .fa.fa-times:hover {
+        cursor: pointer;
     }
 </style>

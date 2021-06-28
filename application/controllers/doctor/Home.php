@@ -32,7 +32,8 @@ class Home extends MY_Controller
 
 
         $this->home->table      = 'product';
-        $data['dataTherapy']    = $this->home->where('id_category', '102001')->get();
+        $data['dataTherapy']    = $this->home->where('id_store', $this->session->userdata('id_store'))
+            ->where('id_category', '102001')->get();
         $data['page']           = 'pages/doctor/index';
 
         $this->view_doctor($data);
@@ -47,8 +48,10 @@ class Home extends MY_Controller
         ])
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->where('queue.status', 'waiting')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
             ->orWhere('queue.status', 'on_consult')
             ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.id_store', $this->session->userdata('id_store'))
             ->join('customer')
             ->get();
 
@@ -97,11 +100,11 @@ class Home extends MY_Controller
 
     public function loadDataQueueProgress($page = null, $perPage = null)
     {
-        if($perPage != null) {
+        if ($perPage != null) {
             $this->home->perPage = $perPage;
         }
 
-        
+
         $this->home->table = 'queue';
         $data['queue'] = $this->home->select([
             'queue.id', 'queue.id_customer', 'queue.status',
@@ -109,6 +112,7 @@ class Home extends MY_Controller
         ])
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->where('queue.status', 'on_progress')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
             ->join('customer')
             ->paginate($page)
             ->get();
@@ -119,9 +123,10 @@ class Home extends MY_Controller
         ])
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->where('queue.status', 'on_progress')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
             ->join('customer')
             ->count();
-        
+
         $data['pagination'] = $this->home->makePagination(base_url() . 'doctor/home/loadDataQueueProgress/', 4, $data['total_rows']);
 
 
@@ -140,6 +145,7 @@ class Home extends MY_Controller
         ])
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->where('queue.status', 'on_progress')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
             ->join('customer')
             ->like('customer.name', urldecode($keyword))
             ->paginate($page)
@@ -151,6 +157,7 @@ class Home extends MY_Controller
         ])
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->where('queue.status', 'on_progress')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
             ->join('customer')
             ->like('customer.name', urldecode($keyword))
             ->count();

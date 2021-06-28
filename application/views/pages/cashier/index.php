@@ -31,7 +31,7 @@
                                                     <p id="sisaStock<?= $row->id; ?>"><span>Stock : <?= $this->session->userdata('stock' . $row->id); ?></span></p>
                                                     <p class="card-text">Rp&nbsp;<?= number_format($row->price, 0, ',', '.') ?>,-</p>
                                                     <div class="button<?= $row->id; ?>">
-                                                        <button class="btn btn-rounded btn-xs btn-hers btnAddToCart" id="btnAddToCart" style="margin-top: -15px;" data-category="<?= $row->id_category; ?>" data-id="<?= $row->id; ?>" data-price="<?= $row->price; ?>" data-title="<?= $row->title; ?>" data-stock="<?= $this->session->userdata('stock' . $row->id); ?>"><i class="fa fa-cart-plus fa-lg mr-2"></i>Add to Cart</button>
+                                                        <button class="btn btn-rounded btn-xs btn-hers btnAddToCart" id="btnAddToCart" style="margin-top: -15px;" data-category="<?= $row->id_category; ?>" data-id="<?= $row->id; ?>" data-price="<?= $row->price; ?>" data-title="<?= $row->title; ?>" data-stock="<?= $this->session->userdata('stock' . $row->id); ?>" data-purchase-price="<?= $row->purchase_price; ?>"><i class="fa fa-cart-plus fa-lg mr-2"></i>Add to Cart</button>
                                                     </div>
                                                 </div>
 
@@ -163,10 +163,10 @@
 
 
                         </div>
-                        <button type="button" class="btn btn-rounded btn-purple" id="btnPrint" onclick="frames['struk'].print()" style="display: none;">Print</button>
+                        <button type="button" class="btn btn-rounded btn-hers" id="btnPrint" onclick="frames['struk'].print()" style="display: none;">Print</button>
                         <?php if (count($cart) > 0) : ?>
                             <div class="text-center">
-                                <button class="btn btn-rounded btn-purple mt-3" id="btnPay" style="width: 100%;" data-toggle="modal" data-target="#modalPay">Charge</button>
+                                <button class="btn btn-rounded btn-hers mt-3" id="btnPay" style="width: 100%;" data-toggle="modal" data-target="#modalPay">Charge</button>
                             </div>
                         <?php else : ?>
                             <div class="text-center">

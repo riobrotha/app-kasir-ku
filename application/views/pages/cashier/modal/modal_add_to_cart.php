@@ -11,6 +11,7 @@
                 <input type="hidden" id="stock_modal" value="">
                 <input type="hidden" id="price_temp" value="">
                 <input type="hidden" id="price_modal" value="">
+                <input type="hidden" id="purchase_price_modal" value="">
                 <input type="hidden" id="disc_sebelum" value="">
                 <input type="hidden" id="category_modal" value="">
                 <div class="form-group">

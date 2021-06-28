@@ -32,6 +32,22 @@ function getCodeProduct($id_category)
     return $result;
 }
 
+function getStore()
+{
+    $CI         = &get_instance();
+    $query      = $CI->db->query("SELECT store.id AS id_store, store.name AS name_store FROM store");
+    $result     = $query->result_array();
+    return $result;
+}
+
+function getStoreName($id)
+{
+    $CI         = &get_instance();
+    $query      = $CI->db->query("SELECT store.id AS id_store, store.name AS name_store FROM store WHERE store.id = '$id'");
+    $result     = $query->row();
+    return $result;
+}
+
 function getMonth()
 {
     $data_month = [
@@ -65,4 +81,9 @@ function hashEncryptVerify($input, $hash)
     } else {
         return false;
     }
+}
+
+function api_key_xendit()
+{
+    return 'xnd_development_GC71mv7ZSi23rt1Xb41yDzEBKuiqwO8pEZQpc210MYeLQcK75jyuEq3kMTzm0W';
 }

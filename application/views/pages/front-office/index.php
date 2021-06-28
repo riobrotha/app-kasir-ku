@@ -8,6 +8,7 @@
                 <div class="card mt-4">
                     <div class="card-body">
                         <h4 class="header-title">List of Patients</h4>
+                        
                         <button class="btn btn-sm btn-rounded btn-hers-primary" id="btnAddPatientData" data-toggle="modal" data-target="#modalAddPatient"><i class="fa fa-plus mr-1"></i>Patient Data</button>
                         <div class="tableListPatients">
                             <div class="text-center">
@@ -15,6 +16,7 @@
                                 <h6 class="mt-2">Please Wait...</h6>
                             </div>
                         </div>
+                        
 
                     </div>
                 </div>

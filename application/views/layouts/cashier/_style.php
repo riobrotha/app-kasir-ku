@@ -330,4 +330,12 @@
     #vanillatoasts-container {
         z-index: 9999;
     }
+
+    .clear-items {
+        font-size: 20px !important;
+    }
+
+    .clear-items:hover {
+        cursor: pointer;
+    }
 </style>

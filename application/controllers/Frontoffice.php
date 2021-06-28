@@ -11,7 +11,7 @@ class Frontoffice extends MY_Controller
         parent::__construct();
         $role = $this->session->userdata('role');
 
-        if ($role == 'admin' || $role == 'front_officer') {
+        if ($role == 'admin' || $role == 'front_officer' || $role == 'cashier') {
             return;
         } else {
             $this->session->set_flashdata('warning', "You Don't Have Access");
@@ -38,6 +38,7 @@ class Frontoffice extends MY_Controller
 
         $data = [
             'id'    => $id,
+            'id_store'  => $this->session->userdata('id_store'),
             'id_customer'   => $id_customer
         ];
 
@@ -62,6 +63,7 @@ class Frontoffice extends MY_Controller
                 );
 
                 $data['msg']        = 'Queue of Patients has been added!';
+                $data['id_store_sess'] = $this->session->userdata('id_store');
                 $pusher->trigger('my-channel', 'my-event', $data);
 
 
@@ -152,8 +154,9 @@ class Frontoffice extends MY_Controller
         } else {
             $data = array(
                 'id'                        => $id,
+                'id_store'                  => $this->session->userdata('id_store'),
                 'name'                      => $name,
-                'birth_date'                => date('Y-m-d',strtotime($birth_date_2)),
+                'birth_date'                => date('Y-m-d', strtotime($birth_date_2)),
                 'identity_number'           => $identity_number,
                 'phone'                     => $phone,
                 'email'                     => $email,
@@ -186,20 +189,22 @@ class Frontoffice extends MY_Controller
         $this->frontoffice->table = 'queue';
         $getMax = $this->frontoffice->select([
             'MAX(id) AS id'
-        ])->where('DATE(queue.created_at)', date('Y-m-d'))->first();
+        ])->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->first();
 
         if ($getMax->id) {
             $code_from_db = $getMax->id;
 
             // Q3004210001
-            $temp = (int) substr($code_from_db, 7);
+            $temp = (int) substr($code_from_db, 9);
             $temp++;
 
-            $code = 'Q' . date('dmy') . sprintf("%04s", $temp);
+            $code = 'Q' . '0' . $this->session->userdata('id_store') . date('dmy') . sprintf("%04s", $temp);
 
             return $code;
         } else {
-            $code = 'Q' . date('dmy') . '0001';
+            $code = 'Q' . '0' . $this->session->userdata('id_store') . date('dmy') . '0001';
             return $code;
         }
     }
@@ -207,7 +212,7 @@ class Frontoffice extends MY_Controller
 
     public function loadDataPatients()
     {
-        $data['patients'] = $this->frontoffice->orderBy('created_at', 'DESC')->get();
+        $data['patients'] = $this->frontoffice->where('id_store', $this->session->userdata('id_store'))->orderBy('created_at', 'DESC')->get();
         $this->load->view('pages/front-office/data/table_patients', $data);
     }
 
@@ -219,6 +224,7 @@ class Frontoffice extends MY_Controller
             'customer.name', 'customer.phone', 'queue.created_at'
         ])
             ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.id_store', $this->session->userdata('id_store'))
             ->join('customer')
             ->get();
 

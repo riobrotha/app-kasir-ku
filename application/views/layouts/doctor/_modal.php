@@ -23,6 +23,8 @@ $this->load->view('pages/customer/modal/modal_customer');
 //modal add medical record
 $this->load->view('pages/doctor/modal/modal_add_medical_record');
 
+//modal show product
+$this->load->view('pages/doctor/modal/modal_show_product');
 ?>
 
 <div id="modalEditMedicalRecords">

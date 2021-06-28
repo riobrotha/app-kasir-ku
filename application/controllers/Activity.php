@@ -10,7 +10,15 @@ class Activity extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        //Do your magic here
+        $role = $this->session->userdata('role');
+
+        if ($role == 'cashier') {
+            return;
+        } else {
+            $this->session->set_flashdata('warning', "You Don't Have Access");
+            redirect(base_url() . 'auth/login');
+            return;
+        }
     }
 
 
@@ -21,7 +29,8 @@ class Activity extends MY_Controller
         $data['nav_title']      = 'transaction_activity';
         $data['detail_title']   = 'transaction_activity';
 
-        $data['transaction']    = $this->activity->where('MONTH(created_at)', date("m"))
+        $data['transaction']    = $this->activity->where('DATE(created_at)', date("Y-m-d"))
+            ->where('id_store', $this->session->userdata('id_store'))
             ->orderBy('created_at', 'DESC')
             ->get();
 

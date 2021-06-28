@@ -2,9 +2,16 @@
 
 //add category modal 
 $this->load->view('pages/admin/category/modal/modal_add_category');
+
+//add store modal
+$this->load->view('pages/admin/store/modal/modal_add_store');
 ?>
 
 <div id="modalEditCategory">
+
+</div>
+
+<div id="modalEditStore">
 
 </div>
 
@@ -27,5 +34,11 @@ $this->load->view('pages/admin/category/modal/modal_add_category');
 <?php $this->load->view('pages/admin/doctor/modal/modal_add_doctor'); ?>
 
 <div id="modalEditDoctor">
+
+</div>
+
+<?php $this->load->view('pages/admin/therapist/modal/modal_add_therapist'); ?>
+
+<div id="modalEditTherapist">
 
 </div>

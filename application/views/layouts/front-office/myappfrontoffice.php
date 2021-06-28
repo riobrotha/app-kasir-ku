@@ -139,7 +139,7 @@
                                 popup: 'animate__animated animate__fadeOutUp'
                             }
                         }).then((result) => {
-                            if (result.isConfirm) {
+                            if (result.isConfirmed) {
                                 $.ajax({
                                     method: "POST",
                                     url: base_url + 'frontoffice/add_queue/' + data.id_customer,

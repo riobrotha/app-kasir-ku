@@ -6,7 +6,10 @@
                     <nav>
                         <ul id="nav_menu">
 
-                            <?php if ($this->session->userdata('role') == 'cashier' || $this->session->userdata('role') == 'admin') : ?>
+                            <?php if ($this->session->userdata('role') == 'cashier' || $this->session->userdata('role') == 'admin' || $this->session->userdata('role') == 'front_office') : ?>
+                                <li class="<?= $nav_title == "front_officer" ? "active" : "" ?>">
+                                    <a href="<?= base_url('front-office'); ?>"><i class="ti-map-alt"></i><span>Patient Queue</span></a>
+                                </li>
                                 <li class="<?= $nav_title == "cashier" ? "active" : ""  ?>">
                                     <a href="<?= base_url('cashier'); ?>"><i class="ti-layout-sidebar-left"></i>
                                         <span>Transaction</span></a>
@@ -17,14 +20,14 @@
                                     <a href="<?= base_url('activity'); ?>"><i class="ti-map-alt"></i> <span>Transaction Activity</span></a>
                                 </li>
 
+
+
                             <?php endif ?>
 
 
-                            <?php if ($this->session->userdata('role') == 'front_officer') : ?>
-                                <li class="<?= $nav_title == "front_officer" ? "active" : "" ?>">
-                                    <a href="<?= base_url('front-office'); ?>"><i class="ti-map-alt"></i><span>Patient Queue</span></a>
-                                </li>
-                            <?php endif ?>
+
+
+
 
 
                             <!-- <li class="mega-menu">

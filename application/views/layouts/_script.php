@@ -50,7 +50,7 @@
      getSalesChart();
 
 
-     
+
 
      function getSalesChart() {
          if ($('#coin_sales1').length) {
@@ -75,7 +75,7 @@
                          data: [
                              <?php
                                 foreach (getMonth() as $key => $value) {
-                                    echo "'" . array_sum(array_column($sales_report[$key], 'total')) . "',";
+                                    echo "'" . array_sum(array_column($sales_report[$key], 'subtotal')) . "',";
                                 }
 
                                 ?>
@@ -350,7 +350,7 @@
      }
 
 
-     const base_url2 = 'http://localhost/kasir_online/';
+     const base_url2 = $('body').data('url');
      $(function() {
 
          $("#yearDashboard").datepicker({
@@ -383,21 +383,25 @@
                          if (data[i].length != 0) {
                              for (var j = 0; j < data[i].length; j++) {
 
-                                 arr.push(Number(data[i][j].total));
+                                 arr.push(Number(data[i][j].subtotal));
                              }
 
 
-                             let sum = arr.reduce(function(a, b) {
+                             var sum = arr.reduce(function(a, b) {
                                  return a + b;
                              });
 
                              tot_arr.push(sum);
+                             
+
                          } else {
                              tot_arr.push(0);
                          }
 
-
+                         arr = [];
                      }
+
+
                      $('#coin_sales1').fadeToggle(1000);
                      $('.spaceSalesTotChart').fadeToggle(1000);
                      $('.loadDash').hide();
@@ -407,6 +411,8 @@
                          return a + b;
                      });
 
+                     console.log(tot_arr);
+                     
                      $('.salesTotalChart').text('IDR ' + formatRupiah(tot_sales));
                  }
 

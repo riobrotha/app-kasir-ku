@@ -5,7 +5,7 @@
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Items Sales</h4>
+                    <h4 class="header-title">Items Sales (<?= getStoreName($this->session->userdata('id_store'))->name_store;  ?>)</h4>
                     <div id="alertPlace">
 
                     </div>

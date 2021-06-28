@@ -31,11 +31,7 @@ if ($this->session->userdata('role') == 'cashier') {
     $this->load->view('pages/customer/modal/modal_customer');
 }
 
+//modal add patient/customer
+$this->load->view('pages/front-office/modal/modal_add_patient');
 
-if ($this->session->userdata('role') == 'front_officer') {
-    //modal add patient/customer
-    $this->load->view('pages/front-office/modal/modal_add_patient');
-}
 ?>
-
-

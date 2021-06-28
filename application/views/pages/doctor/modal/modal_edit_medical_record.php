@@ -7,7 +7,8 @@
 
             <input type="hidden" name="id_customer" id="id_customer_rm_edit" value="">
             <input type="hidden" name="id_queue" id="id_queue_edit" value="">
-            <input type="hidden" name="id_therapies" id="id_therapies_edit" value="<?=$dataMedicalRecord->id_therapies; ?>">
+            <input type="hidden" name="id_therapies" id="id_therapies_edit" value="<?= $dataMedicalRecord->id_therapies; ?>">
+            <input type="hidden" name="id_items" id="id_items_edit" value="<?= $dataMedicalRecord->id_items; ?>">
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">
@@ -53,6 +54,22 @@
                             </select>
                             <span id="therapy_edit_error"></span>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label for="">Product</label>
+                    <br>
+                    <a href="#" id="showProduct" data-toggle="modal" data-target="#modalProduct">Select product for this patient.</a>
+                    <div class="resultProduct mt-2" id="">
+                        <!-- <span class="badge badge-dark" style="font-size: 14px;"><i class="fa fa-times mr-2" style="font-size: 14px;"></i>tes</span> -->
+                        <?php if (count($product) > 0) : ?>
+                            <?php foreach ($product as $row2) : ?>
+                                <span class="badge badge-dark" style="font-size: 14px;"><i class="fa fa-times mr-2" id="destroyProduct" data-id="<?= $row2->id; ?>" style="font-size: 14px;"></i><?= $row2->title; ?></span>
+                            <?php endforeach ?>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>

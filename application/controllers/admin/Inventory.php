@@ -38,11 +38,13 @@ class Inventory extends MY_Controller
     public function loadTable()
     {
         $data['content']        = $this->inventory->select([
-            'product.id', 'product.title', 'product.stock', 'product.price',
-            'product.created_at', 'category.title AS category_title'
+            'product.id', 'product.title', 'product.stock', 'product.price', 'product.id_store',
+            'product.created_at', 'category.title AS category_title', 'store.name'
         ])
             ->where('product.is_available', 1)
+            ->where('product.id_store', $this->session->userdata('id_store'))
             ->join('category')
+            ->join('store')
             ->orderBy('created_at', 'DESC')->get();
         $this->load->view('pages/admin/inventory/data/table', $data);
     }
@@ -60,6 +62,7 @@ class Inventory extends MY_Controller
         $category = $this->input->post('category', true);
         $stock = $this->input->post('stock', true);
         $price = $this->input->post('price', true);
+        $purchase_price = $this->input->post('purchase_price', true);
         $image = $this->input->post('image_product', true);
 
         if (!$this->inventory->validate()) {
@@ -69,7 +72,8 @@ class Inventory extends MY_Controller
                 'title_error'         => form_error('title'),
                 'category_error'      => form_error('category'),
                 'stock_error'         => form_error('stock'),
-                'price_error'         => form_error('price')
+                'price_error'         => form_error('price'),
+                'purchase_price_error'=> form_error('purchase_price')
             );
 
             echo json_encode($array);
@@ -77,10 +81,12 @@ class Inventory extends MY_Controller
             $data = [
                 'id'            => $this->generate_code($category),
                 'id_category'   => $category,
+                'id_store'      => $this->session->userdata('id_store'),
                 'title'         => ucwords($title),
                 'slug'          => $slug,
                 'stock'         => $stock,
                 'price'         => (int) str_replace(".", "", $price),
+                'purchase_price'=> (int) str_replace(".", "", $purchase_price),
                 'image'         => $image
             ];
 
@@ -143,7 +149,7 @@ class Inventory extends MY_Controller
         $data['title']         = 'Edit Inventory Data';
         $data['getInventory']   = $this->inventory->select([
             'product.title AS title_product', 'product.slug', 'category.title AS title_category', 'product.stock',
-            'product.price', 'product.image', 'product.id_category', 'product.id AS id_product'
+            'product.price', 'product.image', 'product.id_category', 'product.id AS id_product', 'product.purchase_price'
         ])
             ->join('category')
             ->where('product.id', $id)
@@ -163,6 +169,7 @@ class Inventory extends MY_Controller
         $category = $this->input->post('category', true);
         $stock = $this->input->post('stock', true);
         $price = $this->input->post('price', true);
+        $purchase_price = $this->input->post('purchase_price', true);
         $image = $this->input->post('image_product', true);
         $image_temp = $this->input->post('image_product_temp', true);
 
@@ -173,7 +180,8 @@ class Inventory extends MY_Controller
                 'title_error'         => form_error('title'),
                 'category_error'      => form_error('category'),
                 'stock_error'         => form_error('stock'),
-                'price_error'         => form_error('price')
+                'price_error'         => form_error('price'),
+                'purchase_price_error'=> form_error('purchase_price')
             );
 
             echo json_encode($array);
@@ -185,6 +193,7 @@ class Inventory extends MY_Controller
                 'slug'          => $slug,
                 'stock'         => $stock,
                 'price'         => (int) str_replace(".", "", $price),
+                'purchase_price'=> (int) str_replace(".", "", $purchase_price),
                 'image'         => $image
             ];
 

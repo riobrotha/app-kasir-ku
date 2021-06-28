@@ -44,7 +44,7 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
-                                        <th>Rp&nbsp;<?= number_format(
+                                        <th style="font-size: 22px;">Rp&nbsp;<?= number_format(
                                                         array_sum(array_column($transaction, 'total')),
                                                         0,
                                                         ',',

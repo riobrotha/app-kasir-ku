@@ -177,4 +177,6 @@
     #vanillatoasts-container {
         z-index: 9999;
     }
+
+    
 </style>

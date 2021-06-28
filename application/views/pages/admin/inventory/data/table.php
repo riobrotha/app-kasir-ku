@@ -7,6 +7,7 @@
                 <th>Category</th>
                 <th>Stock</th>
                 <th>Price</th>
+                <th>Store</th>
                 <th>Created At</th>
                 <th>QR Code</th>
                 <th>Barcode</th>
@@ -23,6 +24,7 @@
                     <td><?= $row->category_title; ?></td>
                     <td><?= $row->stock; ?></td>
                     <td>Rp&nbsp;<?= number_format($row->price, 0, ',', '.') ?>,-</td>
+                    <td><?= $row->name; ?></td>
                     <td><?= date_format(new DateTime($row->created_at), 'd/m/Y H:i'); ?></td>
                     <td>
                         <img src="<?= base_url("code/qrcode/$row->id"); ?>" alt="qr-code" class="img-fluid">

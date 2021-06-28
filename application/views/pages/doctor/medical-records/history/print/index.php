@@ -67,7 +67,7 @@ if ($birthDate < $today) {
                     <td><?= $patient->name; ?></td>
                     <td>No RM</td>
                     <td>:</td>
-                    <td><?= isset($noRm->id) ? $noRm->id : "-"; ?></td>
+                    <td><?= isset($noRm->id) ? substr($noRm->id, 1) : "-"; ?></td>
                 </tr>
                 <tr>
                     <td>Address</td>
@@ -116,7 +116,7 @@ if ($birthDate < $today) {
                             <td><?= $row->diagnosa; ?></td>
                             <td>
                                 <ul style="list-style-type: none; margin-left: -40px;">
-                                    <?php foreach ($therapies as $row2) : ?>
+                                    <?php foreach ($therapies[$row->id_therapies] as $row2) : ?>
                                         <!-- <span class="badge badge-pill badge-dark" style="font-size: 13px;"><?= $row2->title; ?></span> -->
 
                                         <li><?= $row2->title; ?></li>

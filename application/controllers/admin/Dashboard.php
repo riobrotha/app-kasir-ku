@@ -50,7 +50,7 @@ class Dashboard extends MY_Controller
 		//sales total
 		$this->dashboard->table = 'transaction';
 		$data['sumTotal']		= $this->dashboard->select([
-			'total'
+			'total', 'purchase_price_total', 'subtotal'
 		])->where('YEAR(created_at)', date('Y'))->get();
 
 		//product_in total

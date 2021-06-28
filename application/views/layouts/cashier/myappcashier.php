@@ -1,7 +1,10 @@
 <script>
     const base_url = $('body').data('url');
     $(function() {
-
+        //cek if page reloaded
+        if (performance.navigation.type == 1) {
+            clearCart();
+        }
 
         $('#table-cart').slimScroll({
             height: '300px',
@@ -19,7 +22,7 @@
 
         if ($('#dataTableActivity').length) {
             $('#dataTableActivity').DataTable({
-                responsive: true
+                responsive: false
             });
         }
 
@@ -28,7 +31,11 @@
         });
 
 
+        let countItem = $('.hitung-item').length;
 
+        if (countItem < 8) {
+            $('#btnLoadMoreData').remove();
+        }
 
 
         $('#number_invoice').text(generateInvoice());
@@ -41,6 +48,7 @@
             let id_category = $(this).data('category');
             let qty = 1;
             let price = $(this).data('price');
+            let purchase_price = $(this).data('purchasePrice');
             let title = $(this).data('title');
             let conv_title = title.split(" ").join("%20");
             let stock = $(this).data('stock');
@@ -50,6 +58,7 @@
             $('.title_modal').text(title);
             $('#id_modal').val(id);
             $('#price_modal').val(price);
+            $('#purchase_price_modal').val(purchase_price);
             $('#title_modal').val(conv_title);
             $('#stock_modal').val(stock);
             $('#category_modal').val(id_category);
@@ -68,6 +77,7 @@
             let id = $('#id_modal').val();
             let id_category = $('#category_modal').val();
             let price = Number($('#price_modal').val());
+            let purchase_price = Number($('#purchase_price_modal').val());
             let price_temp = Number($('#price_temp').val());
             let title = $('#title_modal').val();
             let stock = $('#stock_modal').val();
@@ -117,7 +127,7 @@
 
             $.ajax({
                 method: "POST",
-                url: base_url + 'cashier/insert/' + id + '/' + id_category + '/' + qty + '/' + price + '/' + title + '/' + stock + '/' + discount + '/' + price_sebelum,
+                url: base_url + 'cashier/insert/' + id + '/' + id_category + '/' + qty + '/' + purchase_price + '/' + price + '/' + title + '/' + stock + '/' + discount + '/' + price_sebelum,
                 success: function(data) {
                     var data = JSON.parse(data);
 
@@ -203,6 +213,24 @@
 
             }
         });
+
+        //delete item in cart
+        $(document).on('click', '.clear-items', function() {
+            let rowid = $(this).data('rowid');
+
+            $.ajax({
+                method: "POST",
+                url: base_url + 'cashier/delete/' + rowid,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function(response) {
+                    loadDataTableCart('cashier/loadDataTableCart');
+                    loadTotVal('cashier/loadTotVal');
+                    $('#loading').hide();
+                }
+            });
+        });
     });
 
     $(function() {
@@ -244,10 +272,12 @@
             let invoice = $('#number_invoice').text();
             let disc = $('#tot_disc').val();
             let subtot = $('#subtotal_cart').val();
+            let purchase_price = $('#purchase_price').val();
             let id_customer = $('.customer-id-space').val();
             $('#invoice').val(invoice);
             $('#discount_total').val(disc);
             $('#subtotal').val(subtot);
+            $('#purchasePriceTotal').val(purchase_price);
             $('#id_customer').val(id_customer);
 
         });
@@ -306,12 +336,13 @@
                 method: "POST",
                 url: base_url + 'activity/detail/' + invoice,
                 beforeSend: function() {
-
+                    $('#loading').show();
                 },
 
                 success: function(response) {
                     $('#modal_detail_invoice').html(response);
                     $('#modalDetailInvoice').modal('show');
+                    $('#loading').hide();
                 }
             });
         });
@@ -445,6 +476,12 @@
                         });
 
                         kali = 0;
+
+                        let countItem = $('.hitung-item').length;
+
+                        if (countItem < 8) {
+                            $('#btnLoadMoreData').remove();
+                        }
                     }
                 }
             });
@@ -718,15 +755,22 @@
                         loadDataTableCart('cashier/loadDataTableCart');
                         loadTotVal('cashier/loadTotVal');
                         let cekStock = data.sisaStock;
-                        $('.button' + id + ' button').data('stock', cekStock);
-                        $('.button' + id + ' button').attr('data-stock', cekStock);
-                        $('#sisaStock' + id + ' span').text('Stock : ' + cekStock);
+                        for (var i = 0; i < cekStock.length; i++) {
+                            console.log(cekStock[i].sisaStock);
+                            $('.button' + cekStock[i].idProduct + ' button').data('stock', cekStock[i].sisaStock);
+                            $('.button' + cekStock[i].idProduct + ' button').attr('data-stock', cekStock[i].sisaStock);
+                            $('#sisaStock' + cekStock[i].idProduct + ' span').text('Stock : ' + cekStock[i].sisaStock);
+                        }
+
                         $('#btnPay').removeAttr('disabled');
                         $('#itemCode').focus();
                         clearFormAddToCart();
                         $('#loading').hide();
                         $('#modalCustomer').modal('hide');
                         $('#id_queue_val').val(id_queue);
+
+                        //console.log(cekStock[0].sisaStock);
+
                     }
                 }
             });

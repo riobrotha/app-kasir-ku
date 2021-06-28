@@ -44,7 +44,7 @@
                 <span id="stock_edit_error"></span>
             </div>
 
-            <div class="col-lg-8">
+            <div class="col-lg-4">
                 <label for="exampleInputPriceProduct">Price</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -54,6 +54,17 @@
 
                 </div>
                 <span id="price_edit_error"></span>
+            </div>
+            <div class="col-lg-4">
+                <label for="exampleInputPriceProduct">Purhcase Price</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Rp</span>
+                    </div>
+                    <input type="text" id="purchase_price_edit" name="purchase_price" class="form-control" placeholder="Purchase Price" aria-label="Username" aria-describedby="basic-addon1" value="<?= number_format($getInventory->purchase_price, 0, ',', '.'); ?>">
+
+                </div>
+                <span id="purchase_price_edit_error"></span>
             </div>
         </div>
 

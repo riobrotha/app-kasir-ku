@@ -6,6 +6,13 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title">Inventory List</h4>
+                    <div class="alert alert-info alert-dismissible mt-4" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6><i class="fa fa-info mr-2 mb-2"></i><b>Info!</b></h6>
+                        <span style="font-size: 15px;">You are logged in as an admin by selecting <b>The <?= getStoreName($this->session->userdata('id_store'))->name_store; ?> store</b>, all the items you're input will automatically go to that store.</span>
+                    </div>
                     <div id="alertPlace">
 
                     </div>
@@ -51,7 +58,7 @@
                                 <span id="stock_error"></span>
                             </div>
 
-                            <div class="col-lg-8">
+                            <div class="col-lg-4">
                                 <label for="exampleInputPriceProduct">Price</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -61,6 +68,17 @@
 
                                 </div>
                                 <span id="price_error"></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="exampleInputPriceProduct">Purhcase Price</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Rp</span>
+                                    </div>
+                                    <input type="text" id="purchase_price" name="purchase_price" class="form-control" placeholder="Purchase Price" aria-label="Username" aria-describedby="basic-addon1">
+
+                                </div>
+                                <span id="purchase_price_error"></span>
                             </div>
                         </div>
 

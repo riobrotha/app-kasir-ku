@@ -50,7 +50,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-rounded btn-secondary" id="tesss" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-rounded btn-primary">Add Data</button>
+                <button type="submit" class="btn btn-rounded btn-hers">Add Data</button>
             </div>
             </form>
         </div>

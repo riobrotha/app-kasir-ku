@@ -35,6 +35,7 @@ class Customer extends MY_Controller
         ])
             ->join('customer')
             ->where('status', 'on_progress')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->get();
 
@@ -76,6 +77,7 @@ class Customer extends MY_Controller
         } else {
             $data = [
                 'id'        => date('Ymdhis') . rand(pow(10, 3 - 1), pow(10, 3) - 1),
+                'id_store'  => $this->session->userdata('id_store'),
                 'name'      => $name,
                 'phone'     => $phone,
                 'email'     => $email
@@ -123,14 +125,13 @@ class Customer extends MY_Controller
     }
 
 
-    public function add_treatment($id_queue = 'Q2805210002')
+    public function add_treatment($id_queue)
     {
-        $this->customer->table = 'medical_records';
-        $therapies = $this->customer->select([
-            'medical_records_detail.id_therapies', 'queue.id'
+        $this->customer->table = 'medical_records_detail';
+        $medical_records_detail = $this->customer->select([
+            'medical_records_detail.id_therapies', 'queue.id', 'medical_records_detail.id_items'
         ])
-            ->where('medical_records.id_queue', $id_queue)
-            ->join2('medical_records_detail')
+            ->where('medical_records_detail.id_queue', $id_queue)
             ->join('queue')
             ->first();
 
@@ -139,12 +140,21 @@ class Customer extends MY_Controller
             'product.id AS id_product', 'product.stock', 'product.price',
             'product.title',
         ])
-            ->where('therapies_detail.id_therapies', $therapies->id_therapies)
+            ->where('therapies_detail.id_therapies', $medical_records_detail->id_therapies)
+            ->join('product')
+            ->get();
+
+        $this->customer->table = 'items_detail';
+        $item = $this->customer->select([
+            'product.id AS id_product', 'product.stock', 'product.price',
+            'product.title', 'items_detail.qty'
+        ])
+            ->where('items_detail.id_items', $medical_records_detail->id_items)
             ->join('product')
             ->get();
 
         $data = array();
-
+        $data_stock = array();
         foreach ($treatment as $row) {
             array_push(
                 $data,
@@ -162,16 +172,50 @@ class Customer extends MY_Controller
             );
         }
 
+        foreach ($item as $row2) {
+            if ($row2->stock > 0) {
+                $stock = (int) $row2->stock;
+                $quantity = (int) $row2->qty;
+
+                $sisaStock = $stock - $quantity;
+                $this->session->set_userdata('stock' . $row2->id_product, $sisaStock);
+                array_push(
+                    $data_stock,
+                    [
+                        'idProduct'     => $row2->id_product,
+                        'sisaStock'     => $this->session->userdata('stock' . $row2->id_product)
+                    ]
+                );
+
+                array_push(
+                    $data,
+                    [
+                        'id'        => $row2->id_product,
+                        'qty'       => $row2->qty,
+                        'price'     => $row2->price,
+                        'name'      => $row2->title,
+                        'option'    => array(
+                            'stock'         => $row2->stock,
+                            'price_temp'    => $row2->price,
+                            'discount_temp' => 0
+                        )
+                    ]
+                );
+            }
+        }
+
         $add = $this->cart->insert($data);
         if ($add) {
             echo json_encode(array(
                 'statusCode'    => 200,
                 'stock'         => 0,
-                'sisaStock'     => 0
+                'sisaStock'     => $data_stock
             ));
         } else {
+            print_r($medical_records_detail);
             echo json_encode(array(
                 'statusCode' => 201,
+                'id_therapies'  => $medical_records_detail->id_therapies
             ));
         }
 
@@ -184,6 +228,21 @@ class Customer extends MY_Controller
 
 
         //print_r($data);
+    }
+
+
+    public function tes()
+    {
+        $this->customer->table = 'medical_records_detail';
+        $therapies = $this->customer->select([
+            'medical_records_detail.id_therapies', 'queue.id AS id'
+        ])
+            ->where('medical_records_detail.id_queue', 'Q011406210001')
+            //->join2('medical_records_detail')
+            ->join('queue')
+            ->first();
+
+        print_r($therapies);
     }
 }
 

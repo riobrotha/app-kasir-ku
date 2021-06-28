@@ -52,6 +52,7 @@ class Login_model extends MY_Model {
                 'name'         => $query->name,
                 'username'     => $query->username,
                 'role'         => $query->role,
+                'id_store'     => $query->id_store,
                 'is_login'     => true,
             ];
 

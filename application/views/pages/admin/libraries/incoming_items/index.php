@@ -6,13 +6,20 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title">Incoming Items</h4>
+                    <div class="alert alert-info alert-dismissible mt-4" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6><i class="fa fa-info mr-2 mb-2"></i><b>Info!</b></h6>
+                        <span style="font-size: 15px;">You are logged in as an admin by selecting <b>The <?= getStoreName($this->session->userdata('id_store'))->name_store; ?> store</b>, all the stock items you're input will automatically go to that store.</span>
+                    </div>
                     <div id="alertPlace">
 
                     </div>
                     <button class="btn btn-rounded btn-sm btn-hers" id="btnTambahProductIn" data-toggle="modal" data-target="#modalAddProductIn"><i class="fa fa-plus mr-2"></i>Incoming Items</button>
 
 
-                   
+
                     <div class="tableProductIn mt-2">
 
                         <div class="text-center">

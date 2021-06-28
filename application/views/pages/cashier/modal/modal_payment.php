@@ -9,6 +9,7 @@
 
                 <form action="#" method="POST" id="formPay">
                     <input type="hidden" name="invoice" id="invoice" value="">
+                    <input type="hidden" name="purchase_price_total" id="purchasePriceTotal" value="">
                     <input type="hidden" name="discount_total" id="discount_total" value="">
                     <input type="hidden" name="subtotal" id="subtotal" value="">
                     <input type="hidden" name="id_customer" id="id_customer" value="">
