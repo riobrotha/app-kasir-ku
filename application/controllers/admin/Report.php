@@ -1203,57 +1203,56 @@ class Report extends MY_Controller
         $month2 = $this->input->post('month', true);
         $year2  = $this->input->post('year', true);
 
-        $month = '05';
+        $month = '04';
         $year = '2021';
         //query to get tracking product
         $this->report->table    = 'product';
         // $data['content']        = $this->report->select([
         //     'product.title', 'product_in.stock_in', 'SUM(transaction_detail.qty) AS stock_out', 'product.stock AS stock'
         // ]);
-        // $data['content']        = $this->report->select([
-        //     'product.title', 'product_in.stock_in AS stock_in', 'product_in.created_at', 'product.stock AS stock',
-        //     'SUM(transaction_detail.qty) AS stock_out'
+        $data['content']        = $this->report->select([
+            'product.title', 'product_in.stock_in AS stock_in', 'product_in.created_at', 'product.stock AS stock',
+            'SUM(transaction_detail.qty) AS stock_out'
+        ])
+            ->join2('product_in')
+            ->join2('transaction_detail', 'inner')
+            ->joinBetweenTransaction()
+            ->where('MONTH(transaction.created_at)', $month)
+            ->where('YEAR(transaction.created_at)', $year)
+            ->where('MONTH(product_in.created_at)', $month)
+            ->where('YEAR(product_in.created_at)', $year)
+            ->where('product.id_category', '102002')
+            ->where('product.id', '1020020005')
+            ->groupBy('product.title')
+            ->get();
+
+        // $data['content']            = $this->report->select([
+        //     'product.id','product.title', 'product_in.stock_in', 'product_in.created_at'
         // ])
-        //     //->join2('product_in')
-        //     ->join2('transaction_detail', 'inner')
-        //     ->joinBetweenProductInTransaction()
-        //     ->joinBetweenTransaction()
-        //     ->where('MONTH(transaction.created_at)', $month)
-        //     ->where('YEAR(transaction.created_at)', $year)
-        //     ->where('MONTH(product_in.created_at)', $month)
-        //     ->where('YEAR(product_in.created_at)', $year)
-        //     ->where('product.id_category', '102002')
-        //     ->where('product.id', '1020020005')
-        //     ->groupBy('product.title')
-        //     ->get();
+        // ->join2('product_in')
+        // ->where('MONTH(product_in.created_at)', $month)
+        // ->where('YEAR(product_in.created_at)', $year)
+        // ->where('product.id_category', '102002')
+        // ->where('product.id', '1020020005')
+        // ->groupBy('product.title')
+        // ->get();
 
-        $data['content']            = $this->report->select([
-            'product.id','product.title', 'product_in.stock_in', 'product_in.created_at'
-        ])
-        ->join2('product_in')
-        ->where('MONTH(product_in.created_at)', $month)
-        ->where('YEAR(product_in.created_at)', $year)
-        ->where('product.id_category', '102002')
-        ->where('product.id', '1020020005')
-        ->groupBy('product.title')
-        ->get();
-
-        $data['content2']            = $this->report->select([
-            'product.id','product.title', 'SUM(transaction_detail.qty) AS stock_out', 'transaction.created_at'
-        ])
-        ->join2('transaction_detail')
-        ->joinBetweenTransaction()
-        ->where('MONTH(transaction.created_at)', $month)
-        ->where('YEAR(transaction.created_at)', $year)
-        ->where('product.id_category', '102002')
-        ->where('product.id', '1020020005')
-        ->groupBy('product.title')
-        ->get();
+        // $data['content2']            = $this->report->select([
+        //     'product.id','product.title', 'SUM(transaction_detail.qty) AS stock_out', 'transaction.created_at'
+        // ])
+        // ->join2('transaction_detail')
+        // ->joinBetweenTransaction()
+        // ->where('MONTH(transaction.created_at)', $month)
+        // ->where('YEAR(transaction.created_at)', $year)
+        // ->where('product.id_category', '102002')
+        // ->where('product.id', '1020020005')
+        // ->groupBy('product.title')
+        // ->get();
 
 
 
         print_r($data['content']);
-        print_r($data['content2']);
+        // print_r($data['content2']);
 
      
         //condition if query is available and not null
