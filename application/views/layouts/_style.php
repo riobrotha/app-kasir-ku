@@ -174,9 +174,18 @@
         display: none;
     }
 
+    .loadNetDash {
+        display: none;
+    }
+
     #vanillatoasts-container {
         z-index: 9999;
     }
 
-    
+    .trd-history-tabs ul li a:hover,
+    .trd-history-tabs ul li a.active {
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 7px;
+        color: #565656;
+    }
 </style>

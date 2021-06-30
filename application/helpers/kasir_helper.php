@@ -68,6 +68,32 @@ function getMonth()
     return $data_month;
 }
 
+function getNameDay()
+{
+    $data_day = [
+        '1'     => 'Sunday',
+        '2'     => 'Monday',
+        '3'     => 'Tuesday',
+        '4'     => 'Wednesday',
+        '5'     => 'Thursday',
+        '6'     => 'Friday',
+        '7'     => 'Saturday',
+
+    ];
+
+    return $data_day;
+}
+
+function getHour()
+{
+    $data_hour = [];
+    for($i = 0; $i < 24; $i++) {
+        array_push($data_hour, $i);
+    }
+
+    return $data_hour;
+}
+
 function hashEncrypt($input)
 {
     $hash   = password_hash($input, PASSWORD_DEFAULT);
