@@ -72,7 +72,6 @@ class Cashier extends MY_Controller
             array_push($data['sub_total'], ($row['option']['price_temp']) * $row['qty']);
             array_push($data['disc_total'], ($row['option']['discount_temp']) * $row['qty']);
             array_push($data['purchase_price_total'], ($row['option']['purchase_price']) * $row['qty']);
-            
         }
 
         $this->load->view('pages/cashier/table_cart', $data);
@@ -83,7 +82,7 @@ class Cashier extends MY_Controller
         print_r($this->cart->contents());
     }
 
-    public function insert($id, $id_category, $qty,$purchase_price, $price, $title, $stock, $disc = '', $price_temp = '', $discount_sebelum = '')
+    public function insert($id, $id_category, $qty, $purchase_price, $price, $title, $stock, $disc = '', $price_temp = '', $discount_sebelum = '')
     {
 
 
@@ -107,7 +106,7 @@ class Cashier extends MY_Controller
                         'stock'         => $stock_userdata,
                         'price_temp'    => $price_temp,
                         'discount_temp' => $disc,
-                        'purchase_price'=> $purchase_price
+                        'purchase_price' => $purchase_price
 
                     )
                 );
@@ -143,7 +142,7 @@ class Cashier extends MY_Controller
                     'stock'         => $stock_userdata,
                     'price_temp'    => $price_temp,
                     'discount_temp' => $disc,
-                    'purchase_price'=> $purchase_price
+                    'purchase_price' => $purchase_price
 
                 )
             );
@@ -249,9 +248,8 @@ class Cashier extends MY_Controller
 
     public function delete($rowid)
     {
-        if($this->input->is_ajax_request()) {
+        if ($this->input->is_ajax_request()) {
             $this->cart->remove($rowid);
-
         } else {
             echo '<h4>FORBIDDEN</h4>';
         }
@@ -304,27 +302,28 @@ class Cashier extends MY_Controller
 
             if ($id_queue != '') {
                 $this->cashier->table = 'queue';
-                $this->cashier->where('id', $id_queue)->update([
+                if ($this->cashier->where('id', $id_queue)->update([
                     'status'        => 'paid'
-                ]);
+                ])) {
+                    //notification with pusher to admin
+                    require FCPATH . 'vendor/autoload.php';
 
-                //notification with pusher to admin
-                require FCPATH . 'vendor/autoload.php';
+                    $options = array(
+                        'cluster' => 'ap1',
+                        'useTLS' => true
+                    );
+                    $pusher = new Pusher\Pusher(
+                        'cc14b125ee722dc1a2ea',
+                        '45829a6d33e9dc1191be',
+                        '1197860',
+                        $options
+                    );
 
-                $options = array(
-                    'cluster' => 'ap1',
-                    'useTLS' => true
-                );
-                $pusher = new Pusher\Pusher(
-                    'cc14b125ee722dc1a2ea',
-                    '45829a6d33e9dc1191be',
-                    '1197860',
-                    $options
-                );
-
-                $data['msg']        = 'Queue of Patients has been added!';
-                $data['id_store_sess'] = $this->session->userdata('id_store');
-                $pusher->trigger('my-channel', 'my-event', $data);
+                    $data['msg']        = 'The Patient ' . $id_queue . ' has been paid';
+                    $data['id_store_sess'] = $this->session->userdata('id_store');
+                    $data['paid']           = true;
+                    $pusher->trigger('my-channel', 'my-event', $data);
+                }
             }
             echo json_encode(
                 array(

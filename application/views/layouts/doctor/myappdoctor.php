@@ -13,6 +13,7 @@
     channel.bind('my-event', function(data) {
         if (id_store == data.id_store_sess) {
             updateDataQueue();
+            loadDataQueueProgress();
             VanillaToasts.create({
                 title: 'Success!',
                 text: data.msg,
@@ -577,6 +578,38 @@
         });
 
 
+        //search data queue
+        $(document).on('keyup', '#searchQueue', function() {
+            var search_key = $(this).val();
+            var search_temp = search_key.split(' ').join('%20');
+
+            var page_url = base_url + 'doctor/home/searchDataQueue/' + search_temp;
+
+            if (search_temp == '') {
+                loadDataQueue();
+            } else {
+                loadDataQueue(page_url);
+            }
+        });
+
+        //pagination data queue
+        $(document).on('click', '#pagination_queue li a', function(e) {
+            let page_url = $(this).attr('href');
+            loadDataQueue(page_url);
+            e.preventDefault();
+        });
+
+        /**
+         * perPage
+         * Show Data Per Page Queue
+         */
+        $(document).on('change', '#perPageDataQueue', function() {
+            let value_option = $('#perPageDataQueue option:selected').val();
+            let page_url = base_url + 'doctor/home/loadDataQueue/1/' + value_option;
+
+            loadDataQueue(page_url);
+        });
+
 
 
         //edit medical record in data queue progress
@@ -686,18 +719,32 @@
     });
 
 
-    function loadDataQueue() {
+    function loadDataQueue(page_url = false) {
+
+        var base_url2 = base_url + 'doctor/home/loadDataQueue';
+        if(page_url == false) {
+            var page_url = base_url2;
+        }
+
         $.ajax({
-            url: base_url + 'doctor/home/loadDataQueue',
+            url: page_url,
             method: "GET",
             beforeSend: function() {
-
+                $('#loading').show();
             },
             success: function(response) {
-                $('.tableQueue').html(response);
-                $('#dataTableQueue').DataTable({
-                    responsive: true,
+                var data = JSON.parse(response);
+                $('.tableQueue').html(data.html);
+                $('#pagination_queue nav').html(data.pagination);
+
+                $('.queue_items').slimScroll({
+                    height: '50vh',
                 });
+
+                $('#loading').hide();
+                // $('#dataTableQueue').DataTable({
+                //     responsive: true,
+                // });
             }
         });
     }

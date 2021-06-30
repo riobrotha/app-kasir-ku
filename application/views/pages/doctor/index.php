@@ -8,17 +8,51 @@
                 <div class="card mt-4">
                     <div class="card-body">
                         <h4 class="header-title mb-3">List of Patients Today&nbsp;(<?= date('d M Y'); ?>)</h4>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="float-left">
+                                    <div class="d-flex">
+                                        <span class="my-auto mr-2">Show</span>
+                                        <select name="" id="perPageDataQueue" class="form-control form-control-sm" style="border-radius: 10rem;">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
 
-                        <p class="mb-2">Filter By Status :</p>
+                                </div>
+                                <div class="float-right">
+                                    <input class="form-control search-items" id="searchQueue" placeholder="Search...">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <p class="mb-2">Filter By Status :</p>
                         <select class="form-control form-control-sm w-25" id="filterStatusQueue">
                             <option value="waiting" class="text-danger">Waiting</option>
                             <option value="on_consult" class="text-dark">On Consult</option>
                             <option value="on_progress" class="text-warning">On Progress</option>
                             <option value="on_progress" class="text-info">Paid</option>
                             <option value="on_progress" class="text-success">Done</option>
-                        </select>
-                        <div class="tableQueue">
+                        </select> -->
+                        <div class="tableQueue queue_items">
 
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="row mt-4 mb-3">
+                                    <div class="col-lg-12">
+                                        <div id="pagination_queue">
+                                            <nav aria-label="...">
+                                                
+                                            </nav>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -78,13 +78,14 @@ class Libraries extends MY_Controller
         } else {
             $this->libraries->table = 'product';
             $purchase_price_product = $this->libraries->select(['product.purchase_price'])->where('id', $id_product_in)->first();
-
+            $curr_stock = $this->libraries->select(['product.stock'])->where('id', $id_product_in)->first();
 
             $digits     = 4;
             $data = array(
                 'id'            => date('YmdHis') . rand(pow(10, $digits - 1), pow(10, $digits) - 1),
                 'id_product'    => $id_product_in,
                 'stock_in'      => $stock_in,
+                'curr_stock'    => $curr_stock->stock + $stock_in,
                 'total_purchase'=> $purchase_price_product->purchase_price * $stock_in,
                 'note'          => $note != "" ? $note : "-"
             );
@@ -121,7 +122,9 @@ class Libraries extends MY_Controller
 
                 $data_update = [
                     'stock_in' => $stock_in + $productIn->stock_in,
-                    'total_purchase'    => ($purchase_price_product->purchase_price * $stock_in) + $productIn->total_purchase
+                    'curr_stock'    => $productIn->curr_stock + $stock_in,
+                    'total_purchase'    => ($purchase_price_product->purchase_price * $stock_in) + $productIn->total_purchase,
+
                 ];
 
 

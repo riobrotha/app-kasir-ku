@@ -139,11 +139,17 @@ $autoload['model'] = array(
     'admin/Libraries_model'     => 'libraries',
     'admin/Dashboard_model'     => 'dashboard',
     'admin/Report_model'        => 'report',
+    'admin/Doctor_model'        => 'doctor',
+    'admin/Store_model'         => 'store',
+    'admin/Therapist_model'     => 'therapist',
     'auth/Login_model'          => 'login',
     'doctor/Home_model'         => 'home',
+    'doctor/Medicalrecord_model'=> 'medicalrecord',
     'Activity_model'            => 'activity',
     'Code_model'                => 'code',
     'Cashier_model'             => 'cashier',
-    'Customer_model'            => 'customer'
+    'Customer_model'            => 'customer',
+    'Frontoffice_model'         => 'frontoffice',
+
 
 );

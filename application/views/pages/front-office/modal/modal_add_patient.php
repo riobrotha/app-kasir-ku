@@ -76,6 +76,16 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="previous_skincare">Previous Skincare</label>
+                                <input type="text" class="form-control" name="previous_skincare" id="previous_skincare" aria-describedby="emailHelp" placeholder="Previous Skincare">
+                                
+                            </div>
+                        </div>
+                    </div>
+
 
 
 

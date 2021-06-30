@@ -270,7 +270,7 @@
             success: function(response) {
                 $('.tableListPatients').html(response);
                 $('#dataTableListPatients').DataTable({
-                    responsive: true,
+                    responsive: false,
                     "order": [
                         [3, "desc"]
                     ], //or asc 
@@ -295,7 +295,7 @@
             success: function(response) {
                 $('.tableQueue').html(response);
                 $('#dataTableQueue').DataTable({
-                    responsive: true,
+                    responsive: false,
                 });
             }
         });

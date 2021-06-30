@@ -15,7 +15,7 @@
             <?php
             foreach ($queue as $row) : ?>
                 <tr id="rowCustomer" data-id="<?= $row->id; ?>" data-name="<?= $row->name; ?>">
-                    <td><?= $row->id; ?></td>
+                    <td><?= substr($row->id, 9); ?></td>
                     <td>
                         <div class="data-space<?= $row->id; ?>">
                             <i class="fa fa-user mr-2"></i><span class="customer-name"><?= $row->name; ?></span>
@@ -34,7 +34,7 @@
                     </td>
                     <td><?= $row->created_at; ?></td>
                     <td><i class="fa fa-close text-danger fa-2x" style="cursor: pointer; font-size: 22px;" id="btnDeleteQueue" data-id="<?= $row->id; ?>" data-toggle="tooltip" data-placement="left" title="Remove"></i></td>
-                 
+                
 
                 </tr>
 

@@ -105,6 +105,7 @@ class Frontoffice extends MY_Controller
                 );
 
                 $data['msg'] = 'Queue of Patients has been removed!';
+                $data['id_store_sess'] = $this->session->userdata('id_store');
                 $pusher->trigger('my-channel', 'my-event', $data);
 
                 echo json_encode(array(
@@ -134,6 +135,7 @@ class Frontoffice extends MY_Controller
         $email              = $this->input->post('email', true);
         $job                = $this->input->post('job', true);
         $address            = $this->input->post('address', true);
+        $previous_skincare  = $this->input->post('previous_skincare', true);
 
         $birth_date_2       = str_replace('/', '-', $birth_date);
 
@@ -161,7 +163,8 @@ class Frontoffice extends MY_Controller
                 'phone'                     => $phone,
                 'email'                     => $email,
                 'job'                       => $job,
-                'address'                   => $address
+                'address'                   => $address,
+                'previous_skincare'         => $previous_skincare,
 
             );
 
@@ -223,8 +226,12 @@ class Frontoffice extends MY_Controller
             'queue.id',
             'customer.name', 'customer.phone', 'queue.created_at'
         ])
-            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'waiting')
             ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->orWhere('queue.status', 'on_consult')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->join('customer')
             ->get();
 

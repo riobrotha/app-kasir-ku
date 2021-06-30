@@ -15,7 +15,7 @@
                     <ul class="notification-area">
                         <li id="full-view"><i class="ti-fullscreen"></i></li>
                         <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
-                        <li class="dropdown">
+                        <!-- <li class="dropdown">
                             <i class="ti-bell dropdown-toggle" data-toggle="dropdown">
                                 <span>2</span>
                             </i>
@@ -154,7 +154,7 @@
                         </li>
                         <li class="settings-btn">
                             <i class="ti-settings"></i>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <div class="clearfix d-md-inline-block d-block">
@@ -162,8 +162,8 @@
                         <img class="avatar user-thumb" src="<?= base_url("assets/images/author/avatar.png") ?>" alt="avatar">
                         <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?= $this->session->userdata('name'); ?> <i class="fa fa-angle-down"></i></h4>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Message</a>
-                            <a class="dropdown-item" href="#">Settings</a>
+                            <!-- <a class="dropdown-item" href="#">Message</a>
+                            <a class="dropdown-item" href="#">Settings</a> -->
                             <a class="dropdown-item" href="<?= base_url() . 'auth/logout' ?>">Log Out</a>
                         </div>
                     </div>

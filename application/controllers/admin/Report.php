@@ -1200,11 +1200,11 @@ class Report extends MY_Controller
     public function requestTrackingProduct()
     {
         //get value from input with method post
-        $month2 = $this->input->post('month', true);
-        $year2  = $this->input->post('year', true);
+        $month = $this->input->post('month', true);
+        $year  = $this->input->post('year', true);
 
-        $month = '05';
-        $year = '2021';
+        //$month = '05';
+        //$year = '2021';
         //query to get tracking product
         $this->report->table    = 'product';
         $data['content']        = $this->report->select([
@@ -1223,22 +1223,22 @@ class Report extends MY_Controller
             //->groupBy('product.title')
             ->get();
 
-        print_r($data['content']);
-      
+       // print_r($data['content']);
 
-     
+
+    
         //condition if query is available and not null
-        // if (count($data['content']) > 0) {
-        //     echo json_encode([
-        //         'statusCode'        => 200,
-        //         'content'           => $this->load->view('pages/admin/report/tracking_order/data/table', $data, true)
-        //     ]);
-        // } else {
-        //     echo json_encode([
-        //         'statusCode'        => 201,
-        //         'content'           => 'Data Not Found'
-        //     ]);
-        // }
+        if (count($data['content']) > 0) {
+            echo json_encode([
+                'statusCode'        => 200,
+                'content'           => $this->load->view('pages/admin/report/tracking_order/data/table', $data, true)
+            ]);
+        } else {
+            echo json_encode([
+                'statusCode'        => 201,
+                'content'           => 'Data Not Found'
+            ]);
+        }
     }
 
     /**

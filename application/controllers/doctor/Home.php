@@ -39,7 +39,53 @@ class Home extends MY_Controller
         $this->view_doctor($data);
     }
 
-    public function loadDataQueue()
+    public function loadDataQueue($page = null, $perPage = null)
+    {
+        if ($perPage != null) {
+            $this->home->perPage = $perPage;
+        }
+
+        $this->home->table = 'queue';
+        $data['queue'] = $this->home->select([
+            'queue.id', 'queue.id_customer', 'queue.status',
+            'customer.name', 'customer.phone', 'queue.created_at'
+        ])
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'waiting')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->orWhere('queue.status', 'on_consult')
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->join('customer')
+            ->paginate($page)
+            ->get();
+
+        $data['total_rows'] = $this->home->select([
+            'queue.id', 'queue.id_customer', 'queue.status',
+            'customer.name', 'customer.phone', 'queue.created_at'
+        ])
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'waiting')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->orWhere('queue.status', 'on_consult')
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->join('customer')
+            ->count();
+
+        $data['pagination']     = $this->home->makePagination(base_url() . 'doctor/home/loadDataQueue/', 4, $data['total_rows']);
+
+
+        echo json_encode([
+            'html'          => $this->load->view('pages/doctor/data/table_queue', $data, true),
+            'pagination'    => $data['pagination']
+        ]);
+
+        //print_r($data['queue']);
+        //$this->load->view('pages/doctor/data/table_queue', $data);
+    }
+
+    public function searchDataQueue($keyword, $page = null)
     {
         $this->home->table = 'queue';
         $data['queue'] = $this->home->select([
@@ -53,12 +99,34 @@ class Home extends MY_Controller
             ->where('DATE(queue.created_at)', date('Y-m-d'))
             ->where('queue.id_store', $this->session->userdata('id_store'))
             ->join('customer')
+            ->like('customer.name', urldecode($keyword))
+            ->paginate($page)
             ->get();
 
+        $data['total_rows'] = $this->home->select([
+            'queue.id', 'queue.id_customer', 'queue.status',
+            'customer.name', 'customer.phone', 'queue.created_at'
+        ])
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.status', 'waiting')
+            ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->orWhere('queue.status', 'on_consult')
+            ->where('DATE(queue.created_at)', date('Y-m-d'))
+            ->where('queue.id_store', $this->session->userdata('id_store'))
+            ->join('customer')
+            ->like('customer.name', urldecode($keyword))
+            ->count();
 
+        $data['pagination'] = $this->home->makePagination(
+            base_url() . 'doctor/home/searchDataQueue/' . urldecode($keyword) . '/',
+            5,
+            $data['total_rows']
+        );
 
-        //print_r($data['queue']);
-        $this->load->view('pages/doctor/data/table_queue', $data);
+        echo json_encode([
+            'html'      => $this->load->view('pages/doctor/data/table_queue', $data, true),
+            'pagination' => $data['pagination']
+        ]);
     }
 
     public function updateDataQueue()

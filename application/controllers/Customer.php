@@ -137,7 +137,7 @@ class Customer extends MY_Controller
 
         $this->customer->table = 'therapies_detail';
         $treatment = $this->customer->select([
-            'product.id AS id_product', 'product.stock', 'product.price',
+            'product.id AS id_product', 'product.stock', 'product.price', 'product.purchase_price',
             'product.title',
         ])
             ->where('therapies_detail.id_therapies', $medical_records_detail->id_therapies)
@@ -146,7 +146,7 @@ class Customer extends MY_Controller
 
         $this->customer->table = 'items_detail';
         $item = $this->customer->select([
-            'product.id AS id_product', 'product.stock', 'product.price',
+            'product.id AS id_product', 'product.stock', 'product.price', 'product.purchase_price',
             'product.title', 'items_detail.qty'
         ])
             ->where('items_detail.id_items', $medical_records_detail->id_items)
@@ -166,7 +166,8 @@ class Customer extends MY_Controller
                     'option'    => array(
                         'stock'         => $row->stock,
                         'price_temp'    => $row->price,
-                        'discount_temp' => 0
+                        'discount_temp' => 0,
+                        'purchase_price'=> $row->purchase_price * 1
                     )
                 ]
             );
@@ -197,7 +198,8 @@ class Customer extends MY_Controller
                         'option'    => array(
                             'stock'         => $row2->stock,
                             'price_temp'    => $row2->price,
-                            'discount_temp' => 0
+                            'discount_temp' => 0,
+                            'purchase_price'=> $row2->purchase_price * $row2->qty
                         )
                     ]
                 );
@@ -206,13 +208,15 @@ class Customer extends MY_Controller
 
         $add = $this->cart->insert($data);
         if ($add) {
+
+            
             echo json_encode(array(
                 'statusCode'    => 200,
                 'stock'         => 0,
                 'sisaStock'     => $data_stock
             ));
         } else {
-            print_r($medical_records_detail);
+            //print_r($medical_records_detail);
             echo json_encode(array(
                 'statusCode' => 201,
                 'id_therapies'  => $medical_records_detail->id_therapies
@@ -220,14 +224,6 @@ class Customer extends MY_Controller
         }
 
 
-
-
-
-
-
-
-
-        //print_r($data);
     }
 
 
