@@ -11,7 +11,9 @@
                 <th>Created At</th>
                 <th>QR Code</th>
                 <th>Barcode</th>
-                <th></th>
+                <?php if ($this->session->userdata('role') == 'admin') : ?>
+                    <th></th>
+                <?php endif ?>
 
             </tr>
         </thead>
@@ -32,10 +34,12 @@
                     <td>
                         <img src="<?= base_url("code/barcode/$row->id"); ?>" alt="bar-code" class="img-fluid">
                     </td>
-                    <td>
-                        <button class="btn btn-rounded btn-info" id="btnEditInventory" data-id="<?= $row->id; ?>" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa fa-edit fa-2x"></i></button>
-                        <button class="btn btn-rounded btn-danger ml-2" id="btnDeleteInventory" data-id="<?= $row->id; ?>" data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-trash fa-2x"></i></button>
-                    </td>
+                    <?php if ($this->session->userdata('role') == 'admin') : ?>
+                        <td>
+                            <button class="btn btn-rounded btn-info" id="btnEditInventory" data-id="<?= $row->id; ?>" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa fa-edit fa-2x"></i></button>
+                            <button class="btn btn-rounded btn-danger ml-2" id="btnDeleteInventory" data-id="<?= $row->id; ?>" data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-trash fa-2x"></i></button>
+                        </td>
+                    <?php endif ?>
 
 
                 </tr>

@@ -10,7 +10,7 @@ class Inventory extends MY_Controller
 		parent::__construct();
 		$role = $this->session->userdata('role');
 
-		if ($role == 'admin') {
+		if ($role == 'admin' || $role == 'admin_store') {
 			return;
 		} else {
 			$this->session->set_flashdata('warning', "You Don't Have Access");
@@ -45,7 +45,7 @@ class Inventory extends MY_Controller
             ->where('product.id_store', $this->session->userdata('id_store'))
             ->join('category')
             ->join('store')
-            ->orderBy('created_at', 'DESC')->get();
+            ->orderBy('product.id', 'DESC')->get();
         $this->load->view('pages/admin/inventory/data/table', $data);
     }
 
@@ -83,7 +83,7 @@ class Inventory extends MY_Controller
                 'id_category'   => $category,
                 'id_store'      => $this->session->userdata('id_store'),
                 'title'         => ucwords($title),
-                'slug'          => $slug,
+                'slug'          => $slug . '-' . $this->session->userdata('id_store'),
                 'stock'         => $stock,
                 'price'         => (int) str_replace(".", "", $price),
                 'purchase_price'=> (int) str_replace(".", "", $purchase_price),
@@ -187,7 +187,7 @@ class Inventory extends MY_Controller
             echo json_encode($array);
         } else {
             $data = [
-               
+            
                 'id_category'   => $category,
                 'title'         => ucwords($title),
                 'slug'          => $slug,
@@ -208,7 +208,7 @@ class Inventory extends MY_Controller
                     'msg'           => 'Data has been updated!'
                 ));
             } else {
-               
+            
                 echo json_encode(array(
                     'statusCode'    => 201,
                     'nameFlash'     => 'error',
@@ -240,7 +240,31 @@ class Inventory extends MY_Controller
     }
 
 
-   
+    public function tes()
+    {
+        $product_siteba = $this->inventory->where('id_category', '102001')->where('id_store', '2')->get();
+
+
+        print_r($product_siteba);
+        // foreach($product_siteba as $row) {
+        //     $data   = [
+        //         'id'            => $this->generate_code($row->id_category),
+        //         'id_category'   => $row->id_category,
+        //         'id_store'      => 2,
+        //         'title'         => $row->title,
+        //         'slug'          => $row->slug . '-' . '2',
+        //         'stock'         => 0,
+        //         'price'         => $row->price,
+        //         'purchase_price'=> $row->purchase_price,
+
+        //     ];
+
+        //     $this->inventory->add($data);
+        // }
+    }
+
+
+
 
     
 }

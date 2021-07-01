@@ -14,13 +14,7 @@
         if (id_store == data.id_store_sess) {
             updateDataQueue();
             loadDataQueueProgress();
-            VanillaToasts.create({
-                title: 'Success!',
-                text: data.msg,
-                type: 'success',
-                positionClass: 'topRight',
-                timeout: 2000
-            });
+            
         }
 
     });

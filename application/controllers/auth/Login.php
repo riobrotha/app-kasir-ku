@@ -24,7 +24,10 @@ class Login extends MY_Controller
                 redirect(base_url() . 'doctor');
             } else if ($role == 'front_officer') {
                 redirect(base_url() . 'front-office');
-            } else {
+            } else if ($role == 'admin_store') {
+                redirect(base_url() . 'admin/inventory');
+                return;
+            }else {
                 redirect(base_url('cashier'));
             }
         }

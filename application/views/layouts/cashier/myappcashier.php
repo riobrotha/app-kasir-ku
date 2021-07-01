@@ -290,36 +290,45 @@
             let data = $(this).serialize();
             let number_invoice = $('#invoice').val();
             let id_queue = $('#id_queue_val').val();
-            $.ajax({
-                method: "POST",
-                url: id_queue == '' ? base_url + 'cashier/pay' : base_url + 'cashier/pay/' + id_queue,
-                data: data,
-                beforeSend: function() {
+            let cash_payment = $('#cash_payment').val();
+            let total = Number($('#total').val());
+            let cash_payment_conv = Number(formatBackRupiah(cash_payment));
 
-                },
-                success: function(data) {
-                    var data = JSON.parse(data);
+            if (cash_payment_conv >= total) {
+                $.ajax({
+                    method: "POST",
+                    url: id_queue == '' ? base_url + 'cashier/pay' : base_url + 'cashier/pay/' + id_queue,
+                    data: data,
+                    beforeSend: function() {
 
-                    if (data.statusCode == 200) {
-                        $('#modalPay').modal('hide');
-                        //$('#struk').attr('src', '<?= base_url("cashier/struk/") ?>' + number_invoice);
-                        $('#cash_payment_val').text($('#cash_payment').val());
-                        $('#money_change_val').text($('#money_change').val());
-                        $('.btnAddToCart').attr('disabled', true);
-                        $("#btnPay").attr('disabled', true);
-                        $("#btnReset").show();
-                        $('#itemCode').attr('readonly', true);
-                        $('#formPay')[0].reset();
-                        cetakStruk();
-                        $('.status_pay').val(1);
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+
+                        if (data.statusCode == 200) {
+                            $('#modalPay').modal('hide');
+                            //$('#struk').attr('src', '<?= base_url("cashier/struk/") ?>' + number_invoice);
+                            $('#cash_payment_val').text($('#cash_payment').val());
+                            $('#money_change_val').text($('#money_change').val());
+                            $('.btnAddToCart').attr('disabled', true);
+                            $("#btnPay").attr('disabled', true);
+                            $("#btnReset").show();
+                            $('#itemCode').attr('readonly', true);
+                            $('#formPay')[0].reset();
+                            cetakStruk();
+                            $('.status_pay').val(1);
+
+
+                        }
+
 
 
                     }
+                });
+            } else {
+                alert('Payment is not enough');
+            }
 
-
-
-                }
-            });
 
 
         });
@@ -926,6 +935,26 @@
         }
 
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        //return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        return rupiah;
+    }
+
+    //format Rupiah
+    function formatBackRupiah(angka, prefix = '') {
+
+        var number_string = angka.toString().replace(/[^,\d]/g, ''),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? '' : '';
+            rupiah += separator + ribuan.join('');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + '' + split[1] : rupiah;
         //return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         return rupiah;
     }

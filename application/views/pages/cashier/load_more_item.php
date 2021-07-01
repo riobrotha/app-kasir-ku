@@ -18,7 +18,7 @@
 <?php endforeach ?>
 
 <div class="mx-auto button-load-data-space">
-    <button class="btn btn-xs btn-rounded btn-hers-primary w-100 mt-3 pl-5 pr-5" id="btnLoadMoreData" style="font-size: 16px; border-radius: 15px;" data-page="2">
+    <button class="btn btn-xs btn-rounded btn-hers-primary w-100 mt-3 pl-5 pr-5" id="btnLoadMoreData" style="font-size: 16px; border-radius: 15px;" data-page="2" data-category="<?= $category; ?>">
         <span style="font-weight: 700;">Load Data</span><img src="<?= base_url("assets/images/load/three-dots.svg") ?>" alt="" style="width: 40px; display:none;">
     </button>
 </div>

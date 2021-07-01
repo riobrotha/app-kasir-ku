@@ -69,7 +69,7 @@ class Doctor extends MY_Controller
         } else {
             $data = array(
                 'id'    => $id,
-                'name'  => $name,
+                'name'  => 'dr ' . $name,
                 'address'   => $address,
                 'birth_date' => DateTime::createFromFormat('d/m/Y', $birth_date)->format('Y-m-d'),
                 'identity_number'   => $identity_number,

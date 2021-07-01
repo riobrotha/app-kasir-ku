@@ -10,7 +10,7 @@ class Logout extends CI_Controller
     {
         //data yg diperlukan untuk di unset
         $sess_data = [
-            'id', 'name', 'username', 'role', 'is_login'
+            'id', 'id_doctor', 'name', 'username', 'role', 'id_store', 'is_login'
         ];
 
         //unset data sesuai $sess_data

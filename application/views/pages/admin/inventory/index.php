@@ -16,8 +16,9 @@
                     <div id="alertPlace">
 
                     </div>
-                    <button class="btn btn-rounded btn-hers btn-sm" id="btnTambahInventory" data-toggle="modal" data-target="#modalAddInventory"><i class="fa fa-plus mr-2"></i>Inventory</button>
-
+                    <?php if ($this->session->userdata('role') == 'admin') : ?>
+                        <button class="btn btn-rounded btn-hers btn-sm" id="btnTambahInventory" data-toggle="modal" data-target="#modalAddInventory"><i class="fa fa-plus mr-2"></i>Inventory</button>
+                    <?php endif ?>
 
                     <form action="#" method="POST" id="formAddInventory">
                         <div class="row mt-4">

@@ -10,7 +10,7 @@ class Libraries extends MY_Controller
         parent::__construct();
         $role = $this->session->userdata('role');
 
-        if ($role == 'admin') {
+        if ($role == 'admin' || $role == 'admin_store') {
             return;
         } else {
             $this->session->set_flashdata('warning', "You Don't Have Access");

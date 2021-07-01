@@ -394,6 +394,8 @@ class Cashier extends MY_Controller
             $totalProduct = $this->cashier->where('product.is_available', 1)
                 ->where('product.id_store', $this->session->userdata('id_store'))
                 ->where('product.id_category', $jenisItem)->count();
+
+            $data['category'] = $jenisItem;
         } else {
             $this->cashier->table = 'product';
             $data['product']      = $this->cashier->where('product.is_available', 1)
@@ -402,6 +404,8 @@ class Cashier extends MY_Controller
                 ->get();
 
             $totalProduct = $this->cashier->where('product.is_available', 1)->where('product.id_store', $this->session->userdata('id_store'))->count();
+
+            $data['category'] = '';
         }
 
 
@@ -459,6 +463,8 @@ class Cashier extends MY_Controller
                 foreach ($data['product'] as $row) {
                     $this->session->set_userdata('stock' . $row->id, $row->stock);
                 }
+
+                $data['category']      = $this->input->get("category");
             } else {
 
                 if ($this->input->get("search")) {
@@ -474,6 +480,8 @@ class Cashier extends MY_Controller
                         $this->session->set_userdata('stock' . $row->id, $row->stock);
                     }
                 }
+
+                $data['category']      = '';
             }
 
             echo json_encode(
@@ -487,6 +495,8 @@ class Cashier extends MY_Controller
             $data['product']        = $this->cashier->where('product.is_available', 1)
                 ->where('product.id_store', $this->session->userdata('id_store'))
                 ->limit_data($this->cashier->perPage, 0)->get();
+
+            $data['category']      = '';
 
             echo json_encode(
                 [

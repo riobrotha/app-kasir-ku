@@ -2166,7 +2166,7 @@
                 $('.tableDiscount').html(response);
                 if ($('#dataTableDiscount').length) {
                     $('#dataTableDiscount').DataTable({
-                        responsive: true
+                        responsive: false
                     });
                 }
 
@@ -2243,15 +2243,23 @@
     function clearErrorFormAddInventory() {
         $('#title_error').html('');
         $('#title').removeClass('is-invalid');
+        $('#title').removeClass('is-valid');
 
         $('#category_error').html('');
         $('#category').removeClass('is-invalid');
+        $('#category').removeClass('is-valid');
 
         $('#stock_error').html('');
         $('#stock').removeClass('is-invalid');
+        $('#stock').removeClass('is-valid');
 
         $('#price_error').html('');
         $('#price').removeClass('is-invalid');
+        $('#price').removeClass('is-valid');
+
+        $('#purchase_price_error').html('');
+        $('#purchase_price').removeClass('is-invalid');
+        $('#purchase_price').removeClass('is-valid');
     }
 
     function createSlug2(selector) {
